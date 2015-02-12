@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+    <key>metadata</key>
+        <dict>
+            <key>format</key>
+            <integer>1</integer>
+        </dict>
+        <key>bodies</key>
+		<dict>
+
+			<key>sprite1</key>
+			<dict>
+				<key>anchorpoint</key>
+                <string>{ 0.50000,0.50000 }</string>
+                <key>fixtures</key>
+                <array>
+
+					<dict>
+                        <key>mass</key>
+                        <real>2</real>
+                        <key>elasticity</key>
+                        <real>0</real>
+                        <key>friction</key>
+                        <real>0</real>
+                        <key>surface_velocity</key>
+                        <string>{ 0.00000,0.00000 }</string>
+                        <key>layers</key>
+                        <integer>0</integer>
+                        <key>group</key>
+                        <integer>0</integer>
+                        <key>collision_type</key>
+                        <integer>0</integer>
+                        <key>isSensor</key>
+                        <false/>
+                        <key>fixture_type</key>
+                        <key>POLYGON</key>
+                        
+						<key>polygons</key>
+						<array>
+							<array>	
+								<string>{ -25.50000,13.00000 }</string>	
+								<string>{ -28.50000,7.00000 }</string>	
+								<string>{ -28.50000,12.00000 }</string>
+							</array>
+							<array>	
+								<string>{ 2.50000,35.00000 }</string>	
+								<string>{ 1.50000,30.00000 }</string>	
+								<string>{ -4.50000,28.00000 }</string>	
+								<string>{ -6.50000,29.00000 }</string>	
+								<string>{ -9.50000,35.00000 }</string>	
+								<string>{ -9.50000,37.00000 }</string>	
+								<string>{ -4.50000,40.00000 }</string>	
+								<string>{ 0.50000,39.00000 }</string>
+							</array>
+							<array>	
+								<string>{ -28.50000,7.00000 }</string>	
+								<string>{ -30.50000,1.00000 }</string>	
+								<string>{ -30.50000,5.00000 }</string>
+							</array>
+							<array>	
+								<string>{ 19.50000,-40.00000 }</string>	
+								<string>{ 9.50000,-40.00000 }</string>	
+								<string>{ 6.50000,-36.00000 }</string>	
+								<string>{ 25.50000,-27.00000 }</string>	
+								<string>{ 24.50000,-36.00000 }</string>
+							</array>
+							<array>	
+								<string>{ -19.50000,-40.00000 }</string>	
+								<string>{ -23.50000,-37.00000 }</string>	
+								<string>{ -24.50000,-27.00000 }</string>	
+								<string>{ -5.50000,-36.00000 }</string>	
+								<string>{ -9.50000,-40.00000 }</string>
+							</array>
+							<array>	
+								<string>{ -4.50000,28.00000 }</string>	
+								<string>{ 3.50000,28.00000 }</string>	
+								<string>{ 16.50000,24.00000 }</string>	
+								<string>{ 24.50000,17.00000 }</string>	
+								<string>{ 26.50000,13.00000 }</string>	
+								<string>{ -25.50000,13.00000 }</string>	
+								<string>{ -25.50000,15.00000 }</string>	
+								<string>{ -17.50000,23.00000 }</string>
+							</array>
+							<array>	
+								<string>{ -32.50000,-2.00000 }</string>	
+								<string>{ -30.50000,1.00000 }</string>	
+								<string>{ 26.50000,13.00000 }</string>	
+								<string>{ 28.50000,13.00000 }</string>	
+								<string>{ 25.50000,-27.00000 }</string>	
+								<string>{ -24.50000,-27.00000 }</string>	
+								<string>{ -28.50000,-24.00000 }</string>	
+								<string>{ -32.50000,-16.00000 }</string>
+							</array>
+							<array>	
+								<string>{ -5.50000,-36.00000 }</string>	
+								<string>{ -24.50000,-27.00000 }</string>	
+								<string>{ 25.50000,-27.00000 }</string>	
+								<string>{ 6.50000,-36.00000 }</string>
+							</array>
+							<array>	
+								<string>{ 28.50000,-25.00000 }</string>	
+								<string>{ 25.50000,-27.00000 }</string>	
+								<string>{ 28.50000,13.00000 }</string>	
+								<string>{ 32.50000,0.00000 }</string>	
+								<string>{ 32.50000,-18.00000 }</string>
+							</array>
+							<array>	
+								<string>{ 3.50000,28.00000 }</string>	
+								<string>{ -4.50000,28.00000 }</string>	
+								<string>{ 1.50000,30.00000 }</string>
+							</array>
+							<array>	
+								<string>{ -25.50000,13.00000 }</string>	
+								<string>{ 26.50000,13.00000 }</string>	
+								<string>{ -30.50000,1.00000 }</string>	
+								<string>{ -28.50000,7.00000 }</string>
+							</array>
+						</array>
+                        
+					</dict>
+
+				</array>
+			</dict>
+
+		</dict>
+	</dict>
+</plist>
+
+
+
+
