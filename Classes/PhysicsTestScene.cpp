@@ -46,7 +46,7 @@ bool HelloPhysics::init()
 
 	// wall
 	auto wall = Node::create();
-	wall->setPhysicsBody(PhysicsBody::createEdgeBox(Director::getInstance()->getWinSize(), PhysicsMaterial(0.1f, 1, 0.0f)));//VisibleRect::getVisibleRect().size, PhysicsMaterial(0.1f, 1, 0.0f)));
+	wall->setPhysicsBody(PhysicsBody::createEdgeBox(Director::getInstance()->getVisibleSize(), PhysicsMaterial(0.1f, 1, 0.0f)));//VisibleRect::getVisibleRect().size, PhysicsMaterial(0.1f, 1, 0.0f)));
 	wall->setPosition(VisibleRect::center());
 	this->addChild(wall);
 

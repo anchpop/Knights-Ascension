@@ -1,7 +1,8 @@
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
 #include "PhysicsTestScene.h"
-#include "PEShapeCache_X3_0.h" // Make sure you include it
+#include "maine.h"
+#include "PEShapeCache_X3_0.h"
 
 USING_NS_CC;
 
@@ -30,9 +31,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto glview = director->getOpenGLView();
     if(!glview) {
         glview = GLViewImpl::create("Knight's Ascension");
-		glview->setFrameSize(1920/2, 1200/2);     // or whatever
-		//glview->setFrameZoomFactor(0.5f);
-        director->setOpenGLView(glview);
+		glview->setFrameSize(1920/2, 1200/2);     // 1 half the dimensions of the Nexus 7
+		//glview->setFrameZoomFactor(2.0f); 
+		director->setOpenGLView(glview);
     }
 
 
@@ -44,7 +45,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     director->setAnimationInterval(1.0 / 60);
 
     // create a scene. it's an autorelease object
-	auto scene = HelloPhysics::createScene();
+	auto scene = KnightWorld::createScene();
 
     // run
     director->runWithScene(scene);
