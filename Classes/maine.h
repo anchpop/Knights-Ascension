@@ -1,9 +1,14 @@
 #pragma once
 
 #include "cocos2d.h"
+using namespace cocos2d;
 
 class KnightWorld : public cocos2d::Layer
 {
+private:
+	CCTMXTiledMap *_tileMap;
+	CCTMXLayer *_background;
+	CCSprite *_player;
 public:
 	// there's no 'id' in cpp, so we recommend returning the class instance pointer
 	static cocos2d::Scene* createScene();
@@ -15,7 +20,7 @@ public:
 	void menuCloseCallback(cocos2d::Ref* pSender);
 
 
-
+	void setViewPointCenter(CCPoint position);
 
 
 	// implement the "static create()" method manually

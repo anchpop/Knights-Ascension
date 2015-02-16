@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="14" height="14" tilewidth="64" tileheight="64" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="14" height="14" tilewidth="64" tileheight="64" nextobjectid="7">
  <tileset firstgid="1" name="catz" tilewidth="64" tileheight="64">
   <image source="tiles.png" width="192" height="64"/>
  </tileset>
- <layer name="Tile Layer 1" width="14" height="14">
+ <layer name="mainboard" width="14" height="14">
   <data encoding="base64" compression="zlib">
-   eJxjZGBgYCQTM5OIh5o+JjRxJjSMLoesjwmHHmxy1NBHjjuHSjyQq48cDAC61gHF
+   eJxjZGBgYCQTM5OIh5o+JiiGiTOhYXRxZH249GDTSw195LhzqMQDufrIwQC61gHF
   </data>
  </layer>
+ <objectgroup name="objects">
+  <object id="6" name="Team A spawn" x="148" y="776" width="26" height="38"/>
+ </objectgroup>
 </map>
