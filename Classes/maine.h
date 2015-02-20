@@ -23,6 +23,12 @@ public:
 	void setViewPointCenter(CCPoint position);
 
 
+
+	void setPlayerPosition(CCPoint position);
+
+	void nana(CCPoint position);
+
+
 	// implement the "static create()" method manually
 	CREATE_FUNC(KnightWorld);
 };

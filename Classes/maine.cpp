@@ -63,6 +63,75 @@ bool KnightWorld::init()
 	this->addChild(_player);
 	this->setViewPointCenter(_player->getPosition());
 
+	setTouchEnabled(true);
+
+
+
+	auto listener1 = EventListenerTouchOneByOne::create();
+
+	// trigger when you push down
+	listener1->onTouchBegan = [](Touch* touch, Event* event){
+		// your code
+		return true; // if you are consuming it
+	};
+
+	// trigger when moving touch
+	listener1->onTouchMoved = [_player, this](Touch* touch, Event* event){
+		auto target = static_cast<Layer*>(event->getCurrentTarget());
+		Point locationInNode = target->convertToNodeSpace(touch->getLocation());
+		//setViewPointCenter(locationInNode);
+		_player->setPosition(locationInNode);
+	};
+
+	// trigger when you let up
+	listener1->onTouchEnded = [_player, this](Touch* touch, Event* event){
+		Point touchLocation = touch->getLocationInView();
+		touchLocation = CCDirector::sharedDirector()->convertToGL(touchLocation);
+		touchLocation = this->convertToNodeSpace(touchLocation);
+
+		Point playerPos = _player->getPosition();
+		Point diff = ccpSub(touchLocation, playerPos);
+
+		if (abs(diff.x) > abs(diff.y)) {
+			if (diff.x > 0) {
+				playerPos.x += 32;
+			}
+			else {
+				playerPos.x -= 32;
+			}
+		}
+		else {
+			if (diff.y > 0) {
+				playerPos.y += 32;
+			}
+			else {
+				playerPos.y -= 32;
+			}
+		}
+
+		// safety check on the bounds of the map
+		/*if (playerPos.x <= (32 * 32) &&
+			playerPos.y <= (32 * 32) &&
+			playerPos.y >= 0 &&
+			playerPos.x >= 0)
+		{
+			this->setPlayerPosition(playerPos);
+		}*/
+		/*// safety check on the bounds of the map
+		if (playerPos.x <= (_tileMap->getMapSize().width * _tileMap->getTileSize().width) &&
+			playerPos.y <= (_tileMap->getMapSize().height * _tileMap->getTileSize().height) &&
+			playerPos.y >= 0 &&
+			playerPos.x >= 0 )
+		{
+		    this->setPlayerPosition(playerPos);
+		}*/
+
+		setViewPointCenter(_player->getPosition());
+	};
+
+	// Add listener
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, this);
+
 
 
 	return true;
@@ -70,7 +139,7 @@ bool KnightWorld::init()
 
 
 
-void KnightWorld::setViewPointCenter(CCPoint position) {
+void KnightWorld::setViewPointCenter(Point position) {
 
 	auto winSize = Director::getInstance()->getWinSize();
 	/*auto mapsize = _tileMap->getMapSize();
