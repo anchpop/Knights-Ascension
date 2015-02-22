@@ -65,13 +65,16 @@ bool KnightWorld::init()
 
 	setTouchEnabled(true);
 
-
+	
 
 	auto listener1 = EventListenerTouchOneByOne::create();
 
 	// trigger when you push down
-	listener1->onTouchBegan = [](Touch* touch, Event* event){
-		// your code
+	listener1->onTouchBegan = [_player, this](Touch* touch, Event* event){
+		auto target = static_cast<Layer*>(event->getCurrentTarget());
+		Point locationInNode = target->convertToNodeSpace(touch->getLocation());
+		//setViewPointCenter(locationInNode);
+		_player->setPosition(locationInNode);
 		return true; // if you are consuming it
 	};
 
@@ -127,6 +130,7 @@ bool KnightWorld::init()
 		}*/
 
 		setViewPointCenter(_player->getPosition());
+
 	};
 
 	// Add listener
