@@ -6,9 +6,10 @@ using namespace cocos2d;
 class KnightWorld : public cocos2d::Layer
 {
 private:
-	CCTMXTiledMap *_tileMap;
-	CCTMXLayer *_background;
-	CCSprite *_player;
+	TMXTiledMap *_tileMap;
+	TMXLayer *_background;
+	Sprite *_player;
+	TMXLayer *_meta;
 public:
 	// there's no 'id' in cpp, so we recommend returning the class instance pointer
 	static cocos2d::Scene* createScene();
@@ -20,13 +21,13 @@ public:
 	void menuCloseCallback(cocos2d::Ref* pSender);
 
 
-	void setViewPointCenter(CCPoint position);
+	void setViewPointCenter(Point position);
 
+	Point tileCoordForPosition(Point position);
 
+	void setPlayerPosition(Point position);
 
-	void setPlayerPosition(CCPoint position);
-
-	void nana(CCPoint position);
+	void nana(Point position);
 
 
 	// implement the "static create()" method manually

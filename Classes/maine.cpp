@@ -30,8 +30,6 @@ bool KnightWorld::init()
 		return false;
 	}
 
-	Size visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	// create a TMX map
 	auto _tileMap = TMXTiledMap::create("map.tmx"); // note to self, consider using "new" here
@@ -51,6 +49,9 @@ bool KnightWorld::init()
 		return false;
 	}
 	CCLOG("tile map objects detected");
+
+	_meta = _tileMap->layerNamed("Meta");
+	_meta->setVisible(false);
 
 	ValueMap spawnPoint = objectGroup->objectNamed("Team A spawn");
 
@@ -89,13 +90,13 @@ bool KnightWorld::init()
 	// trigger when you let up
 	listener1->onTouchEnded = [_player, this](Touch* touch, Event* event){
 		Point touchLocation = touch->getLocationInView();
-		touchLocation = CCDirector::sharedDirector()->convertToGL(touchLocation);
+		touchLocation = Director::getInstance()->convertToGL(touchLocation);
 		touchLocation = this->convertToNodeSpace(touchLocation);
 
 		Point playerPos = _player->getPosition();
 		Point diff = ccpSub(touchLocation, playerPos);
 
-		if (abs(diff.x) > abs(diff.y)) {
+		/*if (abs(diff.x) > abs(diff.y)) {
 			if (diff.x > 0) {
 				playerPos.x += 32;
 			}
@@ -110,7 +111,7 @@ bool KnightWorld::init()
 			else {
 				playerPos.y -= 32;
 			}
-		}
+		}*/
 
 		// safety check on the bounds of the map
 		/*if (playerPos.x <= (32 * 32) &&
@@ -136,8 +137,7 @@ bool KnightWorld::init()
 	// Add listener
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, this);
 
-
-
+	
 	return true;
 }
 
@@ -146,18 +146,33 @@ bool KnightWorld::init()
 void KnightWorld::setViewPointCenter(Point position) {
 
 	auto winSize = Director::getInstance()->getWinSize();
-	/*auto mapsize = _tileMap->getMapSize();
-	int tilewidth = 32;
-	int tileheight = 32;
+	
+	int tileslong = 14;
 
-	int x = MAX(position.x, winSize.width / 2);
-	int y = MAX(position.y, winSize.height / 2);
-	x = MIN(x, (mapsize.width * tilewidth) - winSize.width / 2);
-	y = MIN(y, (mapsize.height * tileheight) - winSize.height / 2);
-	CCPoint actualPosition = ccp(x, y);
+	int tilesize = 64;
 
-	CCPoint centerOfView = ccp(winSize.width / 2, winSize.height / 2);
-	CCPoint viewPoint = ccpSub(centerOfView, actualPosition);
-	this->setPosition(viewPoint);*/
-	this->setPosition(ccpSub(ccp(winSize.width / 2, winSize.height / 2), position));
+    int x = MAX(position.x, winSize.width/2);
+    int y = MAX(position.y, winSize.height/2);
+	x = MIN(x, (tileslong * tilesize) - winSize.width / 2); //_tileMap->getMapSize().width * this->_tileMap->getTileSize().width wasn't working :(
+	y = MIN(y, (tileslong * tilesize) - winSize.height / 2);
+    Point actualPosition = ccp(x, y);
+ 
+    Point centerOfView = ccp(winSize.width/2, winSize.height/2);
+    Point viewPoint = ccpSub(centerOfView, actualPosition);
+    this->setPosition(viewPoint);
+
+	position.x;
+	//auto z = this->_tileMap->getTileSize();
+	//z.width; // error is here
+	
+	//this->setPosition((ccpSub(ccp(winSize.width / 2, winSize.height / 2), position)) * 2);
+}
+
+
+
+CCPoint KnightWorld::tileCoordForPosition(CCPoint position)
+{
+	int x = position.x / _tileMap->getTileSize().width;
+	int y = ((_tileMap->getMapSize().height * _tileMap->getTileSize().height) - position.y) / _tileMap->getTileSize().height;
+	return ccp(x, y);
 }
