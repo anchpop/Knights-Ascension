@@ -27,7 +27,8 @@ public:
 
 	void setPlayerPosition(Point position);
 
-	void nana(Point position);
+	int tileswide = 14;
+	int tilesize = 64;
 
 
 	// implement the "static create()" method manually

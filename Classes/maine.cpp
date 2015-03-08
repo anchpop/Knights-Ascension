@@ -32,7 +32,7 @@ bool KnightWorld::init()
 
 
 	// create a TMX map
-	auto _tileMap = TMXTiledMap::create("map.tmx"); // note to self, consider using "new" here
+	_tileMap = TMXTiledMap::create("map.tmx"); // note to self, consider using "new" here
 	addChild(_tileMap, 0);
 	_background = _tileMap->layerNamed("mainboard");
 
@@ -58,7 +58,7 @@ bool KnightWorld::init()
 	int x; istringstream( ((spawnPoint.at("x")).getDescription()) ) >> x;
 	int y; istringstream( ((spawnPoint.at("y")).getDescription()) ) >> y;
 
-	auto _player = Sprite::create("imgs/sprite1.png");
+	_player = Sprite::create("imgs/sprite1.png");
 	_player->setPosition(ccp(x, y));
 
 	this->addChild(_player);
@@ -71,24 +71,24 @@ bool KnightWorld::init()
 	auto listener1 = EventListenerTouchOneByOne::create();
 
 	// trigger when you push down
-	listener1->onTouchBegan = [_player, this](Touch* touch, Event* event){
+	listener1->onTouchBegan = [this](Touch* touch, Event* event){
 		auto target = static_cast<Layer*>(event->getCurrentTarget());
 		Point locationInNode = target->convertToNodeSpace(touch->getLocation());
 		//setViewPointCenter(locationInNode);
-		_player->setPosition(locationInNode);
+		setPlayerPosition(locationInNode);
 		return true; // if you are consuming it
 	};
 
 	// trigger when moving touch
-	listener1->onTouchMoved = [_player, this](Touch* touch, Event* event){
+	listener1->onTouchMoved = [this](Touch* touch, Event* event){
 		auto target = static_cast<Layer*>(event->getCurrentTarget());
 		Point locationInNode = target->convertToNodeSpace(touch->getLocation());
 		//setViewPointCenter(locationInNode);
-		_player->setPosition(locationInNode);
+		setPlayerPosition(locationInNode);
 	};
 
 	// trigger when you let up
-	listener1->onTouchEnded = [_player, this](Touch* touch, Event* event){
+	listener1->onTouchEnded = [this](Touch* touch, Event* event){
 		Point touchLocation = touch->getLocationInView();
 		touchLocation = Director::getInstance()->convertToGL(touchLocation);
 		touchLocation = this->convertToNodeSpace(touchLocation);
@@ -144,24 +144,21 @@ bool KnightWorld::init()
 
 
 void KnightWorld::setViewPointCenter(Point position) {
-
-	auto winSize = Director::getInstance()->getWinSize();
 	
-	int tileslong = 14;
-
-	int tilesize = 64;
+	auto winSize = Director::getInstance()->getWinSize();
 
     int x = MAX(position.x, winSize.width/2);
     int y = MAX(position.y, winSize.height/2);
-	x = MIN(x, (tileslong * tilesize) - winSize.width / 2); //_tileMap->getMapSize().width * this->_tileMap->getTileSize().width wasn't working :(
-	y = MIN(y, (tileslong * tilesize) - winSize.height / 2);
+
+	x = MIN(x, (tileswide * tilesize) - winSize.width / 2); //_tileMap->getMapSize().width * this->_tileMap->getTileSize().width wasn't working :(
+	y = MIN(y, (tileswide * tilesize) - winSize.height / 2);
     Point actualPosition = ccp(x, y);
  
     Point centerOfView = ccp(winSize.width/2, winSize.height/2);
     Point viewPoint = ccpSub(centerOfView, actualPosition);
     this->setPosition(viewPoint);
 
-	position.x;
+
 	//auto z = this->_tileMap->getTileSize();
 	//z.width; // error is here
 	
@@ -170,9 +167,24 @@ void KnightWorld::setViewPointCenter(Point position) {
 
 
 
-CCPoint KnightWorld::tileCoordForPosition(CCPoint position)
+Point KnightWorld::tileCoordForPosition(Point position)
 {
-	int x = position.x / _tileMap->getTileSize().width;
-	int y = ((_tileMap->getMapSize().height * _tileMap->getTileSize().height) - position.y) / _tileMap->getTileSize().height;
+	int x = position.x / tilesize;
+	int y = ((tileswide * tilesize) - position.y) / tilesize;
 	return ccp(x, y);
+}
+
+void KnightWorld::setPlayerPosition(Point position) {
+	CCPoint tileCoord = this->tileCoordForPosition(position);
+	int tileGid = _meta->tileGIDAt(tileCoord);
+	if (tileGid) {
+		auto properties = _tileMap->propertiesForGID(tileGid).asValueMap();
+		if (!properties.empty()) {
+			auto collision = properties["Collideable"].asString();
+			if (collision == "true") {
+				return;
+			}
+		}
+	}
+	_player->setPosition(position);
 }
