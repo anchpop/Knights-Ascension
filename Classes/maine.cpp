@@ -1,9 +1,10 @@
 #include "maine.h"
+
+#include "TileUtils.h"
+
 using namespace cocos2d;
 
 using namespace std;
-
-USING_NS_CC;
 
 Scene* KnightWorld::createScene()
 {
@@ -66,7 +67,7 @@ bool KnightWorld::init()
 
 	setTouchEnabled(true);
 
-	
+	this->setScale(0.8f); // Shrinkify everything!
 
 	auto listener1 = EventListenerTouchOneByOne::create();
 
@@ -80,12 +81,12 @@ bool KnightWorld::init()
 	};
 
 	// trigger when moving touch
-	listener1->onTouchMoved = [this](Touch* touch, Event* event){
+	/*listener1->onTouchMoved = [this](Touch* touch, Event* event){
 		auto target = static_cast<Layer*>(event->getCurrentTarget());
 		Point locationInNode = target->convertToNodeSpace(touch->getLocation());
 		//setViewPointCenter(locationInNode);
 		setPlayerPosition(locationInNode);
-	};
+	};*/ //Commenting this out because I don't like it. You can't stop me.
 
 	// trigger when you let up
 	listener1->onTouchEnded = [this](Touch* touch, Event* event){
@@ -149,7 +150,7 @@ void KnightWorld::setViewPointCenter(Point position) {
 	{
 		auto winSize = Director::getInstance()->getWinSize();
 
-		int x = MAX(position.x, winSize.width / 2);
+		/*int x = MAX(position.x, winSize.width / 2);
 		int y = MAX(position.y, winSize.height / 2);
 
 		x = MIN(x, (tileswide * tilesize) - winSize.width / 2); //_tileMap->getMapSize().width * this->_tileMap->getTileSize().width wasn't working :(
@@ -162,40 +163,20 @@ void KnightWorld::setViewPointCenter(Point position) {
 
 
 		//auto z = this->_tileMap->getTileSize();
-		//z.width; // error is here
+		//z.width; // error is here*/
 
-		//this->setPosition((ccpSub(ccp(winSize.width / 2, winSize.height / 2), position)) * 2);
+		this->setPosition((ccpSub(ccp(winSize.width / 2, winSize.height / 2), position)));
 	}
 }
 
 
 
-Point KnightWorld::tileCoordForPosition(Point position)
-{
-	int x = position.x / tilesize;
-	int y = ((tileswide * tilesize) - position.y) / tilesize;
-	return ccp(x, y);
-}
-
-Point KnightWorld::positionForTileCoord(Point position)
-{
-	int x = position.x * tilesize;
-	int y = (tileswide - position.y) * tilesize;
-	return ccp(x, y);
-}
-
-Point KnightWorld::centerPositionForTileCoord(Point position)
-{
-	int x = position.x * tilesize + (tilesize/2);
-	int y = (tileswide - position.y) * tilesize - (tilesize/2);
-	return ccp(x, y);
-}
 
 void KnightWorld::setPlayerPosition(Point position) {
 	auto winSize = Director::getInstance()->getWinSize();
-	auto worldPosition = convertToWorldSpace(position);
 	Point tileCoord = tileCoordForPosition(position);
-	if (!((worldPosition.x < 0) || (worldPosition.x > winSize.width) || (worldPosition.y < 0) || (worldPosition.y > winSize.height))){
+	if (!((tileCoord.x < 0) || (tileCoord.x > tileswide) || (tileCoord.y < 0) || (tileCoord.y > tileswide)))
+	{
 		int tileGid = _meta->tileGIDAt(tileCoord);
 		if (tileGid) {
 			auto properties = _tileMap->propertiesForGID(tileGid).asValueMap();

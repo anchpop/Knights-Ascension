@@ -23,12 +23,6 @@ public:
 
 	void setViewPointCenter(Point position);
 
-	Point tileCoordForPosition(Point position);
-
-	Point positionForTileCoord(Point position);
-
-	Point centerPositionForTileCoord(Point position);
-
 	void setPlayerPosition(Point position);
 
 	int tileswide = 14;

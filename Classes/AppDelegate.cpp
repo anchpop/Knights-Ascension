@@ -31,8 +31,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto glview = director->getOpenGLView();
     if(!glview) {
         glview = GLViewImpl::create("Knight's Ascension");
-		glview->setFrameSize(1920/2.5, 1200/2.5);     // Dimensions of the Nexus 7 / 2.55
-		//glview->setFrameZoomFactor(2.0f); 
+		glview->setFrameSize(1920/2.5, 1200/2.5);     // Dimensions of the Nexus 7 / 2.5
+		//glview->setFrameZoomFactor(2.5f); 
 		director->setOpenGLView(glview);
     }
 
