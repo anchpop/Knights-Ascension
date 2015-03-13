@@ -144,25 +144,28 @@ bool KnightWorld::init()
 
 
 void KnightWorld::setViewPointCenter(Point position) {
-	
-	auto winSize = Director::getInstance()->getWinSize();
+	Point tileCoord = tileCoordForPosition(position);
+	if (!((tileCoord.x < 0) || (tileCoord.x > tileswide) || (tileCoord.y < 0) || (tileCoord.y > tileswide)))
+	{
+		auto winSize = Director::getInstance()->getWinSize();
 
-    int x = MAX(position.x, winSize.width/2);
-    int y = MAX(position.y, winSize.height/2);
+		int x = MAX(position.x, winSize.width / 2);
+		int y = MAX(position.y, winSize.height / 2);
 
-	x = MIN(x, (tileswide * tilesize) - winSize.width / 2); //_tileMap->getMapSize().width * this->_tileMap->getTileSize().width wasn't working :(
-	y = MIN(y, (tileswide * tilesize) - winSize.height / 2);
-    Point actualPosition = ccp(x, y);
- 
-    Point centerOfView = ccp(winSize.width/2, winSize.height/2);
-    Point viewPoint = ccpSub(centerOfView, actualPosition);
-    this->setPosition(viewPoint);
+		x = MIN(x, (tileswide * tilesize) - winSize.width / 2); //_tileMap->getMapSize().width * this->_tileMap->getTileSize().width wasn't working :(
+		y = MIN(y, (tileswide * tilesize) - winSize.height / 2);
+		Point actualPosition = ccp(x, y);
+
+		Point centerOfView = ccp(winSize.width / 2, winSize.height / 2);
+		Point viewPoint = ccpSub(centerOfView, actualPosition);
+		this->setPosition(viewPoint);
 
 
-	//auto z = this->_tileMap->getTileSize();
-	//z.width; // error is here
-	
-	//this->setPosition((ccpSub(ccp(winSize.width / 2, winSize.height / 2), position)) * 2);
+		//auto z = this->_tileMap->getTileSize();
+		//z.width; // error is here
+
+		//this->setPosition((ccpSub(ccp(winSize.width / 2, winSize.height / 2), position)) * 2);
+	}
 }
 
 
@@ -174,17 +177,35 @@ Point KnightWorld::tileCoordForPosition(Point position)
 	return ccp(x, y);
 }
 
+Point KnightWorld::positionForTileCoord(Point position)
+{
+	int x = position.x * tilesize;
+	int y = (tileswide - position.y) * tilesize;
+	return ccp(x, y);
+}
+
+Point KnightWorld::centerPositionForTileCoord(Point position)
+{
+	int x = position.x * tilesize + (tilesize/2);
+	int y = (tileswide - position.y) * tilesize - (tilesize/2);
+	return ccp(x, y);
+}
+
 void KnightWorld::setPlayerPosition(Point position) {
-	CCPoint tileCoord = this->tileCoordForPosition(position);
-	int tileGid = _meta->tileGIDAt(tileCoord);
-	if (tileGid) {
-		auto properties = _tileMap->propertiesForGID(tileGid).asValueMap();
-		if (!properties.empty()) {
-			auto collision = properties["Collideable"].asString();
-			if (collision == "true") {
-				return;
+	auto winSize = Director::getInstance()->getWinSize();
+	auto worldPosition = convertToWorldSpace(position);
+	Point tileCoord = tileCoordForPosition(position);
+	if (!((worldPosition.x < 0) || (worldPosition.x > winSize.width) || (worldPosition.y < 0) || (worldPosition.y > winSize.height))){
+		int tileGid = _meta->tileGIDAt(tileCoord);
+		if (tileGid) {
+			auto properties = _tileMap->propertiesForGID(tileGid).asValueMap();
+			if (!properties.empty()) {
+				auto collision = properties["Collideable"].asString();
+				if (collision == "true") {
+					return;
+				}
 			}
 		}
+		_player->setPosition(centerPositionForTileCoord(tileCoord));
 	}
-	_player->setPosition(position);
 }
