@@ -1,6 +1,8 @@
 #pragma once
 
 #include "cocos2d.h"
+#include "Knight.h"
+#include "TileUtils.h"
 using namespace cocos2d;
 
 class KnightWorld : public cocos2d::Layer
@@ -8,8 +10,10 @@ class KnightWorld : public cocos2d::Layer
 private:
 	TMXTiledMap *_tileMap;
 	TMXLayer *_background;
-	Sprite *_player;
+	Knight *_player;
 	TMXLayer *_meta;
+	TileMapTools tmxdat;
+
 public:
 	// there's no 'id' in cpp, so we recommend returning the class instance pointer
 	static cocos2d::Scene* createScene();
@@ -25,8 +29,6 @@ public:
 
 	void setPlayerPosition(Point position);
 
-	int tileswide = 14;
-	int tilesize = 64;
 
 
 	// implement the "static create()" method manually

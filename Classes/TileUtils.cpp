@@ -1,26 +1,39 @@
 #include "TileUtils.h"
 
 
-int tilestall = 14;
-int tileswide = 14;
-int tileheight = 64;
-int tilewidth = 64;
+TileMapTools::TileMapTools()
+{
+	//use default values
+	tilestall = 14;
+	tileswide = 14;
+	tileheight = 64;
+	tilewidth = 64;
+}
 
-Point tileCoordForPosition(Point position)
+TileMapTools::TileMapTools(int tilestall, int tileswide, int tileheight, int tilewidth)
+{
+	tilestall = tilestall;
+	tileswide = tileswide;
+	tileheight = tileheight;
+	tilewidth = tilewidth;
+}
+
+
+Point TileMapTools::tileCoordForPosition(Point position)
 {
 	int x = position.x / tilewidth;
 	int y = ((tilestall * tileheight) - position.y) / tileheight;
 	return ccp(x, y);
 }
 
-Point positionForTileCoord(Point position)
+Point TileMapTools::positionForTileCoord(Point position)
 {
 	int x = position.x * tilewidth;
 	int y = (tilestall - position.y) * tileheight;
 	return ccp(x, y);
 }
 
-Point centerPositionForTileCoord(Point position)
+Point TileMapTools::centerPositionForTileCoord(Point position)
 {
 	int x = position.x * tilewidth + (tilewidth / 2);
 	int y = (tilestall - position.y) * tileheight - (tileheight / 2);

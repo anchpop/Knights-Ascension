@@ -6,6 +6,8 @@ using namespace cocos2d;
 
 using namespace std;
 
+
+
 Scene* KnightWorld::createScene()
 {
 	// 'scene' is an autorelease object
@@ -31,9 +33,12 @@ bool KnightWorld::init()
 		return false;
 	}
 
+	tmxdat = TileMapTools();
 
 	// create a TMX map
 	_tileMap = TMXTiledMap::create("map.tmx"); // note to self, consider using "new" here
+	//_tileMap = new CCTMXTiledMap();
+	//_tileMap->initWithTMXFile("TileMap.tmx");
 	addChild(_tileMap, 0);
 	_background = _tileMap->layerNamed("mainboard");
 
@@ -59,7 +64,9 @@ bool KnightWorld::init()
 	int x; istringstream( ((spawnPoint.at("x")).getDescription()) ) >> x;
 	int y; istringstream( ((spawnPoint.at("y")).getDescription()) ) >> y;
 
-	_player = Sprite::create("imgs/sprite1.png");
+	
+	//_player = Knight::create("imgs/sprite1.png", _tileMap, _background, _meta, tmxdat);
+	_player = Knight::create("imgs/sprite1.png", _tileMap, _background, _meta, tmxdat);
 	_player->setPosition(ccp(x, y));
 
 	this->addChild(_player);
@@ -67,7 +74,7 @@ bool KnightWorld::init()
 
 	setTouchEnabled(true);
 
-	this->setScale(0.8f); // Shrinkify everything!
+	//this->setScale(0.8f); // Shrinkify everything!
 
 	auto listener1 = EventListenerTouchOneByOne::create();
 
@@ -76,7 +83,7 @@ bool KnightWorld::init()
 		auto target = static_cast<Layer*>(event->getCurrentTarget());
 		Point locationInNode = target->convertToNodeSpace(touch->getLocation());
 		//setViewPointCenter(locationInNode);
-		setPlayerPosition(locationInNode);
+		_player->setKnightPosition(locationInNode);
 		return true; // if you are consuming it
 	};
 
@@ -145,8 +152,8 @@ bool KnightWorld::init()
 
 
 void KnightWorld::setViewPointCenter(Point position) {
-	Point tileCoord = tileCoordForPosition(position);
-	if (!((tileCoord.x < 0) || (tileCoord.x > tileswide) || (tileCoord.y < 0) || (tileCoord.y > tileswide)))
+	Point tileCoord = tmxdat.tileCoordForPosition(position);
+	if (!((tileCoord.x < 0) || (tileCoord.x > tmxdat.tileswide) || (tileCoord.y < 0) || (tileCoord.y > tmxdat.tilestall)))
 	{
 		auto winSize = Director::getInstance()->getWinSize();
 
@@ -171,22 +178,3 @@ void KnightWorld::setViewPointCenter(Point position) {
 
 
 
-
-void KnightWorld::setPlayerPosition(Point position) {
-	auto winSize = Director::getInstance()->getWinSize();
-	Point tileCoord = tileCoordForPosition(position);
-	if (!((tileCoord.x < 0) || (tileCoord.x > tileswide) || (tileCoord.y < 0) || (tileCoord.y > tileswide)))
-	{
-		int tileGid = _meta->tileGIDAt(tileCoord);
-		if (tileGid) {
-			auto properties = _tileMap->propertiesForGID(tileGid).asValueMap();
-			if (!properties.empty()) {
-				auto collision = properties["Collideable"].asString();
-				if (collision == "true") {
-					return;
-				}
-			}
-		}
-		_player->setPosition(centerPositionForTileCoord(tileCoord));
-	}
-}
