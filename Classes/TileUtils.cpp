@@ -23,20 +23,29 @@ Point TileMapTools::tileCoordForPosition(const Point& position)
 {
 	int x = position.x / tilewidth;
 	int y = ((tilestall * tileheight) - position.y) / tileheight;
-	return ccp(x, y);
+	return Vec2(x, y);
 }
 
 Point TileMapTools::positionForTileCoord(const Point& position)
 {
 	int x = position.x * tilewidth;
 	int y = (tilestall - position.y) * tileheight;
-	return ccp(x, y);
+	return Vec2(x, y);
 }
 
 Point TileMapTools::centerPositionForTileCoord(const Point& position)
 {
 	int x = position.x * tilewidth + (tilewidth / 2);
 	int y = (tilestall - position.y) * tileheight - (tileheight / 2);
-	return ccp(x, y);
+	return Vec2(x, y);
 }
 
+Point TileMapTools::roundedPosition(const Point& position)
+{
+	return positionForTileCoord(tileCoordForPosition(position));
+}
+
+Point TileMapTools::roundedCenterPosition(const Point& position)
+{
+	return centerPositionForTileCoord(tileCoordForPosition(position));
+}

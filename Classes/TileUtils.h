@@ -17,6 +17,10 @@ public:
 
 	cocos2d::Point centerPositionForTileCoord(const cocos2d::Point&);
 
+	cocos2d::Point roundedPosition(const cocos2d::Point&);
+
+	cocos2d::Point roundedCenterPosition(const cocos2d::Point&);
+
 	TileMapTools();
 
 	TileMapTools(int, int, int, int);
