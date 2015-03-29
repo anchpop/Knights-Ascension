@@ -74,7 +74,9 @@ bool KnightWorld::init()
 
 	setTouchEnabled(true);
 
-	//this->setScale(0.8f); // Shrinkify everything!
+	
+	this->setScale(0.6f); // Shrinkify everything!
+	//this->setRotation(45.0f); // Spinify everything!
 
 	auto listener1 = EventListenerTouchOneByOne::create();
 
@@ -97,9 +99,9 @@ bool KnightWorld::init()
 
 	// trigger when you let up
 	listener1->onTouchEnded = [this](Touch* touch, Event* event){
-		Point touchLocation = touch->getLocationInView();
-		touchLocation = Director::getInstance()->convertToGL(touchLocation);
-		touchLocation = this->convertToNodeSpace(touchLocation);
+		Point touchLocationR = touch->getLocationInView();
+		touchLocationR = Director::getInstance()->convertToGL(touchLocationR);
+		Point touchLocation = this->convertToNodeSpace(touchLocation);
 
 		Point playerPos = _player->getPosition();
 		Point diff = ccpSub(touchLocation, playerPos);
@@ -168,12 +170,14 @@ void KnightWorld::setViewPointCenter(Point position) {
 		Point viewPoint = ccpSub(centerOfView, actualPosition);
 		this->setPosition(viewPoint);
 
-
 		//auto z = this->_tileMap->getTileSize();
 		//z.width; // error is here*/
-
-		this->setPosition((ccpSub(ccp(winSize.width / 2, winSize.height / 2), position)));
+		//position = convertToNodeSpaceAR(position);
+		auto toast = tmxdat.centerPositionForTileCoord(Vec2(1,1));
+		auto layerpos = (convertToWorldSpace(Vec2(winSize.width / 2, winSize.height / 2)) - convertToWorldSpace(position));
+ 		this->setPosition(layerpos); 
 	}
+
 }
 
 
