@@ -53,6 +53,6 @@ void Knight::setKnightPosition(Point position) {
 				}
 			}
 		}
-		this->setPosition(_tmxdat.centerPositionForTileCoord(tileCoord));
+		this->setPosition(_tmxdat.roundedCenterPosition(position));
 	}
 }
