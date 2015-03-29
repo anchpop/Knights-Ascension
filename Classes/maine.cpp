@@ -1,6 +1,6 @@
 #include "maine.h"
-
 #include "TileUtils.h"
+#include "VisibleRect.h"
 
 using namespace cocos2d;
 
@@ -56,6 +56,8 @@ bool KnightWorld::init()
 	}
 	CCLOG("tile map objects detected");
 
+	boardRPM = 1.0f / 60.0f;
+
 	_meta = _tileMap->layerNamed("Meta");
 	_meta->setVisible(false);
 
@@ -76,6 +78,7 @@ bool KnightWorld::init()
 
 	
 	this->setScale(0.8f); // Shrinkify everything!
+	runAction(RepeatForever::create(RotateBy::create(60.0f / boardRPM, 360.0f)));
 	//this->setRotation(45.0f); // Spinify everything!
 
 	auto listener1 = EventListenerTouchOneByOne::create();
@@ -157,7 +160,6 @@ void KnightWorld::setViewPointCenter(Point position) {
 	Point tileCoord = tmxdat.tileCoordForPosition(position);
 	if (!((tileCoord.x < 0) || (tileCoord.x > tmxdat.tileswide) || (tileCoord.y < 0) || (tileCoord.y > tmxdat.tilestall)))
 	{
-		auto winSize = Director::getInstance()->getWinSize();
 
 		/*int x = MAX(position.x, winSize.width / 2);
 		int y = MAX(position.y, winSize.height / 2);
@@ -174,7 +176,7 @@ void KnightWorld::setViewPointCenter(Point position) {
 		//z.width; // error is here*/
 		//position = convertToNodeSpaceAR(position);
 		auto toast = tmxdat.centerPositionForTileCoord(Vec2(1,1));
-		auto layerpos = (convertToWorldSpace(Vec2(winSize.width / 2, winSize.height / 2)) - convertToWorldSpace(position));
+		auto layerpos = (convertToWorldSpace(VisibleRect::center()) - convertToWorldSpace(position));
  		this->setPosition(layerpos); 
 	}
 
