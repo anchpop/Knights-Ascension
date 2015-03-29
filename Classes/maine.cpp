@@ -67,7 +67,7 @@ bool KnightWorld::init()
 	
 	//_player = Knight::create("imgs/sprite1.png", _tileMap, _background, _meta, tmxdat);
 	_player = Knight::create("imgs/sprite1.png", _tileMap, _background, _meta, tmxdat);
-	_player->setPosition(ccp(x, y));
+	_player->setPosition(tmxdat.roundedCenterPosition(Vec2(x, y)));
 
 	this->addChild(_player);
 	this->setViewPointCenter(_player->getPosition());
@@ -75,7 +75,7 @@ bool KnightWorld::init()
 	setTouchEnabled(true);
 
 	
-	this->setScale(0.6f); // Shrinkify everything!
+	this->setScale(0.8f); // Shrinkify everything!
 	//this->setRotation(45.0f); // Spinify everything!
 
 	auto listener1 = EventListenerTouchOneByOne::create();
