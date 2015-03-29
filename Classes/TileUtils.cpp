@@ -19,21 +19,21 @@ TileMapTools::TileMapTools(int tilestall, int tileswide, int tileheight, int til
 }
 
 
-Point TileMapTools::tileCoordForPosition(Point position)
+Point TileMapTools::tileCoordForPosition(const Point& position)
 {
 	int x = position.x / tilewidth;
 	int y = ((tilestall * tileheight) - position.y) / tileheight;
 	return ccp(x, y);
 }
 
-Point TileMapTools::positionForTileCoord(Point position)
+Point TileMapTools::positionForTileCoord(const Point& position)
 {
 	int x = position.x * tilewidth;
 	int y = (tilestall - position.y) * tileheight;
 	return ccp(x, y);
 }
 
-Point TileMapTools::centerPositionForTileCoord(Point position)
+Point TileMapTools::centerPositionForTileCoord(const Point& position)
 {
 	int x = position.x * tilewidth + (tilewidth / 2);
 	int y = (tilestall - position.y) * tileheight - (tileheight / 2);

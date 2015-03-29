@@ -11,11 +11,11 @@ public:
 	int tileheight;
 	int tilewidth;
 
-	cocos2d::Point tileCoordForPosition(cocos2d::Point);
+	cocos2d::Point tileCoordForPosition(const cocos2d::Point&);
 
-	cocos2d::Point positionForTileCoord(cocos2d::Point);
+	cocos2d::Point positionForTileCoord(const cocos2d::Point&);
 
-	cocos2d::Point centerPositionForTileCoord(cocos2d::Point);
+	cocos2d::Point centerPositionForTileCoord(const cocos2d::Point&);
 
 	TileMapTools();
 
