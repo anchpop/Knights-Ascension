@@ -53,6 +53,10 @@ void Knight::setKnightPosition(Point position) {
 				}
 			}
 		}
-		this->setPosition(_tmxdat.roundedCenterPosition(position));
+		//this->setPosition(_tmxdat.roundedCenterPosition(position));
+
+		runAction(Sequence::create(
+			EaseIn::create(MoveTo::create(0.8f, _tmxdat.roundedCenterPosition(position)), 2.5f),
+			nullptr));
 	}
 }

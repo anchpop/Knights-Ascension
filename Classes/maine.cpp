@@ -89,6 +89,7 @@ bool KnightWorld::init()
 		Point locationInNode = target->convertToNodeSpace(touch->getLocation());
 		//setViewPointCenter(locationInNode);
 		_player->setKnightPosition(locationInNode);
+		setViewPointCenter(locationInNode);
 		return true; // if you are consuming it
 	};
 
@@ -102,6 +103,7 @@ bool KnightWorld::init()
 
 	// trigger when you let up
 	listener1->onTouchEnded = [this](Touch* touch, Event* event){
+		auto target = static_cast<Layer*>(event->getCurrentTarget());
 		Point touchLocationR = touch->getLocationInView();
 		touchLocationR = Director::getInstance()->convertToGL(touchLocationR);
 		Point touchLocation = this->convertToNodeSpace(touchLocation);
@@ -143,7 +145,7 @@ bool KnightWorld::init()
 		    this->setPlayerPosition(playerPos);
 		}*/
 
-		setViewPointCenter(_player->getPosition());
+		//setViewPointCenter(target->convertToNodeSpace(touch->getLocation())); // Pass the touch location
 
 	};
 
