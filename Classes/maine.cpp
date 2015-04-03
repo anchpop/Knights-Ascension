@@ -88,7 +88,7 @@ bool KnightWorld::init()
 		auto target = static_cast<Layer*>(event->getCurrentTarget());
 		Point locationInNode = target->convertToNodeSpace(touch->getLocation());
 		//setViewPointCenter(locationInNode);
-		_player->setKnightPosition(locationInNode);
+		_player->setKnightPosition(locationInNode, [this](){CCLOG("test"); });
 		setViewPointCenter(locationInNode);
 		return true; // if you are consuming it
 	};

@@ -37,7 +37,7 @@ void Knight::initOptions()
 }
 
 
-void Knight::setKnightPosition(Point position) {
+void Knight::setKnightPosition(Point position, const std::function<void()>& callWhenDoneMoving) {
 	auto winSize = Director::getInstance()->getWinSize();
 	Point tileCoord = _tmxdat.tileCoordForPosition(position);
 	if (!((tileCoord.x < 0) || (tileCoord.x > _tmxdat.tileswide) || (tileCoord.y < 0) || (tileCoord.y > _tmxdat.tilestall)))
@@ -57,6 +57,12 @@ void Knight::setKnightPosition(Point position) {
 
 		runAction(Sequence::create(
 			EaseIn::create(MoveTo::create(0.8f, _tmxdat.roundedCenterPosition(position)), 2.5f),
+			CCCallFunc::create(
+				callWhenDoneMoving),
 			nullptr));
 	}
+}
+
+void Knight::doneWithMovement() {
+	// it reaches here
 }

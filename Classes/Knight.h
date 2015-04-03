@@ -14,7 +14,7 @@ private:
 	TileMapTools _tmxdat;
 public:
 	
-	void setKnightPosition(Point position);
+	void setKnightPosition(Point position, const std::function<void()>&);
 	//void setup(String, TMXTiledMap*, TMXLayer*, TMXLayer*, int, int);
 
 	Knight(const std::string&, TMXTiledMap*, TMXLayer*, TMXLayer*, TileMapTools);
@@ -22,5 +22,7 @@ public:
 	static Knight* create(const std::string&, TMXTiledMap*, TMXLayer*, TMXLayer*, TileMapTools);
 	//static Knight* create(const std::string&, const std::string&, TileMapTools);
 	void initOptions();
+
+	void doneWithMovement();
 };
 
