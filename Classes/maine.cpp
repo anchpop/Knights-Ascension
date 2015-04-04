@@ -73,9 +73,10 @@ bool KnightWorld::init()
 
 	pieces.push_back(Knight::create("imgs/sprite1.png", _tileMap, _background, _meta, tmxdat));
 	pieces[0]->setPosition(tmxdat.roundedCenterPosition(Vec2(x, y)));
-	pieces.push_back(Knight::create("imgs/sprite1.png", _tileMap, _background, _meta, tmxdat));
-	pieces[0]->setPosition(tmxdat.centerPositionForTileCoord(Vec2(4, 4)));
+	pieces.push_back(Knight::create("imgs/sprite2.png", _tileMap, _background, _meta, tmxdat));
+	pieces[1]->setPosition(tmxdat.centerPositionForTileCoord(Vec2(4, 4)));
 	activePiece = dynamic_cast<Knight *>(pieces[0]);
+	okayToMove = true;
 
 	for (std::size_t i = 0; i < pieces.size(); i++)
 	{
@@ -95,31 +96,31 @@ bool KnightWorld::init()
 	
 	// trigger when you push down
 	listener1->onTouchBegan = [&](Touch* touch, Event* event){
-
-		auto target = static_cast<Layer*>(event->getCurrentTarget());
-		Vec2 locationInNode = target->convertToNodeSpace(touch->getLocation());
-		//setViewPointCenter(locationInNode);
-		if (activePiece == nullptr)
+		if (okayToMove)
 		{
-			for (std::size_t i = 0; i < pieces.size(); i++)
+			auto target = static_cast<Layer*>(event->getCurrentTarget());
+			Vec2 locationInNode = target->convertToNodeSpace(touch->getLocation());
+			//setViewPointCenter(locationInNode);
+			if (activePiece == nullptr)
 			{
-				if (pieces[i]->boundingBox().containsPoint(locationInNode))
+				for (std::size_t i = 0; i < pieces.size(); i++)
 				{
-					activePiece = dynamic_cast<Knight *>(pieces[i]);
-					break;
+					if (pieces[i]->boundingBox().containsPoint(locationInNode))
+					{
+						activePiece = dynamic_cast<Knight *>(pieces[i]);
+						break;
+					}
+				}
+			}
+			else
+			{
+				if (!activePiece->boundingBox().containsPoint(locationInNode))
+				{
+					
+					activePiece->setKnightPosition(locationInNode, [this, locationInNode](){ okayToMove = false; }, [this, locationInNode](){CCLOG("movement complete. Moving screen"); setViewPointCenter(locationInNode); activePiece = nullptr; okayToMove = true; });
 				}
 			}
 		}
-		else
-		{
-			if (!activePiece->boundingBox().containsPoint(locationInNode))
-			{
-				activePiece->setKnightPosition(locationInNode, [this, locationInNode](){CCLOG("movement complete. Moving screen"); setViewPointCenter(locationInNode); activePiece = nullptr; });
-				
-				
-			}
-		}
-
 
 		return true; // if you are consuming it
 
