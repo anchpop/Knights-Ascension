@@ -14,6 +14,8 @@ private:
 	TMXLayer *_meta;
 	TileMapTools tmxdat;
 	double boardRPM;
+	vector<Sprite*> pieces;
+	Knight* activePiece;
 public:
 	// there's no 'id' in cpp, so we recommend returning the class instance pointer
 	static cocos2d::Scene* createScene();

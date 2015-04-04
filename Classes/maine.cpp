@@ -68,11 +68,20 @@ bool KnightWorld::init()
 
 	
 	//_player = Knight::create("imgs/sprite1.png", _tileMap, _background, _meta, tmxdat);
-	_player = Knight::create("imgs/sprite1.png", _tileMap, _background, _meta, tmxdat);
-	_player->setPosition(tmxdat.roundedCenterPosition(Vec2(x, y)));
+	//_player = Knight::create("imgs/sprite1.png", _tileMap, _background, _meta, tmxdat);
+	//_player->setPosition(tmxdat.roundedCenterPosition(Vec2(x, y)));
 
-	this->addChild(_player);
-	this->setViewPointCenter(_player->getPosition());
+	pieces.push_back(Knight::create("imgs/sprite1.png", _tileMap, _background, _meta, tmxdat));
+	pieces[0]->setPosition(tmxdat.roundedCenterPosition(Vec2(x, y)));
+	pieces.push_back(Knight::create("imgs/sprite1.png", _tileMap, _background, _meta, tmxdat));
+	pieces[0]->setPosition(tmxdat.centerPositionForTileCoord(Vec2(4, 4)));
+	activePiece = dynamic_cast<Knight *>(pieces[0]);
+
+	for (std::size_t i = 0; i < pieces.size(); i++)
+	{
+		this->addChild(pieces[i]);
+	}
+	this->setViewPointCenter(pieces[0]->getPosition());
 
 	setTouchEnabled(true);
 
@@ -83,69 +92,41 @@ bool KnightWorld::init()
 
 	auto listener1 = EventListenerTouchOneByOne::create();
 
+	
 	// trigger when you push down
-	listener1->onTouchBegan = [this](Touch* touch, Event* event){
+	listener1->onTouchBegan = [&](Touch* touch, Event* event){
+
 		auto target = static_cast<Layer*>(event->getCurrentTarget());
-		Point locationInNode = target->convertToNodeSpace(touch->getLocation());
+		Vec2 locationInNode = target->convertToNodeSpace(touch->getLocation());
 		//setViewPointCenter(locationInNode);
-		_player->setKnightPosition(locationInNode, [this](){CCLOG("test"); });
-		setViewPointCenter(locationInNode);
-		return true; // if you are consuming it
-	};
-
-	// trigger when moving touch
-	/*listener1->onTouchMoved = [this](Touch* touch, Event* event){
-		auto target = static_cast<Layer*>(event->getCurrentTarget());
-		Point locationInNode = target->convertToNodeSpace(touch->getLocation());
-		//setViewPointCenter(locationInNode);
-		setPlayerPosition(locationInNode);
-	};*/ //Commenting this out because I don't like it. You can't stop me.
-
-	// trigger when you let up
-	listener1->onTouchEnded = [this](Touch* touch, Event* event){
-		auto target = static_cast<Layer*>(event->getCurrentTarget());
-		Point touchLocationR = touch->getLocationInView();
-		touchLocationR = Director::getInstance()->convertToGL(touchLocationR);
-		Point touchLocation = this->convertToNodeSpace(touchLocation);
-
-		Point playerPos = _player->getPosition();
-		Point diff = ccpSub(touchLocation, playerPos);
-
-		/*if (abs(diff.x) > abs(diff.y)) {
-			if (diff.x > 0) {
-				playerPos.x += 32;
-			}
-			else {
-				playerPos.x -= 32;
+		if (activePiece == nullptr)
+		{
+			for (std::size_t i = 0; i < pieces.size(); i++)
+			{
+				if (pieces[i]->boundingBox().containsPoint(locationInNode))
+				{
+					activePiece = dynamic_cast<Knight *>(pieces[i]);
+					break;
+				}
 			}
 		}
-		else {
-			if (diff.y > 0) {
-				playerPos.y += 32;
-			}
-			else {
-				playerPos.y -= 32;
-			}
-		}*/
-
-		// safety check on the bounds of the map
-		/*if (playerPos.x <= (32 * 32) &&
-			playerPos.y <= (32 * 32) &&
-			playerPos.y >= 0 &&
-			playerPos.x >= 0)
+		else
 		{
-			this->setPlayerPosition(playerPos);
-		}*/
-		/*// safety check on the bounds of the map
-		if (playerPos.x <= (_tileMap->getMapSize().width * _tileMap->getTileSize().width) &&
-			playerPos.y <= (_tileMap->getMapSize().height * _tileMap->getTileSize().height) &&
-			playerPos.y >= 0 &&
-			playerPos.x >= 0 )
-		{
-		    this->setPlayerPosition(playerPos);
-		}*/
+			if (!activePiece->boundingBox().containsPoint(locationInNode))
+			{
+				activePiece->setKnightPosition(locationInNode, [this, locationInNode](){CCLOG("movement complete. Moving screen"); setViewPointCenter(locationInNode); activePiece = nullptr; });
+				
+				
+			}
+		}
 
-		//setViewPointCenter(target->convertToNodeSpace(touch->getLocation())); // Pass the touch location
+
+		return true; // if you are consuming it
+
+	};
+
+	// trigger when you let up
+	listener1->onTouchEnded = [&](Touch* touch, Event* event){	
 
 	};
 
@@ -177,7 +158,6 @@ void KnightWorld::setViewPointCenter(Point position) {
 		//auto z = this->_tileMap->getTileSize();
 		//z.width; // error is here*/
 		//position = convertToNodeSpaceAR(position);
-		auto toast = tmxdat.centerPositionForTileCoord(Vec2(1,1));
 		auto layerpos = (convertToWorldSpace(VisibleRect::center()) - convertToWorldSpace(position));
  		this->setPosition(layerpos); 
 	}
