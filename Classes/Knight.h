@@ -1,11 +1,11 @@
 #pragma once
 
-#include "cocos2d.h"
+#include "Piece.h"
 #include "TileUtils.h"
 using namespace cocos2d;
 using namespace std;
 
-class Knight : public cocos2d::Sprite
+class Knight : public Piece
 {
 private:
 	TMXTiledMap *_tileMap;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cocos2d.h"
+#include "Piece.h"
 #include "Knight.h"
 #include "TileUtils.h"
 using namespace cocos2d;
@@ -14,7 +15,7 @@ private:
 	TMXLayer *_meta;
 	TileMapTools tmxdat;
 	double boardRPM;
-	vector<Sprite*> pieces;
+	vector<Piece*> pieces;
 	Knight* activePiece;
 	bool okayToMove;
 public:
