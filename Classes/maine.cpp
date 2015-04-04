@@ -58,9 +58,6 @@ bool KnightWorld::init()
 
 	boardRPM = 1.0f / 60.0f;
 
-	_meta = _tileMap->layerNamed("Meta");
-	_meta->setVisible(false);
-
 	ValueMap spawnPoint = objectGroup->objectNamed("Team A spawn");
 
 	int x; istringstream( ((spawnPoint.at("x")).getDescription()) ) >> x;
@@ -71,9 +68,9 @@ bool KnightWorld::init()
 	//_player = Knight::create("imgs/sprite1.png", _tileMap, _background, _meta, tmxdat);
 	//_player->setPosition(tmxdat.roundedCenterPosition(Vec2(x, y)));
 
-	pieces.push_back(Knight::create("imgs/sprite1.png", _tileMap, _background, _meta, tmxdat));
+	pieces.push_back(Knight::create("imgs/sprite1.png", _tileMap, _background, tmxdat));
 	pieces[0]->setPosition(tmxdat.roundedCenterPosition(Vec2(x, y)));
-	pieces.push_back(Knight::create("imgs/sprite2.png", _tileMap, _background, _meta, tmxdat));
+	pieces.push_back(Knight::create("imgs/sprite2.png", _tileMap, _background, tmxdat));
 	pieces[1]->setPosition(tmxdat.centerPositionForTileCoord(Vec2(4, 4)));
 	activePiece = dynamic_cast<Knight *>(pieces[0]);
 	okayToMove = true;

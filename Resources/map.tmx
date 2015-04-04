@@ -13,10 +13,36 @@
  </tileset>
  <tileset firstgid="6" name="knightmap" tilewidth="64" tileheight="64">
   <image source="knightmap.png" width="320" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="Collideable" value="true"/>
+    <property name="Destroyable" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Collideable" value="true"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Collideable" value="false"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="Collideable" value="false"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="Collideable" value="false"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="mainboard" width="14" height="14">
   <data encoding="base64" compression="zlib">
-   eJytklEKACEIBf0q8v4HXhZceAxPCNmPoTBHw9oRsYdkcYrEqvFsvG6vdehlk0vUc/XpHnir+M4XYFy9znHuH97knpyzQ2fDebpcF3f9bt7k1qM//c8vD9IrBlk=
+   eJytkkEKwDAIBD0Z9P8PLgUPy6ClSA5Lgu5o0BwzO0tlKUqJU+M5cNNd6yjnpc7LPDkyHasceznEuHIT07E3uM07Q/Kcic7GP/ZAb0hdcpx3t3P1/OXIb//zqweQnwYw
   </data>
  </layer>
  <objectgroup name="objects">
