@@ -1,4 +1,5 @@
 #include "Knight.h"
+#include "SimpleAudioEngine.h" 
 #include <vector>
 
 using namespace cocos2d;
@@ -49,13 +50,25 @@ void Knight::setKnightPosition(Point position, const std::function<void()>& call
 		{
 			
 			callWhenBeginMoving();
-			runAction(Sequence::create(
-				EaseIn::create(MoveTo::create(0.6f, _tmxdat.roundedCenterPosition(position)), 2.5f),
-				CCCallFunc::create(
-				callWhenDoneMoving),
-				CCCallFunc::create(
-				[this, tileCoord](){if (checkSquareProperty(tileCoord, "Destroyable") == "true"){ setSquare(EmptySquare, tileCoord); }}),
-				nullptr));
+			if (checkSquareProperty(tileCoord, "Destroyable") != "true"){
+				runAction(Sequence::create(
+					EaseIn::create(MoveTo::create(0.6f, _tmxdat.roundedCenterPosition(position)), 2.5f),
+					CCCallFunc::create(
+					callWhenDoneMoving),
+					nullptr));
+			}
+			else
+			{
+				runAction(Sequence::create(
+					EaseIn::create(MoveTo::create(0.2f, _tmxdat.roundedCenterPosition(position)), .3f),
+					CCCallFunc::create(
+					callWhenDoneMoving),
+					CCCallFunc::create(
+					[this, tileCoord](){setSquare(EmptySquare, tileCoord); CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(
+						"sound/explosion.wav");
+						}),
+					nullptr));
+			}
 		}
 	}
 }
