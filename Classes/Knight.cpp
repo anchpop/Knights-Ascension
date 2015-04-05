@@ -54,7 +54,7 @@ void Knight::setKnightPosition(Point position, const std::function<void()>& call
 
 		callWhenBeginMoving();
 		runAction(Sequence::create(
-			EaseIn::create(MoveTo::create(0.8f, _tmxdat.roundedCenterPosition(position)), 2.5f),
+			EaseIn::create(MoveTo::create(0.6f, _tmxdat.roundedCenterPosition(position)), 2.5f),
 			CCCallFunc::create(
 				callWhenDoneMoving),
 			nullptr));

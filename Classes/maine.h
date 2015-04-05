@@ -17,7 +17,8 @@ private:
 	double boardRPM;
 	vector<Piece*> pieces;
 	Knight* activePiece;
-	bool okayToMove;
+	bool spriteIsMoving;
+	bool screenIsMoving;
 public:
 	// there's no 'id' in cpp, so we recommend returning the class instance pointer
 	static cocos2d::Scene* createScene();
@@ -29,9 +30,16 @@ public:
 	void menuCloseCallback(cocos2d::Ref* pSender);
 
 
+	Point getPointToCenterOn(Point position);
+
 	void setViewPointCenter(Point position);
 
-	void setPlayerPosition(Point position);
+
+
+	void moveViewPointCenter(Point position, const std::function<void()>&);
+
+	void moveViewPointCenter(Point position, const std::function<void()>&, const std::function<void()>&);
+
 
 
 

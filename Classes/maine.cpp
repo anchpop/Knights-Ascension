@@ -73,7 +73,8 @@ bool KnightWorld::init()
 	pieces.push_back(Knight::create("imgs/sprite2.png", _tileMap, _background, tmxdat));
 	pieces[1]->setPosition(tmxdat.centerPositionForTileCoord(Vec2(4, 4)));
 	activePiece = dynamic_cast<Knight *>(pieces[0]);
-	okayToMove = true;
+	spriteIsMoving = false;
+	screenIsMoving = false;
 
 	for (std::size_t i = 0; i < pieces.size(); i++)
 	{
@@ -93,7 +94,7 @@ bool KnightWorld::init()
 	
 	// trigger when you push down
 	listener1->onTouchBegan = [&](Touch* touch, Event* event){
-		if (okayToMove)
+		if (!spriteIsMoving && !screenIsMoving)
 		{
 			auto target = static_cast<Layer*>(event->getCurrentTarget());
 			Vec2 locationInNode = target->convertToNodeSpace(touch->getLocation());
@@ -114,7 +115,10 @@ bool KnightWorld::init()
 				if (!activePiece->boundingBox().containsPoint(locationInNode))
 				{
 					
-					activePiece->setKnightPosition(locationInNode, [this, locationInNode](){ okayToMove = false; }, [this, locationInNode](){CCLOG("movement complete. Moving screen"); setViewPointCenter(locationInNode); activePiece = nullptr; okayToMove = true; });
+					activePiece->setKnightPosition(locationInNode, 
+						[this, locationInNode](){ spriteIsMoving = true;                                                                       //When the sprite begins moving, set spriteIsMoving to true
+							moveViewPointCenter(locationInNode,	[this](){screenIsMoving = true; }, [this](){screenIsMoving = false; }); },     //Also when the sprite begins moving, begin moving the screen opposite the sprite (to keep the sprite centered) and when the screen begins and ends moving, change screenIsMoving
+						[this, locationInNode](){ activePiece = nullptr; spriteIsMoving = false; });                                           //When the sprite ends moving deselet it and mark it as not moving
 				}
 			}
 		}
@@ -136,8 +140,7 @@ bool KnightWorld::init()
 }
 
 
-
-void KnightWorld::setViewPointCenter(Point position) {
+Point KnightWorld::getPointToCenterOn(Point position) {
 	Point tileCoord = tmxdat.tileCoordForPosition(position);
 	if (!((tileCoord.x < 0) || (tileCoord.x > tmxdat.tileswide) || (tileCoord.y < 0) || (tileCoord.y > tmxdat.tilestall)))
 	{
@@ -157,10 +160,27 @@ void KnightWorld::setViewPointCenter(Point position) {
 		//z.width; // error is here*/
 		//position = convertToNodeSpaceAR(position);
 		auto layerpos = (convertToWorldSpace(VisibleRect::center()) - convertToWorldSpace(position));
- 		this->setPosition(layerpos); 
+		return layerpos;
 	}
 
 }
 
 
+void KnightWorld::setViewPointCenter(Point position) {
+	this->setPosition(getPointToCenterOn(position));
+}
+
+void KnightWorld::moveViewPointCenter(Point position, const std::function<void()>& callWhenDoneMoving) {
+
+	runAction(Sequence::create(
+		EaseInOut::create(MoveTo::create(0.4f, getPointToCenterOn(position)), 0.5f),
+		CCCallFunc::create(
+		callWhenDoneMoving),
+		nullptr));
+}
+
+void KnightWorld::moveViewPointCenter(Point position, const std::function<void()>& callWhenBeginMoving, const std::function<void()>& callWhenDoneMoving) {
+	callWhenBeginMoving();
+	moveViewPointCenter(position, callWhenDoneMoving);
+}
 
