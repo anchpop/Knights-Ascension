@@ -21,6 +21,8 @@ public:
 
 	cocos2d::Point roundedCenterPosition(const cocos2d::Point&);
 
+	bool tileCoordInMapBounds(const cocos2d::Point&);
+
 	TileMapTools();
 
 	TileMapTools(int, int, int, int);

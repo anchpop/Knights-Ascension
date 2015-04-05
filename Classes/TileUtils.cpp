@@ -49,3 +49,8 @@ Point TileMapTools::roundedCenterPosition(const Point& position)
 {
 	return centerPositionForTileCoord(tileCoordForPosition(position));
 }
+
+bool TileMapTools::tileCoordInMapBounds(const Point& position)
+{
+	return !(position.x < 0 || position.y < 0 || position.x >= tileswide || position.y >= tilestall);
+}

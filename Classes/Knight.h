@@ -14,6 +14,8 @@ private:
 	TileMapTools _tmxdat;
 	PieceType pieceType;
 	PieceTeam team;
+	std::vector<Vec2> relativePossibleKnightSquaresToMoveOn();
+	std::vector<Vec2> relativePossibleBlockSquaresToMoveOn();
 public:
 	
 	void setKnightPosition(Point position, const std::function<void()>&, const std::function<void()>&);
@@ -25,6 +27,8 @@ public:
 	//static Knight* create(const std::string&, const std::string&, TileMapTools);
 	void initOptions();
 
+
 	std::vector<Vec2> possibleSquaresToMoveOn();
+	std::string checkSquareProperty(Vec2 square, const string&);
 };
 
