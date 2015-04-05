@@ -1,4 +1,5 @@
 #include "Knight.h"
+#include <vector>
 
 using namespace cocos2d;
 
@@ -14,6 +15,8 @@ Knight::Knight(const string& FrameName, TMXTiledMap *tileMap, TMXLayer *backgrou
 	_tileMap = tileMap;
 	_background = background; // this is probably not neccesary to be passed in if we replace it with _background = _tileMap->layerNamed("mainboard");
 	_tmxdat = tmxdat;
+
+	pieceType = TypeKnight;
 
 	//return sprite;
 }
@@ -59,4 +62,13 @@ void Knight::setKnightPosition(Point position, const std::function<void()>& call
 				callWhenDoneMoving),
 			nullptr));
 	}
+}
+
+std::vector<Vec2> Knight::possibleSquaresToMoveOn()
+{
+	Vec2 tileCoord = _tmxdat.tileCoordForPosition(getPosition());
+	vector<Vec2> relativePositions;
+	relativePositions.push_back(Vec2(1, 2));
+	relativePositions.push_back(Vec2(2, 1));
+	return relativePositions;
 }

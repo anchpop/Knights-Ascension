@@ -162,7 +162,7 @@ Point KnightWorld::getPointToCenterOn(Point position) {
 		auto layerpos = (convertToWorldSpace(VisibleRect::center()) - convertToWorldSpace(position));
 		return layerpos;
 	}
-
+	return nullptr;
 }
 
 
@@ -173,7 +173,7 @@ void KnightWorld::setViewPointCenter(Point position) {
 void KnightWorld::moveViewPointCenter(Point position, const std::function<void()>& callWhenDoneMoving) {
 
 	runAction(Sequence::create(
-		EaseInOut::create(MoveTo::create(0.4f, getPointToCenterOn(position)), 0.5f),
+		EaseIn::create(MoveTo::create(0.4f, getPointToCenterOn(position)), 0.5f),
 		CCCallFunc::create(
 		callWhenDoneMoving),
 		nullptr));

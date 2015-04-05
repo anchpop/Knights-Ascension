@@ -27,3 +27,18 @@ void Piece::initOptions()
 {
 	// do things here like setTag(), setPosition(), any custom logic.
 }
+
+void Piece::setTeam(PieceTeam team)
+{
+	team = team;
+}
+
+PieceTeam Piece::getTeam()
+{
+	return team;
+}
+
+PieceType Piece::getPieceType()
+{
+	return pieceType;
+}

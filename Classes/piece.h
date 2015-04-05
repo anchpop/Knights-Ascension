@@ -12,6 +12,9 @@ enum PieceTeam {
 
 class Piece : public cocos2d::Sprite
 {
+private:
+	PieceType pieceType;
+	PieceTeam team;
 public:
 	Piece();
 	~Piece();
@@ -19,10 +22,10 @@ public:
 
 	void initOptions();
 
-	PieceType pieceType;
-	PieceTeam pieceTeam;
 
 
-private:
+	void setTeam(PieceTeam);
 
+	PieceTeam getTeam();
+	PieceType getPieceType();
 };

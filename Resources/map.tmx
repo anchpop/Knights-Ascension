@@ -17,26 +17,35 @@
    <properties>
     <property name="Collideable" value="true"/>
     <property name="Destroyable" value="true"/>
+    <property name="Jumpable" value="false"/>
    </properties>
   </tile>
   <tile id="1">
    <properties>
     <property name="Collideable" value="true"/>
+    <property name="Destroyable" value="false"/>
+    <property name="Jumpable" value="true"/>
    </properties>
   </tile>
   <tile id="2">
    <properties>
     <property name="Collideable" value="false"/>
+    <property name="Destroyable" value="false"/>
+    <property name="Jumpable" value="true"/>
    </properties>
   </tile>
   <tile id="3">
    <properties>
     <property name="Collideable" value="false"/>
+    <property name="Destroyable" value="false"/>
+    <property name="Jumpable" value="true"/>
    </properties>
   </tile>
   <tile id="4">
    <properties>
     <property name="Collideable" value="false"/>
+    <property name="Destroyable" value="false"/>
+    <property name="Jumpable" value="true"/>
    </properties>
   </tile>
  </tileset>
