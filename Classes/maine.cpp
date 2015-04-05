@@ -33,7 +33,6 @@ bool KnightWorld::init()
 		return false;
 	}
 
-	tmxdat = TileMapTools();
 
 	// create a TMX map
 	_tileMap = TMXTiledMap::create("map.tmx"); // note to self, consider using "new" here
@@ -41,6 +40,8 @@ bool KnightWorld::init()
 	//_tileMap->initWithTMXFile("TileMap.tmx");
 	addChild(_tileMap, 0);
 	_background = _tileMap->layerNamed("mainboard");
+
+	tmxdat = TileMapTools(_tileMap, pieces);
 
 	// all tiles are aliased by default, let's set them anti-aliased
 	for (const auto& child : _tileMap->getChildren())
@@ -68,10 +69,16 @@ bool KnightWorld::init()
 	//_player = Knight::create("imgs/sprite1.png", _tileMap, _background, _meta, tmxdat);
 	//_player->setPosition(tmxdat.roundedCenterPosition(Vec2(x, y)));
 
-	pieces.push_back(Knight::create("imgs/sprite1.png", _tileMap, _background, tmxdat));
+	pieces.push_back(Knight::create("imgs/sprite1.png", _tileMap, tmxdat));
 	pieces[0]->setPosition(tmxdat.roundedCenterPosition(Vec2(x, y)));
-	pieces.push_back(Knight::create("imgs/sprite2.png", _tileMap, _background, tmxdat));
+	pieces[0]->setTeam(TeamBlue);
+	pieces.push_back(Knight::create("imgs/sprite2.png", _tileMap, tmxdat));
 	pieces[1]->setPosition(tmxdat.centerPositionForTileCoord(Vec2(4, 4)));
+	pieces[1]->setTeam(TeamRed);
+	currentTeamTurn = TeamBlue;
+	movesElapsed = 0;
+	movesPerTurn = 3;
+
 	activePiece = dynamic_cast<Knight *>(pieces[0]);
 	spriteIsMoving = false;
 	screenIsMoving = false;
@@ -103,7 +110,7 @@ bool KnightWorld::init()
 			{
 				for (std::size_t i = 0; i < pieces.size(); i++)
 				{
-					if (pieces[i]->boundingBox().containsPoint(locationInNode))
+					if (pieces[i]->boundingBox().containsPoint(locationInNode) && pieces[i]->getTeam() == currentTeamTurn)
 					{
 						activePiece = dynamic_cast<Knight *>(pieces[i]);
 						break;
@@ -119,6 +126,12 @@ bool KnightWorld::init()
 						[this, locationInNode](){ spriteIsMoving = true;                                                                       //When the sprite begins moving, set spriteIsMoving to true
 							moveViewPointCenter(locationInNode,	[this](){screenIsMoving = true; }, [this](){screenIsMoving = false; }); },     //Also when the sprite begins moving, begin moving the screen opposite the sprite (to keep the sprite centered) and when the screen begins and ends moving, change screenIsMoving
 						[this, locationInNode](){ activePiece = nullptr; spriteIsMoving = false; });                                           //When the sprite ends moving deselet it and mark it as not moving
+					movesElapsed++;
+					if (movesElapsed >= movesPerTurn)
+					{
+						currentTeamTurn = (currentTeamTurn == TeamRed) ? TeamBlue : TeamRed;
+						movesElapsed = 0;
+					}
 				}
 			}
 		}
@@ -129,7 +142,6 @@ bool KnightWorld::init()
 
 	// trigger when you let up
 	listener1->onTouchEnded = [&](Touch* touch, Event* event){	
-
 	};
 
 	// Add listener
@@ -144,21 +156,6 @@ Point KnightWorld::getPointToCenterOn(Point position) {
 	Point tileCoord = tmxdat.tileCoordForPosition(position);
 	if (!((tileCoord.x < 0) || (tileCoord.x > tmxdat.tileswide) || (tileCoord.y < 0) || (tileCoord.y > tmxdat.tilestall)))
 	{
-
-		/*int x = MAX(position.x, winSize.width / 2);
-		int y = MAX(position.y, winSize.height / 2);
-
-		x = MIN(x, (tileswide * tilesize) - winSize.width / 2); //_tileMap->getMapSize().width * this->_tileMap->getTileSize().width wasn't working :(
-		y = MIN(y, (tileswide * tilesize) - winSize.height / 2);
-		Point actualPosition = ccp(x, y);
-
-		Point centerOfView = ccp(winSize.width / 2, winSize.height / 2);
-		Point viewPoint = ccpSub(centerOfView, actualPosition);
-		this->setPosition(viewPoint);
-
-		//auto z = this->_tileMap->getTileSize();
-		//z.width; // error is here*/
-		//position = convertToNodeSpaceAR(position);
 		auto layerpos = (convertToWorldSpace(VisibleRect::center()) - convertToWorldSpace(position));
 		return layerpos;
 	}
@@ -170,16 +167,16 @@ void KnightWorld::setViewPointCenter(Point position) {
 	this->setPosition(getPointToCenterOn(position));
 }
 
-void KnightWorld::moveViewPointCenter(Point position, const std::function<void()>& callWhenDoneMoving) {
+void KnightWorld::moveViewPointCenter(Point position, const std::function<void()>& callWhenDoneMoving, float time, float easing) {
 
 	runAction(Sequence::create(
-		EaseIn::create(MoveTo::create(0.4f, getPointToCenterOn(position)), 0.5f),
+		EaseIn::create(MoveTo::create(time, getPointToCenterOn(position)), easing),
 		CCCallFunc::create(
 		callWhenDoneMoving),
 		nullptr));
 }
 
-void KnightWorld::moveViewPointCenter(Point position, const std::function<void()>& callWhenBeginMoving, const std::function<void()>& callWhenDoneMoving) {
+void KnightWorld::moveViewPointCenter(Point position, const std::function<void()>& callWhenBeginMoving, const std::function<void()>& callWhenDoneMoving, float time, float easing) {
 	callWhenBeginMoving();
 	moveViewPointCenter(position, callWhenDoneMoving);
 }

@@ -1,21 +1,19 @@
 #include "TileUtils.h"
 
+TileMapTools::TileMapTools() { }
 
-TileMapTools::TileMapTools()
+
+
+TileMapTools::TileMapTools(TMXTiledMap* _map, std::vector<Piece*> _pieces)
 {
 	//use default values
 	tilestall = 14;
 	tileswide = 14;
 	tileheight = 64;
 	tilewidth = 64;
-}
-
-TileMapTools::TileMapTools(int tilestall, int tileswide, int tileheight, int tilewidth)
-{
-	tilestall = tilestall;
-	tileswide = tileswide;
-	tileheight = tileheight;
-	tilewidth = tilewidth;
+	map = _map;
+	_background = map->layerNamed("mainboard");
+	pieces = _pieces;
 }
 
 

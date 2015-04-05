@@ -1,12 +1,11 @@
 #include "Knight.h"
-#include "SimpleAudioEngine.h" 
 #include <vector>
 
 using namespace cocos2d;
 
 using namespace std;
 
-Knight::Knight(const string& FrameName, TMXTiledMap *tileMap, TMXLayer *background, TileMapTools tmxdat)
+Knight::Knight(const string& FrameName, TMXTiledMap *tileMap, TileMapTools tmxdat)
 {
 	initWithFile(FrameName);
 	
@@ -14,8 +13,8 @@ Knight::Knight(const string& FrameName, TMXTiledMap *tileMap, TMXLayer *backgrou
 	initOptions();
 
 	_tileMap = tileMap;
-	_background = background; // this is probably not neccesary to be passed in if we replace it with _background = _tileMap->layerNamed("mainboard");
 	_tmxdat = tmxdat;
+	_background = _tmxdat._background;
 
 	pieceType = TypeKnight;
 
@@ -26,9 +25,9 @@ Knight::~Knight() {}
 
 
 
-Knight* Knight::create(const string& FrameName, TMXTiledMap *tileMap, TMXLayer *background, TileMapTools tmxdat)
+Knight* Knight::create(const string& FrameName, TMXTiledMap *tileMap, TileMapTools tmxdat)
 {
-	Knight* sprite = new (std::nothrow) Knight(FrameName, tileMap, background, tmxdat);
+	Knight* sprite = new (std::nothrow) Knight(FrameName, tileMap, tmxdat);
 	sprite->autorelease();
 	return sprite;
 }

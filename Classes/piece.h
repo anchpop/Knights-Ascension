@@ -7,7 +7,7 @@ enum PieceType {
 };
 
 enum PieceTeam {
-	TeamA, TeamB, Neutral
+	TeamRed, TeamBlue, Neutral
 };
 
 class Piece : public cocos2d::Sprite

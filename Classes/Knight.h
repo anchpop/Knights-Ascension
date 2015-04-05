@@ -2,6 +2,7 @@
 
 #include "Piece.h"
 #include "TileUtils.h"
+#include "SimpleAudioEngine.h" 
 using namespace cocos2d;
 using namespace std;
 
@@ -29,9 +30,9 @@ public:
 	void setKnightPosition(Point position, const std::function<void()>&, const std::function<void()>&);
 	//void setup(String, TMXTiledMap*, TMXLayer*, TMXLayer*, int, int);
 
-	Knight(const std::string&, TMXTiledMap*, TMXLayer*, TileMapTools);
+	Knight(const std::string&, TMXTiledMap*, TileMapTools);
 	~Knight();
-	static Knight* create(const std::string&, TMXTiledMap*, TMXLayer*, TileMapTools);
+	static Knight* create(const std::string&, TMXTiledMap*, TileMapTools);
 	//static Knight* create(const std::string&, const std::string&, TileMapTools);
 	void initOptions();
 

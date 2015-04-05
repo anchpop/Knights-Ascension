@@ -28,9 +28,9 @@ void Piece::initOptions()
 	// do things here like setTag(), setPosition(), any custom logic.
 }
 
-void Piece::setTeam(PieceTeam team)
+void Piece::setTeam(PieceTeam _team)
 {
-	team = team;
+	team = _team;
 }
 
 PieceTeam Piece::getTeam()

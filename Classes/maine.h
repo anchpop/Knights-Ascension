@@ -6,19 +6,27 @@
 #include "TileUtils.h"
 using namespace cocos2d;
 
+
 class KnightWorld : public cocos2d::Layer
 {
 private:
 	TMXTiledMap *_tileMap;
 	TMXLayer *_background;
 	Knight *_player;
-	TMXLayer *_meta;
+	//TMXLayer *_meta;
 	TileMapTools tmxdat;
+
 	double boardRPM;
+
 	vector<Piece*> pieces;
 	Knight* activePiece;
+
 	bool spriteIsMoving;
 	bool screenIsMoving;
+
+	PieceTeam currentTeamTurn;
+	int movesElapsed;
+	int movesPerTurn;
 public:
 	// there's no 'id' in cpp, so we recommend returning the class instance pointer
 	static cocos2d::Scene* createScene();
@@ -36,9 +44,9 @@ public:
 
 
 
-	void moveViewPointCenter(Point position, const std::function<void()>&);
+	void moveViewPointCenter(Point position, const std::function<void()>&, float time = 0.4f, float easing = 0.5f);
 
-	void moveViewPointCenter(Point position, const std::function<void()>&, const std::function<void()>&);
+	void moveViewPointCenter(Point position, const std::function<void()>&, const std::function<void()>&, float time = 0.4f, float easing = 0.5f);
 
 
 

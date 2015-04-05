@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cocos2d.h"
+#include "Piece.h"
 using namespace cocos2d;
 
 class TileMapTools
@@ -10,6 +11,13 @@ public:
 	int tileswide;
 	int tileheight;
 	int tilewidth;
+	
+	TMXTiledMap* map;
+	TMXLayer *_background;
+	//TMXLayer *_spawns;
+
+	std::vector<Piece*> pieces;
+
 
 	cocos2d::Point tileCoordForPosition(const cocos2d::Point&);
 
@@ -25,6 +33,7 @@ public:
 
 	TileMapTools();
 
-	TileMapTools(int, int, int, int);
+	TileMapTools(TMXTiledMap*, std::vector<Piece*> pieces);
+
 
 };
