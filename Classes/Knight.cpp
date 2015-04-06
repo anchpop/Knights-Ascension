@@ -1,18 +1,20 @@
 #include "Knight.h"
 #include <vector>
 
-Knight::Knight(const string& FrameName, TileMapTools &tmxdat) : _tmxdat(tmxdat)
+Knight::Knight(const string& FrameName, TileMapTools &tmxdat) : 
+    _tmxdat(tmxdat)
 {
     initWithFile(FrameName);
     initOptions();
 
-    _tileMap = tmxdat.map;
+    _tileMap    = _tmxdat.map;
     _background = _tmxdat._background;
-
-    _pieceType = TypeKnight;
+    _pieceType  = TypeKnight;
 }
 
-Knight::~Knight() {}
+Knight::~Knight() 
+{
+}
 
 Knight* Knight::create(const string& FrameName, TileMapTools &tmxdat)
 {
@@ -69,67 +71,54 @@ void Knight::setKnightPosition(Point position,
 
 vector<Vec2> Knight::possibleSquaresToMoveOn()
 {
-    Vec2 tileCoord = _tmxdat.tileCoordForPosition(getPosition());
-    vector<Vec2> relativePositions = relativePossibleKnightSquaresToMoveOn();
+    static const vector<Vec2> relativePossibleKnightSquaresToMoveOn = 
+        { 
+            Vec2( 1,  2), 
+            Vec2( 2,  1),
+            Vec2(-1,  2),
+            Vec2(-2,  1),
+            Vec2( 1, -2),
+            Vec2( 2, -1),
+            Vec2(-1, -2),
+            Vec2(-2, -1)
+        };
+
+    static const vector<Vec2> relativePossibleBlockSquaresToMoveOn = 
+        {
+            Vec2(0, 1),
+            Vec2(1, 0),
+            Vec2(0, -1),
+            Vec2(-1, 0)
+        };
+
+    Vec2 tileCoord = _tmxdat.tileCoordForPosition(getPosition();
+
     vector<Vec2> realPositions;
-    for (std::size_t i = 0; i < relativePositions.size(); i++)
+
+    for (std::size_t i = 0; i < relativePossibleKnightSquaresToMoveOn.size(); i++)
     {
-        auto newPos = tileCoord + relativePositions[i];
+        auto newPos = tileCoord + relativePossibleKnightSquaresToMoveOn[i];
         if (_tmxdat.checkSquareProperty(newPos, "Collideable", _background) != "true") 
         {  
-            //if it's out of the map bounds it'll return "", so no problem there
+            // if it's out of the map bounds it'll return "", so no problem there
             realPositions.push_back(newPos);
         }
     }
 
-    relativePositions = relativePossibleBlockSquaresToMoveOn();
-    for (std::size_t i = 0; i < relativePositions.size(); i++)
+    for (std::size_t i = 0; i < relativePossibleBlockSquaresToMoveOn.size(); i++)
     {
-        auto newPos = tileCoord + relativePositions[i];
-        if (_tmxdat.checkSquareProperty(newPos, "Destroyable", _background) == "true") {
+        auto newPos = tileCoord + relativePossibleBlockSquaresToMoveOn[i];
+        if (_tmxdat.checkSquareProperty(newPos, "Destroyable", _background) == "true")
             realPositions.push_back(newPos);
-        }
     }
 	
     return realPositions;
 }
 
-vector<Vec2> Knight::relativePossibleKnightSquaresToMoveOn()
-{
-    vector<Vec2> v = { 
-        Vec2( 1,  2), 
-        Vec2( 2,  1),
-        Vec2(-1,  2),
-        Vec2(-2,  1),
-        Vec2( 1, -2),
-        Vec2( 2, -1),
-        Vec2(-1, -2),
-        Vec2(-2, -1)
-    };
-
-    return v;
-}
-
-vector<Vec2> Knight::relativePossibleBlockSquaresToMoveOn()
-{
-	vector<Vec2> v;
-	v.push_back(Vec2(0, 1));
-	v.push_back(Vec2(1, 0));
-
-	v.push_back(Vec2(0, -1));
-	v.push_back(Vec2(-1, 0));
-	return v;
-}
-
-
-void Knight::setSquare(SquareType squareType, Vec2 position)
-{
-	_background->setTileGID(squareType, position);
-}
-
 bool Knight::canMoveToPoint(Vec2 spot)
 {
-	Vec2 tileCoord = _tmxdat.positionForTileCoord(spot);
-	auto pPositions = Knight::possibleSquaresToMoveOn();
-	return std::find_if(pPositions.begin(), pPositions.end(), [tileCoord](Vec2 i){return tileCoord == i; }) != pPositions.end();
+    Vec2 tileCoord = _tmxdat.positionForTileCoord(spot);
+    auto pPositions = Knight::possibleSquaresToMoveOn();
+    return std::find_if(pPositions.begin(), pPositions.end(), 
+                        [tileCoord](Vec2 i){return tileCoord == i; }) != pPositions.end();
 }
