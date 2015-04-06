@@ -55,8 +55,6 @@ bool KnightWorld::init()
 
     boardRPM = 1.0f / 60.0f;
 
-    ValueMap spawnPoint = objectGroup->objectNamed("Team A spawn");
-
     tmxdat = TileMapTools(_tileMap);
 
     _spawn = _tileMap->layerNamed("Meta");

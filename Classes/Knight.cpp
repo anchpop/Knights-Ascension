@@ -7,7 +7,7 @@ Knight::Knight(const string& FrameName, TileMapTools &tmxdat) :
     initWithFile(FrameName);
     initOptions();
 
-    _tileMap    = _tmxdat.map;
+    _tileMap    = _tmxdat._map;
     _background = _tmxdat._background;
     _pieceType  = TypeKnight;
 }
