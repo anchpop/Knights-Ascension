@@ -1,3 +1,5 @@
+// Programmed in Cocos2D-X 3.3 by Andre Popovitch, with are by Zeph Balsley
+
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
 #include "PhysicsTestScene.h"

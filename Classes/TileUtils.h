@@ -33,9 +33,9 @@ public:
 	TileMapTools();
 
 	TileMapTools(TMXTiledMap*);
-	\
+	
 
 	std::string checkSquareProperty(Vec2 square, const std::string &property, TMXLayer* layer);
 
-	bool pieceInSquare(const cocos2d::Point&, std::vector<Piece*>&);
+	Piece* getPieceInSquare(const cocos2d::Point&, std::vector<Piece*>&);
 };

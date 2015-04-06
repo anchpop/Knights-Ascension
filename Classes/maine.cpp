@@ -287,7 +287,7 @@ void KnightWorld::initGestureRecognizer()
 bool KnightWorld::onGesturePan(TGesturePan* gesture)
 {
 	auto coord = convertToNodeSpace(gesture->getLocation());
-	if (!tmxdat.pieceInSquare(coord, pieces))
+	if (tmxdat.getPieceInSquare(coord, pieces) == nullptr)
 	{
 		static int lastPanId = -1;
 		static bool panInMapBoundry = false;

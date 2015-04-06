@@ -70,12 +70,12 @@ std::string TileMapTools::checkSquareProperty(Vec2 square, const std::string &pr
 	return "";
 }
 
-bool TileMapTools::pieceInSquare(const Vec2& position, std::vector<Piece*>& pieces)
+Piece* TileMapTools::getPieceInSquare(const Vec2& position, std::vector<Piece*>& pieces)
 {
 	for (int x = 0; x < pieces.size(); ++x)
 	{
 		if (pieces[x]->boundingBox().containsPoint(position))
-			return true;
+			return pieces[x];
 	}
-	return false;
+	return nullptr;
 }

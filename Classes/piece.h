@@ -28,4 +28,6 @@ public:
 
 	PieceTeam getTeam();
 	PieceType getPieceType();
+
+	void getTaken();
 };

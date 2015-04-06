@@ -48,7 +48,6 @@ public:
 	// a selector callback
 	void menuCloseCallback(cocos2d::Ref* pSender);
 
-
 	Point getPointToCenterOn(Point position);
 
 	void setViewPointCenter(Point position);
