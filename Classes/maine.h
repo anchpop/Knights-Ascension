@@ -27,6 +27,10 @@ private:
 	PieceTeam currentTeamTurn;
 	int movesElapsed;
 	int movesPerTurn;
+
+	LabelTTF* teamLabel;
+
+	string IntToString(int);
 public:
 	// there's no 'id' in cpp, so we recommend returning the class instance pointer
 	static cocos2d::Scene* createScene();

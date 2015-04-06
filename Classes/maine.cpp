@@ -1,6 +1,7 @@
 #include "maine.h"
 #include "TileUtils.h"
 #include "VisibleRect.h"
+#include <sstream>
 
 using namespace cocos2d;
 
@@ -33,11 +34,12 @@ bool KnightWorld::init()
 		return false;
 	}
 
+	//CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic(
+	//	"background-music-aac.wav", true);                                            //Play background music
+
 
 	// create a TMX map
 	_tileMap = TMXTiledMap::create("map.tmx"); // note to self, consider using "new" here
-	//_tileMap = new CCTMXTiledMap();
-	//_tileMap->initWithTMXFile("TileMap.tmx");
 	addChild(_tileMap, 0);
 	_background = _tileMap->layerNamed("mainboard");
 
@@ -102,19 +104,9 @@ bool KnightWorld::init()
 	}
 
 	
-	//_player = Knight::create("imgs/sprite1.png", _tileMap, _background, _meta, tmxdat);
-	//_player = Knight::create("imgs/sprite1.png", _tileMap, _background, _meta, tmxdat);
-	//_player->setPosition(tmxdat.roundedCenterPosition(Vec2(x, y)));
-
-	/*pieces.push_back(Knight::create("imgs/sprite1.png", _tileMap, tmxdat));
-	pieces[0]->setPosition(tmxdat.roundedCenterPosition(Vec2(x, y)));
-	pieces[0]->setTeam(TeamBlue);
-	pieces.push_back(Knight::create("imgs/sprite2.png", _tileMap, tmxdat));
-	pieces[1]->setPosition(tmxdat.centerPositionForTileCoord(Vec2(4, 4)));
-	pieces[1]->setTeam(TeamRed);*/
 	currentTeamTurn = pieces[0]->getTeam();
 	movesElapsed = 0;
-	movesPerTurn = 6;
+	movesPerTurn = 3;
 
 	activePiece = nullptr;
 	spriteIsMoving = false;
@@ -135,6 +127,14 @@ bool KnightWorld::init()
 
 	auto listener1 = EventListenerTouchOneByOne::create();
 
+
+
+
+	teamLabel = LabelTTF::create("Red Team turn (" + to_string(movesPerTurn-movesElapsed) + ")", "Arial", 48);
+	teamLabel->setPosition(tmxdat.centerPositionForTileCoord(Vec2(tmxdat.tileswide / 2.0f, -1.0f)));
+	teamLabel->enableShadow(Size(2,2), 0.5f, 0.2f);
+	this->addChild(teamLabel, 1);
+	teamLabel->setColor(ccc3(255, 0, 0));
 	
 	// trigger when you push down
 	listener1->onTouchBegan = [&](Touch* touch, Event* event){
@@ -168,6 +168,16 @@ bool KnightWorld::init()
 					{
 						currentTeamTurn = (currentTeamTurn == TeamRed) ? TeamBlue : TeamRed;
 						movesElapsed = 0;
+						auto paren = " (" + to_string(movesPerTurn - movesElapsed) + ")";
+						teamLabel->setString((currentTeamTurn == TeamRed) ? "Red Team turn" + paren : "Blue Team turn" + paren);
+						teamLabel->setColor((currentTeamTurn == TeamRed) ? ccc3(255, 0, 0) : ccc3(0, 0, 255));
+						teamLabel->setScale(1.4f);
+						teamLabel->runAction(EaseOut::create(ScaleTo::create(.3f, 1.0f), 0.3f));
+					}
+					else
+					{
+						auto paren = " (" + to_string(movesPerTurn - movesElapsed) + ")";
+						teamLabel->setString((currentTeamTurn == TeamRed) ? "Red Team turn" + paren : "Blue Team turn" + paren);
 					}
 				}
 			}
@@ -183,6 +193,7 @@ bool KnightWorld::init()
 
 	// Add listener
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, this);
+
 
 	
 	return true;
@@ -217,4 +228,3 @@ void KnightWorld::moveViewPointCenter(Point position, const std::function<void()
 	callWhenBeginMoving();
 	moveViewPointCenter(position, callWhenDoneMoving);
 }
-
