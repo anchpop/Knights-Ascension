@@ -60,7 +60,8 @@ std::string TileMapTools::checkSquareProperty(Vec2 square, const std::string &pr
 		int tileGid = layer->tileGIDAt(square);
 		if (tileGid) {
 			auto properties = map->propertiesForGID(tileGid).asValueMap();
-			if (!properties.empty()) {
+			if (!properties.empty())
+                        {
 				auto propstring = properties[property].asString();
 				return propstring;
 			}

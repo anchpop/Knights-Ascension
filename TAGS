@@ -1,0 +1,305 @@
+
+Classes/AppDelegate.cpp,301
+USING_NS_CC;7,141
+AppDelegate::AppDelegate(9,157
+AppDelegate::~AppDelegate(13,194
+void AppDelegate::initGLContextAttrs(19,348
+bool AppDelegate::applicationDidFinishLaunching(28,620
+void AppDelegate::applicationDidEnterBackground(57,1496
+void AppDelegate::applicationWillEnterForeground(65,1786
+
+Classes/AppDelegate.h,58
+#define  _APP_DELEGATE_H_2,27
+class  AppDelegate 11,220
+
+Classes/HelloWorldScene.cpp,158
+USING_NS_CC;5,56
+Scene* HelloWorld::createScene(7,72
+void addFrameToAnim(22,392
+bool HelloWorld::init(29,676
+void HelloWorld::menuCloseCallback(150,5539
+
+Classes/HelloWorldScene.h,59
+#define __HELLOWORLD_SCENE_H__2,32
+class HelloWorld 6,90
+
+Classes/Knight.cpp,424
+Knight::Knight(8,94
+Knight::~Knight(23,345
+Knight* Knight::create(27,373
+void Knight::initOptions(35,561
+void Knight::setKnightPosition(41,667
+std::vector<Vec2> Knight::possibleSquaresToMoveOn(74,1911
+std::vector<Vec2> Knight::relativePossibleKnightSquaresToMoveOn(99,2795
+std::vector<Vec2> Knight::relativePossibleBlockSquaresToMoveOn(119,3297
+void Knight::setSquare(131,3611
+bool Knight::canMoveToPoint(136,3730
+
+Classes/Knight.h,449
+enum SquareType 9,143
+	BlockedSquare SquareType::BlockedSquare10,162
+	HoleSquare SquareType::HoleSquare11,249
+	EmptySquare SquareType::EmptySquare12,336
+class Knight 16,455
+	TMXTiledMap *_tileMap;Knight::_tileMap19,497
+	TMXLayer *_background;Knight::_background20,522
+	TMXLayer *_meta;Knight::_meta21,547
+	TileMapTools _tmxdat;Knight::_tmxdat22,566
+	PieceType pieceType;Knight::pieceType23,590
+	PieceTeam team;Knight::team24,613
+
+Classes/maine.cpp,561
+Scene* KnightWorld::createScene(13,150
+bool KnightWorld::init(31,499
+Point KnightWorld::getPointToCenterOn(210,6337
+void KnightWorld::setViewPointCenter(221,6724
+void KnightWorld::moveViewPointCenter(225,6836
+void KnightWorld::moveViewPointCenter(234,7145
+void KnightWorld::initGestureRecognizer(241,7414
+bool KnightWorld::onGesturePan(287,9544
+bool KnightWorld::onGesturePinch(308,10222
+bool KnightWorld::TouchBegan(331,10715
+void KnightWorld::TouchMoved(338,10902
+void KnightWorld::TouchEnded(344,11071
+void KnightWorld::TouchCancelled(350,11240
+
+Classes/maine.h,842
+class KnightWorld 12,186
+	TGestureRecognizer* _gestureRecognizer;KnightWorld::_gestureRecognizer15,268
+	TMXTiledMap *_tileMap;KnightWorld::_tileMap17,320
+	TMXLayer *_background;KnightWorld::_background18,345
+	Knight *_player;KnightWorld::_player19,370
+	TMXLayer *_spawn;KnightWorld::_spawn20,389
+	TileMapTools tmxdat;KnightWorld::tmxdat21,409
+	double boardRPM;KnightWorld::boardRPM23,434
+	vector<Piece*> pieces;KnightWorld::pieces25,455
+	Knight* activePiece;KnightWorld::activePiece26,480
+	bool spriteIsMoving;KnightWorld::spriteIsMoving28,505
+	bool screenIsMoving;KnightWorld::screenIsMoving29,528
+	PieceTeam currentTeamTurn;KnightWorld::currentTeamTurn31,553
+	int movesElapsed;KnightWorld::movesElapsed32,582
+	int movesPerTurn;KnightWorld::movesPerTurn33,602
+	LabelTTF* teamLabel;KnightWorld::teamLabel35,624
+
+Classes/PEShapeCache_X3_0.cpp,609
+static PEShapeCache *_instance _instance13,235
+static float area(14,278
+PEShapeCache::PEShapeCache(26,644
+bool PEShapeCache::init(29,680
+PEShapeCache::~PEShapeCache(33,728
+PEShapeCache *PEShapeCache::getInstance(PEShapeCache::getInstance37,785
+void PEShapeCache::destroyInstance(46,937
+void PEShapeCache::addBodysWithFile(50,1016
+PhysicsBody *PEShapeCache::getPhysicsBodyByName(PEShapeCache::getPhysicsBodyByName153,5163
+bool PEShapeCache::removeBodysWithFile(181,6171
+bool PEShapeCache::removeAllBodys(203,6899
+void PEShapeCache::reset(213,7140
+bool PEShapeCache::safeReleaseBodyDef(217,7194
+
+Classes/PEShapeCache_X3_0.h,1419
+#define __MemoryCards_CPP__PEShapeCache_X3_0__9,200
+class PEShapeCache 18,370
+	Map<PEShapeCache::Map69,1301
+	Map<std::string, BodyDef*> bodyDefs;PEShapeCache::bodyDefs69,1301
+	SHAPE_POLYGON,::SHAPE_POLYGON73,1361
+	SHAPE_CIRCLE::SHAPE_CIRCLE74,1378
+} PEShapeType;75,1393
+class Polygon 76,1409
+	Point* vertices;Polygon::vertices79,1449
+	int numVertices;Polygon::numVertices80,1483
+	float area;Polygon::area81,1519
+	float mass;Polygon::mass82,1552
+	float momentum;Polygon::momentum83,1585
+class FixtureData 85,1622
+	PEShapeType fixtureType;FixtureData::fixtureType88,1666
+	float mass;FixtureData::mass89,1707
+	float elasticity;FixtureData::elasticity90,1745
+	float friction;FixtureData::friction91,1780
+	Point surfaceVelocity;FixtureData::surfaceVelocity92,1818
+	int collisionType;FixtureData::collisionType93,1855
+	int group;FixtureData::group94,1890
+	int layers;FixtureData::layers95,1922
+	float area;FixtureData::area96,1960
+	float momentum;FixtureData::momentum97,1995
+	bool isSensor;FixtureData::isSensor98,2030
+	Point center;FixtureData::center100,2093
+	float radius;FixtureData::radius101,2128
+	Vector<Polygon*> polygons;FixtureData::polygons103,2180
+class BodyDef 108,2236
+	Point anchorPoint;BodyDef::anchorPoint111,2276
+	Vector<FixtureData*> fixtures;BodyDef::fixtures112,2309
+	float mass;BodyDef::mass113,2357
+	float momentum;BodyDef::momentum114,2390
+
+Classes/PhysicsTestScene.cpp,91
+USING_NS_CC;7,115
+Scene* HelloPhysics::createScene(9,131
+bool HelloPhysics::init(25,489
+
+Classes/PhysicsTestScene.h,25
+class HelloPhysics 6,42
+
+Classes/piece.cpp,224
+Piece::Piece(HelloPhysics::Piece::Piece5,50
+Piece::~Piece(7,71
+Piece* Piece::create(9,93
+void Piece::initOptions(26,341
+void Piece::setTeam(31,444
+PieceTeam Piece::getTeam(36,506
+PieceType Piece::getPieceType(41,557
+
+Classes/piece.h,433
+enum PieceType 5,40
+	TypeKnight,PieceType::TypeKnight6,58
+	TypeKnight, TypeKing,PieceType::TypeKing6,58
+	TypeKnight, TypeKing, TypePowerupPieceType::TypePowerup6,58
+enum PieceTeam 9,100
+	TeamRed,PieceTeam::TeamRed10,118
+	TeamRed, TeamBlue,PieceTeam::TeamBlue10,118
+	TeamRed, TeamBlue, NeutralPieceTeam::Neutral10,118
+class Piece 13,153
+	PieceType pieceType;Piece::pieceType16,204
+	PieceTeam team;Piece::team17,227
+
+Classes/TGestureRecognizer.cpp,1442
+USING_NS_CC;12,177
+#define GESTURE_RECOGNIZER_TAP_FINGER_MOVE_TOLERANCE 15,195
+#define GESTURE_RECOGNIZER_TAP_THRESHOLD 16,280
+#define GESTURE_RECOGNIZER_DOUBLE_TAP_INTERVAL 17,358
+#define GESTURE_RECOGNIZER_LONGPRESS_THRESHOLD 18,436
+#define GESTURE_RECOGNIZER_ROTATION_FINGERS_DISTANCE_CHANGE_TOLERANCE 19,514
+#define GESTURE_RECOGNIZER_PINCH_FINGERS_DISTANCE_CHANGE_TOLERANCE 20,592
+#define GESTURE_RECOGNIZER_SWIPE_THRESHOLD 21,670
+TGestureRecognizer::TGestureRecognizer(30,793
+TGestureRecognizer::~TGestureRecognizer(35,880
+bool TGestureRecognizer::init(40,960
+void TGestureRecognizer::fireTapEvent(71,2005
+void TGestureRecognizer::fireLongPressEvent(77,2176
+void TGestureRecognizer::firePanEvent(83,2371
+void TGestureRecognizer::firePinchEvent(89,2542
+void TGestureRecognizer::fireRotationEvent(95,2721
+void TGestureRecognizer::fireSwipeEvent(101,2912
+TSimpleGestureRecognizer::TSimpleGestureRecognizer(114,3140
+TSimpleGestureRecognizer::~TSimpleGestureRecognizer(125,3370
+bool TSimpleGestureRecognizer::init(136,3668
+bool TSimpleGestureRecognizer::onTouchBegan(151,4013
+void TSimpleGestureRecognizer::onTouchMoved(198,5523
+void TSimpleGestureRecognizer::onTouchEnded(297,9351
+void TSimpleGestureRecognizer::onTouchCancelled(434,15075
+void TSimpleGestureRecognizer::onLongPressActivate(450,15489
+void TSimpleGestureRecognizer::onTapActivate(465,16000
+double TSimpleGestureRecognizer::getCurrentTime(477,16276
+
+Classes/TGestureRecognizer.h,3889
+#define __TGESTURE_RECOGNIZER_H__10,173
+USING_NS_CC;15,236
+class TGestureHandler32,446
+    virtual bool onGestureTap(TGestureHandler::onGestureTap36,525
+    virtual bool onGestureLongPress(TGestureHandler::onGestureLongPress37,597
+    virtual bool onGesturePan(TGestureHandler::onGesturePan38,681
+    virtual bool onGesturePinch(TGestureHandler::onGesturePinch39,753
+    virtual bool onGestureRotation(TGestureHandler::onGestureRotation40,829
+    virtual bool onGestureSwipe(TGestureHandler::onGestureSwipe41,911
+class TGesture 51,1037
+    inline Vec2 getLocationInView(TGesture::getLocationInView57,1177
+class TGestureTap 70,1342
+class TGestureLongPress 82,1486
+class TGesturePan 94,1631
+class TGesturePinch 106,1787
+class TGestureRotation 118,1926
+    inline float getRotationInRadians(TGestureRotation::getRotationInRadians123,2057
+    SwipeDirectionUnkown,::SwipeDirectionUnkown131,2186
+    SwipeDirectionNorth,::SwipeDirectionNorth132,2213
+    SwipeDirectionNorthWest,::SwipeDirectionNorthWest133,2239
+    SwipeDirectionNorthEast,::SwipeDirectionNorthEast134,2269
+    SwipeDirectionSouth,::SwipeDirectionSouth135,2299
+    SwipeDirectionSouthWest,::SwipeDirectionSouthWest136,2325
+    SwipeDirectionSouthEast,::SwipeDirectionSouthEast137,2355
+    SwipeDirectionEast,::SwipeDirectionEast138,2385
+    SwipeDirectionWest,::SwipeDirectionWest139,2410
+SwipeDirection;141,2438
+class TGestureSwipe 149,2500
+    inline Vec2 getDirectionVec(TGestureSwipe::getDirectionVec155,2670
+    inline SwipeDirection getDirection(TGestureSwipe::getDirection160,2767
+    inline float getVelocity(TGestureSwipe::getVelocity208,4324
+    inline float getLength(TGestureSwipe::getLength213,4441
+class TGestureRecognizer 226,4587
+    inline int getNextTapID(TGestureRecognizer::getNextTapID275,7462
+    inline int getNextLongPressID(TGestureRecognizer::getNextLongPressID276,7549
+    inline int getNextPanID(TGestureRecognizer::getNextPanID277,7648
+    inline int getNextPinchID(TGestureRecognizer::getNextPinchID278,7735
+    inline int getNextRotationID(TGestureRecognizer::getNextRotationID279,7826
+    inline int getNextSwipeID(TGestureRecognizer::getNextSwipeID280,7923
+class TSimpleGestureRecognizer 290,8069
+    Touch* _finger0;TSimpleGestureRecognizer::_finger0293,8144
+    Vec2 _finger0StartPt,TSimpleGestureRecognizer::_finger0StartPt294,8166
+    Vec2 _finger0StartPt, _finger0PrevPt,TSimpleGestureRecognizer::_finger0PrevPt294,8166
+    Vec2 _finger0StartPt, _finger0PrevPt, _finger0Pt;TSimpleGestureRecognizer::_finger0Pt294,8166
+    bool _finger0Moved;TSimpleGestureRecognizer::_finger0Moved295,8221
+    double _finger0StartTime,TSimpleGestureRecognizer::_finger0StartTime296,8246
+    double _finger0StartTime, _finger0Time;TSimpleGestureRecognizer::_finger0Time296,8246
+    Touch* _finger1;TSimpleGestureRecognizer::_finger1298,8297
+    Vec2 _finger1StartPt,TSimpleGestureRecognizer::_finger1StartPt299,8319
+    Vec2 _finger1StartPt, _finger1PrevPt,TSimpleGestureRecognizer::_finger1PrevPt299,8319
+    Vec2 _finger1StartPt, _finger1PrevPt, _finger1Pt;TSimpleGestureRecognizer::_finger1Pt299,8319
+    bool _finger1Moved;TSimpleGestureRecognizer::_finger1Moved300,8374
+    TGestureTap* _lastTap;TSimpleGestureRecognizer::_lastTap303,8428
+    bool _tapValid;TSimpleGestureRecognizer::_tapValid304,8456
+    double _lastTapTime;TSimpleGestureRecognizer::_lastTapTime305,8477
+    bool _tapActivatingScheduled;TSimpleGestureRecognizer::_tapActivatingScheduled306,8503
+    bool _longPressActivatingScheduled;TSimpleGestureRecognizer::_longPressActivatingScheduled309,8563
+    TGesturePan* _lastPan;TSimpleGestureRecognizer::_lastPan312,8622
+    TGesturePinch* _lastPinch;TSimpleGestureRecognizer::_lastPinch315,8670
+    TGestureRotation* _lastRotation;TSimpleGestureRecognizer::_lastRotation318,8725
+
+Classes/TileUtils.cpp,460
+TileMapTools::TileMapTools(4,28
+TileMapTools::TileMapTools(7,66
+Point TileMapTools::tileCoordForPosition(19,279
+Point TileMapTools::positionForTileCoord(26,517
+Point TileMapTools::centerPositionForTileCoord(33,729
+Point TileMapTools::roundedPosition(40,984
+Point TileMapTools::roundedCenterPosition(45,1115
+bool TileMapTools::tileCoordInMapBounds(50,1258
+std::string TileMapTools::checkSquareProperty(56,1432
+bool TileMapTools::pieceInSquare(72,1853
+
+Classes/TileUtils.h,315
+class TileMapTools7,86
+	int tilestall;TileMapTools::tilestall10,118
+	int tileswide;TileMapTools::tileswide11,135
+	int tileheight;TileMapTools::tileheight12,152
+	int tilewidth;TileMapTools::tilewidth13,170
+	TMXTiledMap* map;TileMapTools::map15,190
+	TMXLayer *_background;TileMapTools::_background16,210
+
+Classes/Utils.cpp,273
+USING_NS_CC;TileMapTools::USING_NS_CC11,149
+bool NodeContainsPoint(TileMapTools::NodeContainsPoint15,218
+    const Size& nodeSz TileMapTools::nodeSz17,273
+    Rect bbox TileMapTools::bbox18,323
+    Vec2 locationInNodeSpace TileMapTools::locationInNodeSpace19,381
+
+Classes/Utils.h,46
+#define __UTILS_H__9,144
+USING_NS_CC;15,195
+
+Classes/VisibleRect.cpp,452
+USING_NS_CC;27,1327
+Rect VisibleRect::s_visibleRect;29,1343
+void VisibleRect::lazyInit(31,1379
+Rect VisibleRect::getVisibleRect(38,1573
+Vec2 VisibleRect::left(44,1661
+Vec2 VisibleRect::right(50,1806
+Vec2 VisibleRect::top(56,1977
+Vec2 VisibleRect::bottom(62,2146
+Vec2 VisibleRect::center(68,2292
+Vec2 VisibleRect::leftTop(74,2466
+Vec2 VisibleRect::rightTop(80,2612
+Vec2 VisibleRect::leftBottom(86,2784
+Vec2 VisibleRect::rightBottom(92,2875
+
+Classes/VisibleRect.h,128
+#define __VISIBLERECT_H__2,27
+class VisibleRect6,80
+    static cocos2d::Rect s_visibleRect;VisibleRect::s_visibleRect22,526
