@@ -91,7 +91,7 @@ vector<Vec2> Knight::possibleSquaresToMoveOn()
             Vec2(-1, 0)
         };
 
-    Vec2 tileCoord = _tmxdat.tileCoordForPosition(getPosition();
+    Vec2 tileCoord = _tmxdat.tileCoordForPosition(getPosition());
 
     vector<Vec2> realPositions;
 

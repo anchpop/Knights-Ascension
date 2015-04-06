@@ -30,7 +30,7 @@ public:
     bool canMoveToPoint(Vec2);
 
 private:
-    void setSquare(SquareType, Vec2) { _background->setTileGID(squareType, position); }
+	void setSquare(SquareType squareType, Vec2 position) { _background->setTileGID(squareType, position); }
 
     TMXTiledMap *_tileMap;
     TMXLayer    *_background;
