@@ -35,5 +35,6 @@ public:
 
 	TileMapTools(TMXTiledMap*, std::vector<Piece*> pieces);
 
+	std::string checkSquareProperty(Vec2 square, const std::string &property, TMXLayer* layer);
 
 };

@@ -49,7 +49,7 @@ void Knight::setKnightPosition(Point position, const std::function<void()>& call
 		{
 			
 			callWhenBeginMoving();
-			if (checkSquareProperty(tileCoord, "Destroyable") != "true"){
+			if (_tmxdat.checkSquareProperty(tileCoord, "Destroyable", _background) != "true"){
 				runAction(Sequence::create(
 					EaseIn::create(MoveTo::create(0.6f, _tmxdat.roundedCenterPosition(position)), 2.5f),
 					CCCallFunc::create(
@@ -80,7 +80,7 @@ std::vector<Vec2> Knight::possibleSquaresToMoveOn()
 	for (std::size_t i = 0; i < relativePositions.size(); i++)
 	{
 		auto newPos = tileCoord + relativePositions[i];
-		if (checkSquareProperty(newPos, "Collideable") != "true") {  //if it's out of the map bounds it'll return "", so no problem there
+		if (_tmxdat.checkSquareProperty(newPos, "Collideable", _background) != "true") {  //if it's out of the map bounds it'll return "", so no problem there
 			realPositions.push_back(newPos);
 		}
 	}
@@ -89,7 +89,7 @@ std::vector<Vec2> Knight::possibleSquaresToMoveOn()
 	for (std::size_t i = 0; i < relativePositions.size(); i++)
 	{
 		auto newPos = tileCoord + relativePositions[i];
-		if (checkSquareProperty(newPos, "Destroyable") == "true") { 
+		if (_tmxdat.checkSquareProperty(newPos, "Destroyable", _background) == "true") {
 			realPositions.push_back(newPos);
 		}
 	}
@@ -128,21 +128,6 @@ std::vector<Vec2> Knight::relativePossibleBlockSquaresToMoveOn()
 	return relativePositions;
 }
 
-std::string Knight::checkSquareProperty(Vec2 square, const string &property)
-{
-	if (_tmxdat.tileCoordInMapBounds(square))
-	{
-		int tileGid = _background->tileGIDAt(square);
-		if (tileGid) {
-			auto properties = _tileMap->propertiesForGID(tileGid).asValueMap();
-			if (!properties.empty()) {
-				auto propstring = properties[property].asString();
-				return propstring;
-			}
-		}
-	}
-	return "";
-}
 
 void Knight::setSquare(SquareType squareType, Vec2 position)
 {

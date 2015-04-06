@@ -61,31 +61,68 @@ bool KnightWorld::init()
 
 	ValueMap spawnPoint = objectGroup->objectNamed("Team A spawn");
 
-	int x; istringstream( ((spawnPoint.at("x")).getDescription()) ) >> x;
-	int y; istringstream( ((spawnPoint.at("y")).getDescription()) ) >> y;
+	//int x; istringstream( ((spawnPoint.at("x")).getDescription()) ) >> x;
+	//int y; istringstream( ((spawnPoint.at("y")).getDescription()) ) >> y;
+
+	_spawn = _tileMap->layerNamed("Meta");
+	_spawn->setVisible(false);
+	for (int x = 0; x < tmxdat.tileswide; ++x)
+	{
+		for (int y = 0; y < tmxdat.tilestall; ++y)
+		{
+			if (tmxdat.checkSquareProperty(Vec2(x, y), "Piece type", _spawn) == "RedNormal")
+			{
+				auto curr = Knight::create("imgs/sprite2.png", _tileMap, tmxdat);
+				pieces.push_back(curr);
+				curr->setPosition(tmxdat.centerPositionForTileCoord(Vec2(x, y)));
+				curr->setTeam(TeamRed);
+			}
+			if (tmxdat.checkSquareProperty(Vec2(x, y), "Piece type", _spawn) == "RedKing")
+			{
+				auto curr = Knight::create("imgs/sprite2.png", _tileMap, tmxdat);
+				pieces.push_back(curr);
+				curr->setPosition(tmxdat.centerPositionForTileCoord(Vec2(x, y)));
+				curr->setTeam(TeamRed);
+			}
+			if (tmxdat.checkSquareProperty(Vec2(x, y), "Piece type", _spawn) == "BlueNormal")
+			{
+				auto curr = Knight::create("imgs/sprite1.png", _tileMap, tmxdat);
+				pieces.push_back(curr);
+				curr->setPosition(tmxdat.centerPositionForTileCoord(Vec2(x, y)));
+				curr->setTeam(TeamBlue);
+			}
+			if (tmxdat.checkSquareProperty(Vec2(x, y), "Piece type", _spawn) == "BlueKing")
+			{
+				auto curr = Knight::create("imgs/sprite1.png", _tileMap, tmxdat);
+				pieces.push_back(curr);
+				curr->setPosition(tmxdat.centerPositionForTileCoord(Vec2(x, y)));
+				curr->setTeam(TeamBlue);
+			}
+		}
+	}
 
 	
 	//_player = Knight::create("imgs/sprite1.png", _tileMap, _background, _meta, tmxdat);
 	//_player = Knight::create("imgs/sprite1.png", _tileMap, _background, _meta, tmxdat);
 	//_player->setPosition(tmxdat.roundedCenterPosition(Vec2(x, y)));
 
-	pieces.push_back(Knight::create("imgs/sprite1.png", _tileMap, tmxdat));
+	/*pieces.push_back(Knight::create("imgs/sprite1.png", _tileMap, tmxdat));
 	pieces[0]->setPosition(tmxdat.roundedCenterPosition(Vec2(x, y)));
 	pieces[0]->setTeam(TeamBlue);
 	pieces.push_back(Knight::create("imgs/sprite2.png", _tileMap, tmxdat));
 	pieces[1]->setPosition(tmxdat.centerPositionForTileCoord(Vec2(4, 4)));
-	pieces[1]->setTeam(TeamRed);
-	currentTeamTurn = TeamBlue;
+	pieces[1]->setTeam(TeamRed);*/
+	currentTeamTurn = pieces[0]->getTeam();
 	movesElapsed = 0;
-	movesPerTurn = 3;
+	movesPerTurn = 6;
 
-	activePiece = dynamic_cast<Knight *>(pieces[0]);
+	activePiece = nullptr;
 	spriteIsMoving = false;
 	screenIsMoving = false;
 
 	for (std::size_t i = 0; i < pieces.size(); i++)
 	{
-		this->addChild(pieces[i]);
+		this->addChild(pieces[i], 20);
 	}
 	this->setViewPointCenter(pieces[0]->getPosition());
 

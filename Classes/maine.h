@@ -13,7 +13,7 @@ private:
 	TMXTiledMap *_tileMap;
 	TMXLayer *_background;
 	Knight *_player;
-	//TMXLayer *_meta;
+	TMXLayer *_spawn;
 	TileMapTools tmxdat;
 
 	double boardRPM;

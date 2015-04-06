@@ -7,10 +7,10 @@ using namespace cocos2d;
 using namespace std;
 
 enum SquareType {
-	BlockedSquare = 6, 
-	HoleSquare = 7,
-	EmptySquare = 9
-};
+	BlockedSquare = 4, // These will have to change whenever the number of tiles changes
+	HoleSquare = 5,    // These will have to change whenever the number of tiles changes
+	EmptySquare = 8   // These will have to change whenever the number of tiles changes
+};                         
 
 
 class Knight : public Piece
@@ -38,6 +38,5 @@ public:
 
 
 	std::vector<Vec2> possibleSquaresToMoveOn();
-	std::string checkSquareProperty(Vec2 square, const string&);
 };
 

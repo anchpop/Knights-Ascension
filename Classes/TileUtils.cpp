@@ -7,8 +7,8 @@ TileMapTools::TileMapTools() { }
 TileMapTools::TileMapTools(TMXTiledMap* _map, std::vector<Piece*> _pieces)
 {
 	//use default values
-	tilestall = 14;
-	tileswide = 14;
+	tilestall = 16;
+	tileswide = 15;
 	tileheight = 64;
 	tilewidth = 64;
 	map = _map;
@@ -51,4 +51,21 @@ Point TileMapTools::roundedCenterPosition(const Point& position)
 bool TileMapTools::tileCoordInMapBounds(const Point& position)
 {
 	return !(position.x < 0 || position.y < 0 || position.x >= tileswide || position.y >= tilestall);
+}
+
+
+std::string TileMapTools::checkSquareProperty(Vec2 square, const std::string &property, TMXLayer* layer)
+{
+	if (tileCoordInMapBounds(square))
+	{
+		int tileGid = layer->tileGIDAt(square);
+		if (tileGid) {
+			auto properties = map->propertiesForGID(tileGid).asValueMap();
+			if (!properties.empty()) {
+				auto propstring = properties[property].asString();
+				return propstring;
+			}
+		}
+	}
+	return "";
 }
