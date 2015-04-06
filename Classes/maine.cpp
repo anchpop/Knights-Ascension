@@ -170,7 +170,8 @@ bool KnightWorld::init()
                                                    // Also when the sprite begins moving, begin moving the screen 
                                                    // opposite the sprite (to keep the sprite centered) and when 
                                                    // the screen begins and ends moving, change screenIsMoving
-                                                   lbda2  //When the sprite ends moving deselet it and mark it as not moving
+                                                   lbda2,  //When the sprite ends moving deselet it and mark it as not moving
+                                                   pieces
                         );
 					
                     if (movesElapsed >= movesPerTurn)
@@ -294,7 +295,7 @@ void KnightWorld::initGestureRecognizer()
 bool KnightWorld::onGesturePan(TGesturePan* gesture)
 {
     auto coord = convertToNodeSpace(gesture->getLocation());
-    if (tmxdat.getPieceInSquare(coord, pieces) == nullptr)
+    if (tmxdat.getPieceInSquare(tmxdat.tileCoordForPosition(coord), pieces) == nullptr)
     {
         static int lastPanId = -1;
         static bool panInMapBoundry = false;

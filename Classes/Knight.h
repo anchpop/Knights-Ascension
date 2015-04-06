@@ -21,7 +21,7 @@ public:
 
     ~Knight();
 
-    void setKnightPosition(Point position, const std::function<void()>&, const std::function<void()>&);
+    void setKnightPosition(Point position, const std::function<void()>&, const std::function<void()>&, vector<Piece*>);
 
     //void setup(String, TMXTiledMap*, TMXLayer*, TMXLayer*, int, int);
 
@@ -31,9 +31,9 @@ public:
 
     void initOptions();
 
-    vector<Vec2> possibleSquaresToMoveOn();
+    vector<Vec2> possibleSquaresToMoveOn(vector<Piece*>);
 
-    bool canMoveToPoint(Vec2);
+    bool canMoveToPoint(Vec2, vector<Piece*>);
 
 private:
     void setSquare(SquareType squareType, Vec2 position) { _background->setTileGID(squareType, position); }
@@ -42,7 +42,5 @@ private:
     TMXLayer    *_background;
     TMXLayer    *_meta;
     TileMapTools _tmxdat;
-    PieceType    _pieceType;
-    PieceTeam    _team;
 };
 

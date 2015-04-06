@@ -12,7 +12,7 @@ enum PieceTeam {
 
 class Piece : public cocos2d::Sprite
 {
-private:
+protected:
 	PieceType pieceType;
 	PieceTeam team;
 public:

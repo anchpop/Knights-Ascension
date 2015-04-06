@@ -9,7 +9,7 @@ Knight::Knight(const string& FrameName, TileMapTools &tmxdat) :
 
     _tileMap    = _tmxdat._map;
     _background = _tmxdat._background;
-    _pieceType  = TypeKnight;
+    pieceType  = TypeKnight;
 }
 
 Knight::~Knight() 
@@ -32,11 +32,12 @@ void Knight::initOptions()
 
 void Knight::setKnightPosition(Point position,
                                const std::function<void()>& callWhenBeginMoving, 
-                               const std::function<void()>& callWhenDoneMoving) 
+                               const std::function<void()>& callWhenDoneMoving,
+                               vector<Piece*> pieces)
 {
     auto winSize = Director::getInstance()->getWinSize();
     Point tileCoord = _tmxdat.tileCoordForPosition(position);
-    vector<Vec2> pPositions = possibleSquaresToMoveOn();
+    vector<Vec2> pPositions = possibleSquaresToMoveOn(pieces);
 
     if (_tmxdat.tileCoordInMapBounds(tileCoord))
     {
@@ -69,7 +70,7 @@ void Knight::setKnightPosition(Point position,
     }
 }
 
-vector<Vec2> Knight::possibleSquaresToMoveOn()
+vector<Vec2> Knight::possibleSquaresToMoveOn(vector<Piece*> pieces)
 {
     static const vector<Vec2> relativePossibleKnightSquaresToMoveOn = 
         { 
@@ -98,10 +99,12 @@ vector<Vec2> Knight::possibleSquaresToMoveOn()
     for (std::size_t i = 0; i < relativePossibleKnightSquaresToMoveOn.size(); i++)
     {
         auto newPos = tileCoord + relativePossibleKnightSquaresToMoveOn[i];
-        if (_tmxdat.checkSquareProperty(newPos, "Collideable", _background) != "true") 
+        if (_tmxdat.checkSquareProperty(newPos, "Collideable", _background) != "true")
         {  
+            auto p = _tmxdat.getPieceInSquare(newPos, pieces);
             // if it's out of the map bounds it'll return "", so no problem there
-            realPositions.push_back(newPos);
+            if (p == nullptr || p->getTeam() != getTeam() || p->getTeam() == Neutral)
+                realPositions.push_back(newPos);
         }
     }
 
@@ -115,10 +118,10 @@ vector<Vec2> Knight::possibleSquaresToMoveOn()
     return realPositions;
 }
 
-bool Knight::canMoveToPoint(Vec2 spot)
+bool Knight::canMoveToPoint(Vec2 spot, vector<Piece*> pieces)
 {
     Vec2 tileCoord = _tmxdat.positionForTileCoord(spot);
-    auto pPositions = Knight::possibleSquaresToMoveOn();
+    auto pPositions = Knight::possibleSquaresToMoveOn(pieces);
     return std::find_if(pPositions.begin(), pPositions.end(), 
                         [tileCoord](Vec2 i){return tileCoord == i; }) != pPositions.end();
 }

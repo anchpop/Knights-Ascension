@@ -70,7 +70,9 @@ Piece* TileMapTools::getPieceInSquare(const Vec2& position, std::vector<Piece *>
 {
     for (int x = 0; x < pieces.size(); ++x)
     {
-        if (pieces[x]->boundingBox().containsPoint(position))
+        auto inputpos = centerPositionForTileCoord(position);
+        auto piece = pieces[x]->getPosition();
+        if (inputpos.x == piece.x && inputpos.y == piece.y)
             return pieces[x];
     }
     return nullptr;
