@@ -24,6 +24,8 @@ Scene* KnightWorld::createScene()
 	return scene;
 }
 
+
+
 // on "init" you need to initialize your instance
 bool KnightWorld::init()
 {
@@ -63,8 +65,7 @@ bool KnightWorld::init()
 
 	ValueMap spawnPoint = objectGroup->objectNamed("Team A spawn");
 
-	//int x; istringstream( ((spawnPoint.at("x")).getDescription()) ) >> x;
-	//int y; istringstream( ((spawnPoint.at("y")).getDescription()) ) >> y;
+	
 
 	_spawn = _tileMap->layerNamed("Meta");
 	_spawn->setVisible(false);
@@ -102,7 +103,6 @@ bool KnightWorld::init()
 			}
 		}
 	}
-
 	
 	currentTeamTurn = pieces[0]->getTeam();
 	movesElapsed = 0;
@@ -125,7 +125,7 @@ bool KnightWorld::init()
 	runAction(RepeatForever::create(RotateBy::create(60.0f / boardRPM, 360.0f)));
 	//this->setRotation(45.0f); // Spinify everything!
 
-	auto listener1 = EventListenerTouchOneByOne::create();
+	
 
 
 
@@ -136,6 +136,12 @@ bool KnightWorld::init()
 	this->addChild(teamLabel, 1);
 	teamLabel->setColor(ccc3(255, 0, 0));
 	
+
+	// Init gesture recognizer
+	initGestureRecognizer();
+	
+	auto listener1 = EventListenerTouchOneByOne::create();
+
 	// trigger when you push down
 	listener1->onTouchBegan = [&](Touch* touch, Event* event){
 		if (!spriteIsMoving && !screenIsMoving)
@@ -160,10 +166,10 @@ bool KnightWorld::init()
 				{
 					
 					activePiece->setKnightPosition(locationInNode, 
-						[this, locationInNode](){ spriteIsMoving = true;                                                                       //When the sprite begins moving, set spriteIsMoving to true
+						[this, locationInNode](){ spriteIsMoving = true; movesElapsed++;                                                                       //When the sprite begins moving, set spriteIsMoving to true
 							moveViewPointCenter(locationInNode,	[this](){screenIsMoving = true; }, [this](){screenIsMoving = false; }); },     //Also when the sprite begins moving, begin moving the screen opposite the sprite (to keep the sprite centered) and when the screen begins and ends moving, change screenIsMoving
 						[this, locationInNode](){ activePiece = nullptr; spriteIsMoving = false; });                                           //When the sprite ends moving deselet it and mark it as not moving
-					movesElapsed++;
+					
 					if (movesElapsed >= movesPerTurn)
 					{
 						currentTeamTurn = (currentTeamTurn == TeamRed) ? TeamBlue : TeamRed;
@@ -183,13 +189,13 @@ bool KnightWorld::init()
 			}
 		}
 
-		return true; // if you are consuming it
+		return false; // if you are consuming it
 
 	};
 
-	// trigger when you let up
-	listener1->onTouchEnded = [&](Touch* touch, Event* event){	
-	};
+
+
+
 
 	// Add listener
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, this);
@@ -228,3 +234,119 @@ void KnightWorld::moveViewPointCenter(Point position, const std::function<void()
 	callWhenBeginMoving();
 	moveViewPointCenter(position, callWhenDoneMoving);
 }
+
+
+
+void KnightWorld::initGestureRecognizer()
+{
+	// Init gesture recognizer
+	_gestureRecognizer = new TSimpleGestureRecognizer();
+	_gestureRecognizer->init();
+	_gestureRecognizer->setGestureHandler(this);
+
+	// Enable all gesture kinds
+	_gestureRecognizer->setTapEnabled(false);
+	_gestureRecognizer->setDoubleTapEnabled(false);
+	_gestureRecognizer->setLongPressEnabled(false);
+	_gestureRecognizer->setPanEnabled(true);
+	_gestureRecognizer->setPinchEnabled(true);
+	_gestureRecognizer->setRotationEnabled(false);
+	_gestureRecognizer->setSwipeEnabled(false);
+
+	// Taps will be fired immediately without waiting for double tap
+	_gestureRecognizer->setTapRequiresDoubleTapRecognitionToFail(false);
+
+	// Other config
+	// _gestureRecognizer->setTapThreshold(1.0f);
+	// _gestureRecognizer->setLongPressThreshold(1.0f);
+	// _gestureRecognizer->setDoubleTapInterval(0.3f);
+	// _gestureRecognizer->setPinchFingersDistanceChangeTolerance(0.1f);
+	// _gestureRecognizer->setRotationFingersDistanceChangeTolerance(0.5f);
+	// _gestureRecognizer->setSwipeThreshold(0.3f);
+
+	//
+	// IMPORTANT:
+	// For multiple touch gestures on iOS (pinch, rotation), always remember tu put
+	// the below line of code right after creating the CCEAGLView in AppController.mm
+	// [eaglView setMultipleTouchEnabled:YES];
+	// For Android, there no need to do this.
+	//
+
+	// Create touch listener and register it with cocos2d to receive touch events
+	EventListenerTouchOneByOne* touchDelegate = EventListenerTouchOneByOne::create();
+	touchDelegate->onTouchBegan = std::bind(&KnightWorld::TouchBegan, this, std::placeholders::_1, std::placeholders::_2);
+	touchDelegate->onTouchMoved = std::bind(&KnightWorld::TouchMoved, this, std::placeholders::_1, std::placeholders::_2);
+	touchDelegate->onTouchCancelled = std::bind(&KnightWorld::TouchCancelled, this, std::placeholders::_1, std::placeholders::_2);
+	touchDelegate->onTouchEnded = std::bind(&KnightWorld::TouchEnded, this, std::placeholders::_1, std::placeholders::_2);
+
+	Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(touchDelegate, 100);
+}
+
+
+bool KnightWorld::onGesturePan(TGesturePan* gesture)
+{
+	static int lastPanId = -1;
+	static bool panInMapBoundry = false;
+	CCLOG("PETER PAN DETECTED");
+	// A new pan
+	if (gesture->getID() != lastPanId)
+	{
+		lastPanId = gesture->getID(); //This currently does nothing but could be used to not have a constant bombardment of pans
+		panInMapBoundry = tmxdat.tileCoordInMapBounds(tmxdat.tileCoordForPosition(convertToNodeSpace(gesture->getLocation())));
+	}
+
+	if (panInMapBoundry)
+	{
+		this->setPosition(this->getPosition() + gesture->getTranslation());
+	}
+	return false;
+}
+
+bool KnightWorld::onGesturePinch(TGesturePinch* gesture)
+{
+	/*static int lastPinchId = -1;
+	static bool pinchInsideNode = false;
+	static float originalScale;
+
+	// A new pinch
+	if (gesture->getID() != lastPinchId)
+	{
+	lastPinchId = gesture->getID();
+	pinchInsideNode = NodeContainsPoint(_sprite, gesture->getLocation());
+	originalScale = _sprite->getScale();
+	}
+
+	if (pinchInsideNode)
+	{
+	_sprite->setScale(originalScale * gesture->getScale());
+	}
+	*/
+	return false;
+}
+
+
+bool KnightWorld::TouchBegan(Touch* touch, Event* event)
+{
+    // Let the gesture recognizer to do its work
+    _gestureRecognizer->onTouchBegan(touch, event);
+    return true;
+}
+
+void KnightWorld::TouchMoved(Touch* touch, Event* event)
+{
+    // Let the gesture recognizer to do its work
+    _gestureRecognizer->onTouchMoved(touch, event);
+}
+
+void KnightWorld::TouchEnded(Touch* touch, Event* event)
+{
+    // Let the gesture recognizer to do its work
+    _gestureRecognizer->onTouchEnded(touch, event);
+}
+
+void KnightWorld::TouchCancelled(Touch* touch, Event* event)
+{
+    // Let the gesture recognizer to do its work
+    _gestureRecognizer->onTouchCancelled(touch, event);
+}
+

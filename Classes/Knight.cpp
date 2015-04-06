@@ -133,3 +133,10 @@ void Knight::setSquare(SquareType squareType, Vec2 position)
 {
 	_background->setTileGID(squareType, position);
 }
+
+bool Knight::canMoveToPoint(Vec2 spot)
+{
+	Vec2 tileCoord = _tmxdat.positionForTileCoord(spot);
+	auto pPositions = Knight::possibleSquaresToMoveOn();
+	return std::find_if(pPositions.begin(), pPositions.end(), [tileCoord](Vec2 i){return tileCoord == i; }) != pPositions.end();
+}

@@ -25,6 +25,7 @@ private:
 	std::vector<Vec2> relativePossibleKnightSquaresToMoveOn();
 	std::vector<Vec2> relativePossibleBlockSquaresToMoveOn();
 	void setSquare(SquareType, Vec2);
+
 public:
 	
 	void setKnightPosition(Point position, const std::function<void()>&, const std::function<void()>&);
@@ -38,5 +39,6 @@ public:
 
 
 	std::vector<Vec2> possibleSquaresToMoveOn();
+	bool canMoveToPoint(Vec2);
 };
 

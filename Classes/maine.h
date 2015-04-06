@@ -4,11 +4,15 @@
 #include "Piece.h"
 #include "Knight.h"
 #include "TileUtils.h"
+#include "TGestureRecognizer.h"
+#include "Utils.h"
 using namespace cocos2d;
 
 
-class KnightWorld : public cocos2d::Layer
+class KnightWorld : public cocos2d::Layer, public TGestureHandler
 {
+protected:
+	TGestureRecognizer* _gestureRecognizer;
 private:
 	TMXTiledMap *_tileMap;
 	TMXLayer *_background;
@@ -30,7 +34,9 @@ private:
 
 	LabelTTF* teamLabel;
 
-	string IntToString(int);
+
+	void initGestureRecognizer();
+
 public:
 	// there's no 'id' in cpp, so we recommend returning the class instance pointer
 	static cocos2d::Scene* createScene();
@@ -54,6 +60,14 @@ public:
 
 
 
+	virtual bool onGesturePan(TGesturePan* gesture);
+	virtual bool onGesturePinch(TGesturePinch* gesture);
+
+	// Touch handler (pass touches to the Gesture recognizer to process)
+	virtual bool TouchBegan(Touch* touch, Event* event);
+	virtual void TouchMoved(Touch* touch, Event* event);
+	virtual void TouchEnded(Touch* touch, Event* event);
+	virtual void TouchCancelled(Touch* touch, Event* event);
 
 	// implement the "static create()" method manually
 	CREATE_FUNC(KnightWorld);
