@@ -7,35 +7,33 @@ using namespace cocos2d;
 class TileMapTools
 {
 public:
-	int tilestall;
-	int tileswide;
-	int tileheight;
-	int tilewidth;
+    TileMapTools();
+
+    TileMapTools(TMXTiledMap*);
+
+    Point tileCoordForPosition(const Point&, bool yflip = true);
+
+    Point positionForTileCoord(const Point&, bool yflip = true);
+
+    Point centerPositionForTileCoord(const Point&, bool yflip = true);
+
+    Point roundedPosition(const Point&);
+
+    Point roundedCenterPosition(const Point&);
+
+    bool tileCoordInMapBounds(const Point&);
+
+    std::string checkSquareProperty(Vec2 square, const std::string &property, TMXLayer* layer);
+
+    Piece* getPieceInSquare(const Point&, std::vector<Piece *> &);
+
+
+    static const int tilestall = 16;
+    static const int tileswide = 15;
+    static const int tileheight = 64;
+    static const int tilewidth  = 64;
 	
-	TMXTiledMap* map;
-	TMXLayer *_background;
-	//TMXLayer *_spawns;
-
-
-
-	cocos2d::Point tileCoordForPosition(const cocos2d::Point&, bool yflip = true);
-
-	cocos2d::Point positionForTileCoord(const cocos2d::Point&, bool yflip = true);
-
-	cocos2d::Point centerPositionForTileCoord(const cocos2d::Point&, bool yflip = true);
-
-	cocos2d::Point roundedPosition(const cocos2d::Point&);
-
-	cocos2d::Point roundedCenterPosition(const cocos2d::Point&);
-
-	bool tileCoordInMapBounds(const cocos2d::Point&);
-
-	TileMapTools();
-
-	TileMapTools(TMXTiledMap*);
-	
-
-	std::string checkSquareProperty(Vec2 square, const std::string &property, TMXLayer* layer);
-
-	Piece* getPieceInSquare(const cocos2d::Point&, std::vector<Piece*>&);
+    TMXTiledMap *_map;
+    TMXLayer    *_background;
+    //TMXLayer *_spawns;
 };

@@ -41,7 +41,7 @@ void Knight::setKnightPosition(Point position,
     if (_tmxdat.tileCoordInMapBounds(tileCoord))
     {
         if (std::find_if(pPositions.begin(), pPositions.end(), 
-                         [tileCoord](Vec2 i){return tileCoord == i; }) != pPositions.end())
+                         [tileCoord](Vec2 i) {return tileCoord == i; }) != pPositions.end())
         {
 			
             callWhenBeginMoving();

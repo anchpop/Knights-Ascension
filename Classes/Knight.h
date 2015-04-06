@@ -17,20 +17,26 @@ enum SquareType
 class Knight : public Piece
 {
 public:
+    Knight(const std::string&, TileMapTools&);
+
+    ~Knight();
+
     void setKnightPosition(Point position, const std::function<void()>&, const std::function<void()>&);
+
     //void setup(String, TMXTiledMap*, TMXLayer*, TMXLayer*, int, int);
 
-    Knight(const std::string&, TileMapTools&);
-    ~Knight();
     static Knight* create(const std::string&, TileMapTools&);
+
     //static Knight* create(const std::string&, const std::string&, TileMapTools);
+
     void initOptions();
 
     vector<Vec2> possibleSquaresToMoveOn();
+
     bool canMoveToPoint(Vec2);
 
 private:
-	void setSquare(SquareType squareType, Vec2 position) { _background->setTileGID(squareType, position); }
+    void setSquare(SquareType squareType, Vec2 position) { _background->setTileGID(squareType, position); }
 
     TMXTiledMap *_tileMap;
     TMXLayer    *_background;
