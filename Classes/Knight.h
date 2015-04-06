@@ -20,7 +20,7 @@ private:
 	TMXLayer *_background;
 	TMXLayer *_meta;
 	TileMapTools _tmxdat;
-	PieceType pieceType;
+	PieceType _pieceType;
 	PieceTeam team;
 	std::vector<Vec2> relativePossibleKnightSquaresToMoveOn();
 	std::vector<Vec2> relativePossibleBlockSquaresToMoveOn();

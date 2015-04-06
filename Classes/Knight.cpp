@@ -105,7 +105,7 @@ vector<Vec2> Knight::relativePossibleKnightSquaresToMoveOn()
         Vec2( 2, -1),
         Vec2(-1, -2),
         Vec2(-2, -1)
-    }
+    };
 
     return v;
 }
