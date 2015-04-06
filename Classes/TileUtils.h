@@ -16,14 +16,13 @@ public:
 	TMXLayer *_background;
 	//TMXLayer *_spawns;
 
-	std::vector<Piece*> pieces;
 
 
-	cocos2d::Point tileCoordForPosition(const cocos2d::Point&);
+	cocos2d::Point tileCoordForPosition(const cocos2d::Point&, bool yflip = true);
 
-	cocos2d::Point positionForTileCoord(const cocos2d::Point&);
+	cocos2d::Point positionForTileCoord(const cocos2d::Point&, bool yflip = true);
 
-	cocos2d::Point centerPositionForTileCoord(const cocos2d::Point&);
+	cocos2d::Point centerPositionForTileCoord(const cocos2d::Point&, bool yflip = true);
 
 	cocos2d::Point roundedPosition(const cocos2d::Point&);
 
@@ -33,8 +32,10 @@ public:
 
 	TileMapTools();
 
-	TileMapTools(TMXTiledMap*, std::vector<Piece*> pieces);
+	TileMapTools(TMXTiledMap*);
+	\
 
 	std::string checkSquareProperty(Vec2 square, const std::string &property, TMXLayer* layer);
 
+	bool pieceInSquare(const cocos2d::Point&, std::vector<Piece*>&);
 };

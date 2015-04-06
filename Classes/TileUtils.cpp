@@ -1,10 +1,10 @@
 #include "TileUtils.h"
 
+
 TileMapTools::TileMapTools() { }
 
 
-
-TileMapTools::TileMapTools(TMXTiledMap* _map, std::vector<Piece*> _pieces)
+TileMapTools::TileMapTools(TMXTiledMap* _map)
 {
 	//use default values
 	tilestall = 16;
@@ -13,28 +13,27 @@ TileMapTools::TileMapTools(TMXTiledMap* _map, std::vector<Piece*> _pieces)
 	tilewidth = 64;
 	map = _map;
 	_background = map->layerNamed("mainboard");
-	pieces = _pieces;
 }
 
 
-Point TileMapTools::tileCoordForPosition(const Point& position)
+Point TileMapTools::tileCoordForPosition(const Point& position, bool yflip)
 {
 	int x = position.x / tilewidth;
-	int y = ((tilestall * tileheight) - position.y) / tileheight;
+	int y = yflip ? ((tilestall * tileheight) - position.y) / tileheight : position.y / tileheight;
 	return Vec2(x, y);
 }
 
-Point TileMapTools::positionForTileCoord(const Point& position)
+Point TileMapTools::positionForTileCoord(const Point& position, bool yflip)
 {
 	int x = position.x * tilewidth;
-	int y = (tilestall - position.y) * tileheight;
+	int y = (yflip ? (tilestall - position.y) : position.y) * tileheight;
 	return Vec2(x, y);
 }
 
-Point TileMapTools::centerPositionForTileCoord(const Point& position)
+Point TileMapTools::centerPositionForTileCoord(const Point& position, bool yflip)
 {
 	int x = position.x * tilewidth + (tilewidth / 2);
-	int y = (tilestall - position.y) * tileheight - (tileheight / 2);
+	int y = (yflip ? (tilestall - position.y) : position.y) * tileheight - (tileheight / 2);
 	return Vec2(x, y);
 }
 
@@ -68,4 +67,14 @@ std::string TileMapTools::checkSquareProperty(Vec2 square, const std::string &pr
 		}
 	}
 	return "";
+}
+
+bool TileMapTools::pieceInSquare(const Vec2& position, std::vector<Piece*>& pieces)
+{
+	for (int x = 0; x < pieces.size(); ++x)
+	{
+		if (pieces[x]->boundingBox().containsPoint(position))
+			return true;
+	}
+	return false;
 }

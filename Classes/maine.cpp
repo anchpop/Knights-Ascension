@@ -9,6 +9,7 @@ using namespace std;
 
 
 
+
 Scene* KnightWorld::createScene()
 {
 	// 'scene' is an autorelease object
@@ -45,7 +46,7 @@ bool KnightWorld::init()
 	addChild(_tileMap, 0);
 	_background = _tileMap->layerNamed("mainboard");
 
-	tmxdat = TileMapTools(_tileMap, pieces);
+	
 
 	// all tiles are aliased by default, let's set them anti-aliased
 	for (const auto& child : _tileMap->getChildren())
@@ -65,7 +66,7 @@ bool KnightWorld::init()
 
 	ValueMap spawnPoint = objectGroup->objectNamed("Team A spawn");
 
-	
+	tmxdat = TileMapTools(_tileMap);
 
 	_spawn = _tileMap->layerNamed("Meta");
 	_spawn->setVisible(false);
@@ -75,28 +76,28 @@ bool KnightWorld::init()
 		{
 			if (tmxdat.checkSquareProperty(Vec2(x, y), "Piece type", _spawn) == "RedNormal")
 			{
-				auto curr = Knight::create("imgs/sprite2.png", _tileMap, tmxdat);
+				auto curr = Knight::create("imgs/sprite2.png", tmxdat);
 				pieces.push_back(curr);
 				curr->setPosition(tmxdat.centerPositionForTileCoord(Vec2(x, y)));
 				curr->setTeam(TeamRed);
 			}
 			if (tmxdat.checkSquareProperty(Vec2(x, y), "Piece type", _spawn) == "RedKing")
 			{
-				auto curr = Knight::create("imgs/sprite2.png", _tileMap, tmxdat);
+				auto curr = Knight::create("imgs/sprite2.png", tmxdat);
 				pieces.push_back(curr);
 				curr->setPosition(tmxdat.centerPositionForTileCoord(Vec2(x, y)));
 				curr->setTeam(TeamRed);
 			}
 			if (tmxdat.checkSquareProperty(Vec2(x, y), "Piece type", _spawn) == "BlueNormal")
 			{
-				auto curr = Knight::create("imgs/sprite1.png", _tileMap, tmxdat);
+				auto curr = Knight::create("imgs/sprite1.png", tmxdat);
 				pieces.push_back(curr);
 				curr->setPosition(tmxdat.centerPositionForTileCoord(Vec2(x, y)));
 				curr->setTeam(TeamBlue);
 			}
 			if (tmxdat.checkSquareProperty(Vec2(x, y), "Piece type", _spawn) == "BlueKing")
 			{
-				auto curr = Knight::create("imgs/sprite1.png", _tileMap, tmxdat);
+				auto curr = Knight::create("imgs/sprite1.png", tmxdat);
 				pieces.push_back(curr);
 				curr->setPosition(tmxdat.centerPositionForTileCoord(Vec2(x, y)));
 				curr->setTeam(TeamBlue);
@@ -122,7 +123,7 @@ bool KnightWorld::init()
 
 	
 	this->setScale(0.8f); // Shrinkify everything!
-	runAction(RepeatForever::create(RotateBy::create(60.0f / boardRPM, 360.0f)));
+	//runAction(RepeatForever::create(RotateBy::create(60.0f / boardRPM, 360.0f)));
 	//this->setRotation(45.0f); // Spinify everything!
 
 	
@@ -285,19 +286,21 @@ void KnightWorld::initGestureRecognizer()
 
 bool KnightWorld::onGesturePan(TGesturePan* gesture)
 {
-	static int lastPanId = -1;
-	static bool panInMapBoundry = false;
-	CCLOG("PETER PAN DETECTED");
-	// A new pan
-	if (gesture->getID() != lastPanId)
+	auto coord = convertToNodeSpace(gesture->getLocation());
+	if (!tmxdat.pieceInSquare(coord, pieces))
 	{
-		lastPanId = gesture->getID(); //This currently does nothing but could be used to not have a constant bombardment of pans
-		panInMapBoundry = tmxdat.tileCoordInMapBounds(tmxdat.tileCoordForPosition(convertToNodeSpace(gesture->getLocation())));
-	}
+		static int lastPanId = -1;
+		static bool panInMapBoundry = false;
+		if (gesture->getID() != lastPanId)
+		{
+			lastPanId = gesture->getID(); //This currently does nothing but could be used to not have a constant bombardment of pans
+			panInMapBoundry = tmxdat.tileCoordInMapBounds(tmxdat.tileCoordForPosition(convertToNodeSpace(gesture->getLocation()))); // needs work
+		}
 
-	if (panInMapBoundry)
-	{
-		this->setPosition(this->getPosition() + gesture->getTranslation());
+		if (panInMapBoundry)
+		{
+			this->setPosition(this->getPosition() + gesture->getTranslation());
+		}
 	}
 	return false;
 }

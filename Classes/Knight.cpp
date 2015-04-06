@@ -5,15 +5,14 @@ using namespace cocos2d;
 
 using namespace std;
 
-Knight::Knight(const string& FrameName, TMXTiledMap *tileMap, TileMapTools tmxdat)
+Knight::Knight(const string& FrameName, TileMapTools &tmxdat) : _tmxdat(tmxdat)
 {
 	initWithFile(FrameName);
 	
 
 	initOptions();
 
-	_tileMap = tileMap;
-	_tmxdat = tmxdat;
+	_tileMap = tmxdat.map;
 	_background = _tmxdat._background;
 
 	pieceType = TypeKnight;
@@ -25,9 +24,9 @@ Knight::~Knight() {}
 
 
 
-Knight* Knight::create(const string& FrameName, TMXTiledMap *tileMap, TileMapTools tmxdat)
+Knight* Knight::create(const string& FrameName, TileMapTools &tmxdat)
 {
-	Knight* sprite = new (std::nothrow) Knight(FrameName, tileMap, tmxdat);
+	Knight* sprite = new (std::nothrow) Knight(FrameName, tmxdat);
 	sprite->autorelease();
 	return sprite;
 }

@@ -31,9 +31,9 @@ public:
 	void setKnightPosition(Point position, const std::function<void()>&, const std::function<void()>&);
 	//void setup(String, TMXTiledMap*, TMXLayer*, TMXLayer*, int, int);
 
-	Knight(const std::string&, TMXTiledMap*, TileMapTools);
+	Knight(const std::string&, TileMapTools&);
 	~Knight();
-	static Knight* create(const std::string&, TMXTiledMap*, TileMapTools);
+	static Knight* create(const std::string&, TileMapTools&);
 	//static Knight* create(const std::string&, const std::string&, TileMapTools);
 	void initOptions();
 
