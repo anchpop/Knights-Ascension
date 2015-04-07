@@ -35,6 +35,7 @@ private:
 
 	Label* teamLabel;
 
+    void switchTeamTurn();
 
 	void initGestureRecognizer();
 

@@ -25,8 +25,6 @@ Scene* KnightWorld::createScene()
     return scene;
 }
 
-
-
 // on "init" you need to initialize your instance
 bool KnightWorld::init()
 {
@@ -36,9 +34,6 @@ bool KnightWorld::init()
     {
         return false;
     }
-
-    //CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic(
-    //	"sound/sanctuary.mp3", true);                                            //Play background music
 
 
     // create a TMX map
@@ -145,7 +140,8 @@ bool KnightWorld::init()
                 {
                     if (pieces[i]->boundingBox().containsPoint(locationInNode) && pieces[i]->getTeam() == currentTeamTurn)
                     {
-                        activePiece = dynamic_cast<Knight *>(pieces[i]);
+                        if (pieces[i]->getPieceType() != TypeKing || movesElapsed == 0)
+                            activePiece = dynamic_cast<Knight *>(pieces[i]);
                         break;
                     }
                 }
@@ -158,6 +154,7 @@ bool KnightWorld::init()
                     {
                         spriteIsMoving = true;
                         movesElapsed++;  //When the sprite begins moving, set spriteIsMoving to true
+
                         moveViewPointCenter(locationInNode,
                             [this](){screenIsMoving = true;  },
                             [this](){screenIsMoving = false; });
@@ -165,6 +162,7 @@ bool KnightWorld::init()
 
                     auto onmovingend = [this, locationInNode]()
                     {
+                        switchTeamTurn();
                         activePiece = nullptr;
                         spriteIsMoving = false;
                     };
@@ -178,21 +176,8 @@ bool KnightWorld::init()
                         pieces
                         );
 
-                    if (movesElapsed >= movesPerTurn)
-                    {
-                        currentTeamTurn = (currentTeamTurn == TeamRed) ? TeamBlue : TeamRed;
-                        movesElapsed = 0;
-                        auto paren = " (" + to_string(movesPerTurn - movesElapsed) + ")";
-                        teamLabel->setString((currentTeamTurn == TeamRed) ? "Red Team turn" + paren : "Blue Team turn" + paren);
-                        teamLabel->setColor((currentTeamTurn == TeamRed) ? ccc3(255, 0, 0) : ccc3(0, 0, 255));
-                        teamLabel->setScale(1.4f);
-                        teamLabel->runAction(EaseOut::create(ScaleTo::create(.3f, 1.0f), 0.3f));
-                    }
-                    else
-                    {
-                        auto paren = " (" + to_string(movesPerTurn - movesElapsed) + ")";
-                        teamLabel->setString((currentTeamTurn == TeamRed) ? "Red Team turn" + paren : "Blue Team turn" + paren);
-                    }
+                    
+                    
                 }
                 else
                     activePiece = nullptr;
@@ -204,9 +189,8 @@ bool KnightWorld::init()
     };
 
     auto _listener = EventListenerCustom::create("king taken", [=](EventCustom* event){
-        CCLOG("Bad news, boys. The king's been taken!");
         _eventDispatcher->removeAllEventListeners();
-        Director::getInstance()->replaceScene(KnightWorld::createScene());
+        Director::getInstance()->replaceScene(TransitionFade::create(0.8, KnightWorld::createScene(), Color3B(0, 0, 0)));
     });
 
     _eventDispatcher->addEventListenerWithFixedPriority(_listener, 1);
@@ -374,3 +358,21 @@ void KnightWorld::TouchCancelled(Touch* touch, Event* event)
     _gestureRecognizer->onTouchCancelled(touch, event);
 }
 
+void KnightWorld::switchTeamTurn()
+{
+    if (movesElapsed >= movesPerTurn || activePiece->getPieceType() == TypeKing)
+    {
+        currentTeamTurn = (currentTeamTurn == TeamRed) ? TeamBlue : TeamRed;
+        movesElapsed = 0;
+        auto paren = " (" + to_string(movesPerTurn - movesElapsed) + ")";
+        teamLabel->setString((currentTeamTurn == TeamRed) ? "Red Team turn" + paren : "Blue Team turn" + paren);
+        teamLabel->setColor((currentTeamTurn == TeamRed) ? ccc3(255, 0, 0) : ccc3(0, 0, 255));
+        teamLabel->setScale(1.4f);
+        teamLabel->runAction(EaseOut::create(ScaleTo::create(.3f, 1.0f), 0.3f));
+    }
+    else
+    {
+        auto paren = " (" + to_string(movesPerTurn - movesElapsed) + ")";
+        teamLabel->setString((currentTeamTurn == TeamRed) ? "Red Team turn" + paren : "Blue Team turn" + paren);
+    }
+}

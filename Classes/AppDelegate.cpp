@@ -52,7 +52,12 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // pre-loading background music and effects. You could pre-load
     // effects, perhaps on app startup so they are already loaded
     // when you want to use them.
-    audio->preloadBackgroundMusic("sound/sanctuary.mp3");
+    //audio->preloadBackgroundMusic("sound/sanctuary.mp3");
+
+
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic(
+        "sound/sanctuary.mp3", true);                                            //Play background music
+
 
     // create a scene. it's an autorelease object
 	auto scene = KnightWorld::createScene();
