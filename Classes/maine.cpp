@@ -149,8 +149,7 @@ bool KnightWorld::init()
             {
                 if (!activePiece->boundingBox().containsPoint(locationInNode))
                 {
-				
-                    auto lbda1 = [this, locationInNode]() 
+                    auto onmovingstart = [this, locationInNode]()
                     { 
                         spriteIsMoving = true; 
                         movesElapsed++;  //When the sprite begins moving, set spriteIsMoving to true
@@ -159,18 +158,18 @@ bool KnightWorld::init()
                                             [this](){screenIsMoving = false; }); 
                     };
 
-                    auto lbda2 = [this, locationInNode]()
+                    auto onmovingend = [this, locationInNode]()
                     { 
                         activePiece = nullptr; 
                         spriteIsMoving = false;
                     }; 
 
                     activePiece->setKnightPosition(locationInNode, 
-                                                   lbda1,
+                                                   onmovingstart,
                                                    // Also when the sprite begins moving, begin moving the screen 
                                                    // opposite the sprite (to keep the sprite centered) and when 
                                                    // the screen begins and ends moving, change screenIsMoving
-                                                   lbda2,  //When the sprite ends moving deselet it and mark it as not moving
+                                                   onmovingend,  //When the sprite ends moving deselet it and mark it as not moving
                                                    pieces
                         );
 					
@@ -295,7 +294,7 @@ void KnightWorld::initGestureRecognizer()
 bool KnightWorld::onGesturePan(TGesturePan* gesture)
 {
     auto coord = convertToNodeSpace(gesture->getLocation());
-    if (tmxdat.getPieceInSquare(tmxdat.tileCoordForPosition(coord), pieces) == nullptr)
+    if (tmxdat.getPieceInSquare(tmxdat.tileCoordForPosition(coord), pieces) == nullptr && !spriteIsMoving && !screenIsMoving)
     {
         static int lastPanId = -1;
         static bool panInMapBoundry = false;
@@ -304,7 +303,6 @@ bool KnightWorld::onGesturePan(TGesturePan* gesture)
             lastPanId = gesture->getID(); //This currently does nothing but could be used to not have a constant bombardment of pans
             panInMapBoundry = tmxdat.tileCoordInMapBounds(tmxdat.tileCoordForPosition(convertToNodeSpace(gesture->getLocation()))); // needs work
         }
-
         if (panInMapBoundry)
         {
             this->setPosition(this->getPosition() + gesture->getTranslation());

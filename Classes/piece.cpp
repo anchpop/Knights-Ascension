@@ -42,3 +42,16 @@ PieceType Piece::getPieceType()
 {
 	return pieceType;
 }
+
+void Piece::take(std::vector<Piece*>& pieces)
+{
+    for (int i = 0; i < pieces.size(); i++)
+    {
+        if (pieces[i] == this)
+        {
+            pieces.erase(pieces.begin() + i);
+            this->removeFromParentAndCleanup(true);
+            break;
+        }
+    }
+}

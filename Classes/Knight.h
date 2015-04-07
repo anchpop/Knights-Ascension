@@ -21,7 +21,7 @@ public:
 
     ~Knight();
 
-    void setKnightPosition(Point position, const std::function<void()>&, const std::function<void()>&, vector<Piece*>);
+    void setKnightPosition(Point position, const std::function<void()>&, const std::function<void()>&, vector<Piece*>&);
 
     //void setup(String, TMXTiledMap*, TMXLayer*, TMXLayer*, int, int);
 

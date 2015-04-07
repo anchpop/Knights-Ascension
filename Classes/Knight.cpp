@@ -33,7 +33,7 @@ void Knight::initOptions()
 void Knight::setKnightPosition(Point position,
                                const std::function<void()>& callWhenBeginMoving, 
                                const std::function<void()>& callWhenDoneMoving,
-                               vector<Piece*> pieces)
+                               vector<Piece*>& pieces)
 {
     auto winSize = Director::getInstance()->getWinSize();
     Point tileCoord = _tmxdat.tileCoordForPosition(position);
@@ -46,15 +46,20 @@ void Knight::setKnightPosition(Point position,
         {
 			
             callWhenBeginMoving();
-            if (_tmxdat.checkSquareProperty(tileCoord, "Destroyable", _background) != "true"){
+            if (_tmxdat.checkSquareProperty(tileCoord, "Destroyable", _background) != "true"){   // If it's an empty square
+                auto pieceToTake = _tmxdat.getPieceInSquare(_tmxdat.tileCoordForPosition(position), pieces);
+                //if (pieceToTake) pieceToTake->take(pieces);
                 runAction(Sequence::create(
                               EaseIn::create(MoveTo::create(0.6f, _tmxdat.roundedCenterPosition(position)), 2.5f),
+                              CCCallFunc::create([pieceToTake, &pieces](){
+                    if (pieceToTake) pieceToTake->take(pieces);
+                }),
                               CCCallFunc::create(callWhenDoneMoving),
                               nullptr));
             }
             else
             {
-                runAction(Sequence::create(
+                runAction(Sequence::create(                                                     // If it's a blocked square
                               EaseIn::create(MoveTo::create(0.2f, _tmxdat.roundedCenterPosition(position)), .3f),
                               CCCallFunc::create(callWhenDoneMoving),
                               CCCallFunc::create(
