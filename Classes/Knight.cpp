@@ -1,6 +1,8 @@
 #include "Knight.h"
 #include <vector>
 
+Knight::Knight() { }
+
 Knight::Knight(const string& FrameName, TileMapTools &tmxdat) : 
     _tmxdat(tmxdat)
 {
