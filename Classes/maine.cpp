@@ -155,29 +155,29 @@ bool KnightWorld::init()
                 if (!activePiece->boundingBox().containsPoint(locationInNode))
                 {
                     auto onmovingstart = [this, locationInNode]()
-                    { 
-                        spriteIsMoving = true; 
+                    {
+                        spriteIsMoving = true;
                         movesElapsed++;  //When the sprite begins moving, set spriteIsMoving to true
                         moveViewPointCenter(locationInNode,
-                                            [this](){screenIsMoving = true;  }, 
-                                            [this](){screenIsMoving = false; }); 
+                            [this](){screenIsMoving = true;  },
+                            [this](){screenIsMoving = false; });
                     };
 
                     auto onmovingend = [this, locationInNode]()
-                    { 
-                        activePiece = nullptr; 
+                    {
+                        activePiece = nullptr;
                         spriteIsMoving = false;
-                    }; 
+                    };
 
-                    activePiece->setKnightPosition(locationInNode, 
-                                                   onmovingstart,
-                                                   // Also when the sprite begins moving, begin moving the screen 
-                                                   // opposite the sprite (to keep the sprite centered) and when 
-                                                   // the screen begins and ends moving, change screenIsMoving
-                                                   onmovingend,  //When the sprite ends moving deselet it and mark it as not moving
-                                                   pieces
+                    activePiece->setKnightPosition(locationInNode,
+                        onmovingstart,
+                        // Also when the sprite begins moving, begin moving the screen 
+                        // opposite the sprite (to keep the sprite centered) and when 
+                        // the screen begins and ends moving, change screenIsMoving
+                        onmovingend,  //When the sprite ends moving deselet it and mark it as not moving
+                        pieces
                         );
-					
+
                     if (movesElapsed >= movesPerTurn)
                     {
                         currentTeamTurn = (currentTeamTurn == TeamRed) ? TeamBlue : TeamRed;
@@ -194,6 +194,8 @@ bool KnightWorld::init()
                         teamLabel->setString((currentTeamTurn == TeamRed) ? "Red Team turn" + paren : "Blue Team turn" + paren);
                     }
                 }
+                else
+                    activePiece = nullptr;
             }
         }
 
