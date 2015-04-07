@@ -26,6 +26,8 @@ public:
         const std::function<void()>& callWhenDoneMoving,
         vector<Piece*>& pieces);
 
+    void take(vector<Piece*>&);
+
 protected:
 
     TMXTiledMap *_tileMap;

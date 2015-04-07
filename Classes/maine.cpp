@@ -72,7 +72,7 @@ bool KnightWorld::init()
             }
             if (tmxdat.checkSquareProperty(Vec2(x, y), "Piece type", _spawn) == "RedKing")
             {
-                auto curr = Knight::create("imgs/sprite2king.png", tmxdat);
+                auto curr = KnightK::create("imgs/sprite2king.png", tmxdat);
                 pieces.push_back(curr);
                 curr->setPosition(tmxdat.centerPositionForTileCoord(Vec2(x, y)));
                 curr->setTeam(TeamRed);
@@ -86,7 +86,7 @@ bool KnightWorld::init()
             }
             if (tmxdat.checkSquareProperty(Vec2(x, y), "Piece type", _spawn) == "BlueKing")
             {
-                auto curr = Knight::create("imgs/sprite1king.png", tmxdat);
+                auto curr = KnightK::create("imgs/sprite1king.png", tmxdat);
                 pieces.push_back(curr);
                 curr->setPosition(tmxdat.centerPositionForTileCoord(Vec2(x, y)));
                 curr->setTeam(TeamBlue);

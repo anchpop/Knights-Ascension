@@ -37,9 +37,7 @@ void KnightK::setKnightPosition(Point position,
                                const std::function<void()>& callWhenDoneMoving,
                                vector<Piece*>& pieces)
 {
-    /*auto winSize = Director::getInstance()->getWinSize();
     Point tileCoord = _tmxdat.tileCoordForPosition(position);
-    Point curPos = _tmxdat.tileCoordForPosition(getPosition());
     vector<Vec2> pPositions = possibleSquaresToMoveOn(pieces);
 
     if (_tmxdat.tileCoordInMapBounds(tileCoord))
@@ -49,32 +47,15 @@ void KnightK::setKnightPosition(Point position,
         {
 			
             callWhenBeginMoving();
-            if (_tmxdat.checkSquareProperty(tileCoord, "Destroyable", _background) != "true"){   // If it's an empty square
-                auto pieceToTake = _tmxdat.getPieceInSquare(tileCoord, pieces);
-                //if (pieceToTake) pieceToTake->take(pieces);
-                runAction(Sequence::create(
-                    EaseIn::create(MoveTo::create(0.2f, _tmxdat.centerPositionForTileCoord(getFirstLoc(curPos, tileCoord))), 1.5f),
-                    MoveTo::create(0.1f, _tmxdat.roundedCenterPosition(position)),
-                    CCCallFunc::create([pieceToTake, &pieces](){if (pieceToTake) pieceToTake->take(pieces);}),
-                    CCCallFunc::create(callWhenDoneMoving),
-                    nullptr));
-            }
-            else
-            {
-                runAction(Sequence::create(                                                     // If it's a blocked square
-                              EaseIn::create(MoveTo::create(0.2f, _tmxdat.roundedCenterPosition(position)), .3f),
-                              CCCallFunc::create(callWhenDoneMoving),
-                              CCCallFunc::create(
-                                  [this, tileCoord]()
-                                  {
-                                      setSquare(EmptySquare, tileCoord); 
-                                      CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(
-                                          "sound/explosion.wav");
-                                  }),
-                              nullptr));
-            }
+            auto pieceToTake = _tmxdat.getPieceInSquare(tileCoord, pieces);
+            //if (pieceToTake) pieceToTake->take(pieces);
+            runAction(Sequence::create(
+                EaseInOut::create(MoveTo::create(2.5f, _tmxdat.roundedCenterPosition(position)), 1.5f),
+                CCCallFunc::create([pieceToTake, &pieces](){if (pieceToTake) pieceToTake->take(pieces);}),
+                CCCallFunc::create(callWhenDoneMoving),
+                nullptr));
         }
-    }*/
+    }
 }
 
 vector<Vec2> KnightK::possibleSquaresToMoveOn(vector<Piece*> pieces)
@@ -104,4 +85,19 @@ vector<Vec2> KnightK::possibleSquaresToMoveOn(vector<Piece*> pieces)
     }
 	
     return realPositions;
+}
+
+void KnightK::take(std::vector<Piece*>& pieces)
+{
+    CCLOG("The King Has Been Taken!");
+    for (int i = 0; i < pieces.size(); i++)
+    {
+        if (pieces[i] == this)
+        {
+            pieces.erase(pieces.begin() + i);
+            this->removeFromParentAndCleanup(true);
+            break;
+        }
+    }
+    
 }

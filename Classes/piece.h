@@ -29,7 +29,5 @@ public:
 	PieceTeam getTeam();
 	PieceType getPieceType();
 
-    void take(std::vector<Piece*>&);
-
-	void getTaken();
+    virtual void take(std::vector<Piece*>&);
 };

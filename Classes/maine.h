@@ -3,6 +3,7 @@
 #include "cocos2d.h"
 #include "Piece.h"
 #include "Knight.h"
+#include "KnightK.h"
 #include "TileUtils.h"
 #include "TGestureRecognizer.h"
 #include "Utils.h"
