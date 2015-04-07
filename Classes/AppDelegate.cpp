@@ -52,7 +52,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // pre-loading background music and effects. You could pre-load
     // effects, perhaps on app startup so they are already loaded
     // when you want to use them.
-    audio->preloadBackgroundMusic("sound/candy.mp3");
+    audio->preloadBackgroundMusic("sound/sanctuary.mp3");
 
     // create a scene. it's an autorelease object
 	auto scene = KnightWorld::createScene();

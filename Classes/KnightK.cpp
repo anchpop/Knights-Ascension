@@ -48,7 +48,6 @@ void KnightK::setKnightPosition(Point position,
 			
             callWhenBeginMoving();
             auto pieceToTake = _tmxdat.getPieceInSquare(tileCoord, pieces);
-            //if (pieceToTake) pieceToTake->take(pieces);
             runAction(Sequence::create(
                 EaseInOut::create(MoveTo::create(2.5f, _tmxdat.roundedCenterPosition(position)), 1.5f),
                 CCCallFunc::create([pieceToTake, &pieces](){if (pieceToTake) pieceToTake->take(pieces);}),
@@ -89,8 +88,12 @@ vector<Vec2> KnightK::possibleSquaresToMoveOn(vector<Piece*> pieces)
 
 void KnightK::take(std::vector<Piece*>& pieces)
 {
+
     CCLOG("The King Has Been Taken!");
-    for (int i = 0; i < pieces.size(); i++)
+    EventCustom event("king taken");
+    _eventDispatcher->dispatchEvent(&event);
+
+    /*for (int i = 0; i < pieces.size(); i++)
     {
         if (pieces[i] == this)
         {
@@ -98,6 +101,6 @@ void KnightK::take(std::vector<Piece*>& pieces)
             this->removeFromParentAndCleanup(true);
             break;
         }
-    }
+    }*/
     
 }

@@ -203,6 +203,14 @@ bool KnightWorld::init()
 
     };
 
+    auto _listener = EventListenerCustom::create("king taken", [=](EventCustom* event){
+        CCLOG("Bad news, boys. The king's been taken!");
+        _eventDispatcher->removeAllEventListeners();
+        Director::getInstance()->replaceScene(KnightWorld::createScene());
+    });
+
+    _eventDispatcher->addEventListenerWithFixedPriority(_listener, 1);
+
     // Add listener
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, this);
 

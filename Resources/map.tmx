@@ -72,7 +72,7 @@
  <objectgroup name="objects"/>
  <layer name="Meta" width="15" height="16" opacity="0.35">
   <data encoding="base64" compression="zlib">
-   eJxjYKAe4IFiEODGIoZLD7FmE2M3Mh4FowAEuLBgQuqJNZeQnSDAiUWMWgAAEBoBBw==
+   eJxjYKAe4IFiEODGIoZLD7FmE2M3Mh4FowAEuLBgQupxAeR0hU8dsj2cWMSoBQAW2gET
   </data>
  </layer>
 </map>
