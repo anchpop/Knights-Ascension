@@ -37,8 +37,8 @@ bool KnightWorld::init()
         return false;
     }
 
-    CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic(
-    	"sound/sanctuary.mp3", true);                                            //Play background music
+    //CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic(
+    //	"sound/sanctuary.mp3", true);                                            //Play background music
 
 
     // create a TMX map

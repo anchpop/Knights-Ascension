@@ -37,6 +37,8 @@ public:
 
 private:
     void setSquare(SquareType squareType, Vec2 position) { _background->setTileGID(squareType, position); }
+    vector<Vec2> passthroughsquares(Vec2);
+    int getsign(int x) { return (x > 0) ? 1 : ((x < 0) ? -1 : 0); }
 
     TMXTiledMap *_tileMap;
     TMXLayer    *_background;

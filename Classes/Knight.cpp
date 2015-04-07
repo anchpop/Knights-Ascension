@@ -103,11 +103,21 @@ vector<Vec2> Knight::possibleSquaresToMoveOn(vector<Piece*> pieces)
     {
         auto newPos = tileCoord + relativePossibleKnightSquaresToMoveOn[i];
         if (_tmxdat.checkSquareProperty(newPos, "Collideable", _background) != "true")
-        {  
-            auto p = _tmxdat.getPieceInSquare(newPos, pieces);
-            // if it's out of the map bounds it'll return "", so no problem there
-            if (p == nullptr || p->getTeam() != getTeam() || p->getTeam() == Neutral)
-                realPositions.push_back(newPos);
+        {
+            bool squaresOpen = true;
+            vector<Vec2> checksquares = passthroughsquares(relativePossibleKnightSquaresToMoveOn[i]);
+            for (int i = 0; i < checksquares.size(); i++)
+                if (_tmxdat.checkSquareProperty(checksquares[i] + tileCoord, "Collideable", _background) == "true" || 
+                    _tmxdat.getPieceInSquare(checksquares[i] + tileCoord, pieces) != nullptr)
+                    squaresOpen = false;
+
+            if (squaresOpen)
+            {
+                auto p = _tmxdat.getPieceInSquare(newPos, pieces);
+                // if it's out of the map bounds it'll return "", so no problem there
+                if (p == nullptr || p->getTeam() != getTeam() || p->getTeam() == Neutral)
+                    realPositions.push_back(newPos);
+            }
         }
     }
 
@@ -127,4 +137,18 @@ bool Knight::canMoveToPoint(Vec2 spot, vector<Piece*> pieces)
     auto pPositions = Knight::possibleSquaresToMoveOn(pieces);
     return std::find_if(pPositions.begin(), pPositions.end(), 
                         [tileCoord](Vec2 i){return tileCoord == i; }) != pPositions.end();
+}
+
+
+vector<Vec2> Knight::passthroughsquares(Vec2 pos)
+{
+    if (pos == Vec2(1, 2) || pos == Vec2(-1, 2))
+        return {Vec2(0, 1), Vec2(0,2)};
+    else if (pos == Vec2(1, -2) || pos == Vec2(-1, -2))
+        return{ Vec2(0, -1), Vec2(0, -2) };
+    else if (pos == Vec2(2, 1) || pos == Vec2(2, -1))
+        return{ Vec2(1, 0), Vec2(2, 0) };
+    else if (pos == Vec2(1, -2) || pos == Vec2(-1, -2))
+        return{ Vec2(-1, 0), Vec2(-2, 0) };
+    else return{};
 }
