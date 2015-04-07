@@ -37,6 +37,7 @@ void Knight::setKnightPosition(Point position,
 {
     auto winSize = Director::getInstance()->getWinSize();
     Point tileCoord = _tmxdat.tileCoordForPosition(position);
+    Point curPos = _tmxdat.tileCoordForPosition(getPosition());
     vector<Vec2> pPositions = possibleSquaresToMoveOn(pieces);
 
     if (_tmxdat.tileCoordInMapBounds(tileCoord))
@@ -47,13 +48,14 @@ void Knight::setKnightPosition(Point position,
 			
             callWhenBeginMoving();
             if (_tmxdat.checkSquareProperty(tileCoord, "Destroyable", _background) != "true"){   // If it's an empty square
-                auto pieceToTake = _tmxdat.getPieceInSquare(_tmxdat.tileCoordForPosition(position), pieces);
+                auto pieceToTake = _tmxdat.getPieceInSquare(tileCoord, pieces);
                 //if (pieceToTake) pieceToTake->take(pieces);
                 runAction(Sequence::create(
-                              EaseIn::create(MoveTo::create(0.6f, _tmxdat.roundedCenterPosition(position)), 2.5f),
-                              CCCallFunc::create([pieceToTake, &pieces](){if (pieceToTake) pieceToTake->take(pieces);}),
-                              CCCallFunc::create(callWhenDoneMoving),
-                              nullptr));
+                    EaseIn::create(MoveTo::create(0.2f, _tmxdat.centerPositionForTileCoord(getFirstLoc(curPos, tileCoord))), 1.5f),
+                    MoveTo::create(0.1f, _tmxdat.roundedCenterPosition(position)),
+                    CCCallFunc::create([pieceToTake, &pieces](){if (pieceToTake) pieceToTake->take(pieces);}),
+                    CCCallFunc::create(callWhenDoneMoving),
+                    nullptr));
             }
             else
             {
@@ -148,7 +150,20 @@ vector<Vec2> Knight::passthroughsquares(Vec2 pos)
         return{ Vec2(0, -1), Vec2(0, -2) };
     else if (pos == Vec2(2, 1) || pos == Vec2(2, -1))
         return{ Vec2(1, 0), Vec2(2, 0) };
-    else if (pos == Vec2(1, -2) || pos == Vec2(-1, -2))
+    else if (pos == Vec2(-2, 1) || pos == Vec2(-2, -1))
         return{ Vec2(-1, 0), Vec2(-2, 0) };
     else return{};
+}
+
+Vec2 Knight::getFirstLoc(Vec2 start, Vec2 end)
+{
+    auto diff = end - start;
+    if (diff == Vec2(1, 2) || diff == Vec2(-1, 2))
+        return Vec2(start.x, start.y + 2);
+    else if (diff == Vec2(1, -2) || diff == Vec2(-1, -2))
+        return Vec2(start.x, start.y-2);
+    else if (diff == Vec2(2, 1) || diff == Vec2(2, -1))
+        return Vec2(start.x + 2, start.y);
+    else //if (diff == Vec2(-2, 1) || diff == Vec2(-2, -1))
+        return Vec2(start.x - 2, start.y);
 }
