@@ -5,6 +5,7 @@
 #include "PhysicsTestScene.h"
 #include "maine.h"
 #include "PEShapeCache_X3_0.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
@@ -45,6 +46,13 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0 / 60);
+
+    auto audio = CocosDenshion::SimpleAudioEngine::sharedEngine();
+
+    // pre-loading background music and effects. You could pre-load
+    // effects, perhaps on app startup so they are already loaded
+    // when you want to use them.
+    audio->preloadBackgroundMusic("sound/candy.mp3");
 
     // create a scene. it's an autorelease object
 	auto scene = KnightWorld::createScene();

@@ -37,8 +37,8 @@ bool KnightWorld::init()
         return false;
     }
 
-    //CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic(
-    //	"background-music-aac.wav", true);                                            //Play background music
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic(
+    	"sound/sanctuary.mp3", true);                                            //Play background music
 
 
     // create a TMX map
@@ -115,9 +115,14 @@ bool KnightWorld::init()
     //runAction(RepeatForever::create(RotateBy::create(60.0f / boardRPM, 360.0f)));
     //this->setRotation(45.0f); // Spinify everything!
 
-    teamLabel = LabelTTF::create("Red Team turn (" + to_string(movesPerTurn-movesElapsed) + ")", "Arial", 48);
-    teamLabel->setPosition(tmxdat.centerPositionForTileCoord(Vec2(tmxdat.tileswide / 2.0f, -1.0f)));
-    teamLabel->enableShadow(Size(2,2), 0.5f, 0.2f);
+
+    TTFConfig ttfConfig("fonts/pixel.ttf", 50, GlyphCollection::NEHE);                                             // I have no idea how any of this works
+    ttfConfig.fontFilePath = "fonts/pixel.ttf";                                                                     // I have no idea how any of this works
+    teamLabel = Label::createWithTTF(ttfConfig, "fonts/pixel.ttf", TextHAlignment::CENTER, 0);                      // I have no idea how any of this works
+    //teamLabel = Label::createWithSystemFont("Red Team turn " + to_string(movesPerTurn - movesElapsed) + "", , 48);
+    teamLabel->setString("Red Team turn (" + to_string(movesPerTurn - movesElapsed) + ")");
+    teamLabel->setPosition(tmxdat.centerPositionForTileCoord(Vec2(tmxdat.tileswide / 2.0f, 1.0f)));
+    teamLabel->enableShadow(Color4B(0, 0, 0, 150), Size(3,3), 0);
     this->addChild(teamLabel, 1);
     teamLabel->setColor(ccc3(255, 0, 0));
 	

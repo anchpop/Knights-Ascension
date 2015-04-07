@@ -32,7 +32,7 @@ private:
 	int movesElapsed;
 	int movesPerTurn;
 
-	LabelTTF* teamLabel;
+	Label* teamLabel;
 
 
 	void initGestureRecognizer();

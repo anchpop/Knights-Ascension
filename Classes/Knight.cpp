@@ -51,9 +51,7 @@ void Knight::setKnightPosition(Point position,
                 //if (pieceToTake) pieceToTake->take(pieces);
                 runAction(Sequence::create(
                               EaseIn::create(MoveTo::create(0.6f, _tmxdat.roundedCenterPosition(position)), 2.5f),
-                              CCCallFunc::create([pieceToTake, &pieces](){
-                    if (pieceToTake) pieceToTake->take(pieces);
-                }),
+                              CCCallFunc::create([pieceToTake, &pieces](){if (pieceToTake) pieceToTake->take(pieces);}),
                               CCCallFunc::create(callWhenDoneMoving),
                               nullptr));
             }
