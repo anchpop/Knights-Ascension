@@ -89,8 +89,6 @@ vector<Vec2> KnightK::possibleSquaresToMoveOn(vector<Piece*> pieces)
 
 void KnightK::take(std::vector<Piece*>& pieces, Piece* takenby)
 {
-
-    CCLOG("The King Has Been Taken!");
     EventCustom event("king taken");
     _eventDispatcher->dispatchEvent(&event);
 

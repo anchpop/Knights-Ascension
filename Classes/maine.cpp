@@ -1,6 +1,7 @@
 #include "maine.h"
 #include "TileUtils.h"
 #include "VisibleRect.h"
+#include "shake.h"
 #include <sstream>
 
 using namespace cocos2d;
@@ -150,14 +151,21 @@ bool KnightWorld::init()
             {
                 if (!activePiece->boundingBox().containsPoint(locationInNode))
                 {
-                    auto onmovingstart = [this, locationInNode]()
+                    auto tileCoord = tmxdat.tileCoordForPosition(locationInNode);
+                    auto onmovingstart = [this, locationInNode, tileCoord]()
                     {
-                        spriteIsMoving = true;
-                        movesElapsed++;  //When the sprite begins moving, set spriteIsMoving to true
+                        spriteIsMoving = true;  //When the sprite begins moving, set spriteIsMoving to true
+                        movesElapsed++;
 
-                        moveViewPointCenter(locationInNode,
+                        if (!activePiece->isAscended() || tmxdat.checkSquareProperty(tileCoord, "Destroyable", _background) == "true") moveViewPointCenter(locationInNode,
                             [this](){screenIsMoving = true;  },
                             [this](){screenIsMoving = false; });
+                        else
+                        {
+                            setViewPointCenter(locationInNode);
+                            runAction(Shake::actionWithDuration(.8f, 5.5f));
+                        }
+
                     };
 
                     auto onmovingend = [this, locationInNode]()
@@ -192,6 +200,7 @@ bool KnightWorld::init()
         _eventDispatcher->removeAllEventListeners();
         Director::getInstance()->replaceScene(TransitionFade::create(0.8, KnightWorld::createScene(), Color3B(0, 0, 0)));
     });
+
 
     _eventDispatcher->addEventListenerWithFixedPriority(_listener, 1);
 
@@ -381,11 +390,11 @@ void KnightWorld::switchTeamTurn()
 
 void KnightWorld::distributePowerUps()
 {
-    if (totalTurnsPassed > 3 + floor(CCRANDOM_0_1() * 2))
+    if (totalTurnsPassed > 0)//3 + floor(CCRANDOM_0_1() * 2))
         for (int x = 0; x < tmxdat.tileswide; ++x)
             for (int y = 0; y < tmxdat.tilestall; ++y)
                 if (tmxdat.checkSquareProperty(Vec2(x, y), "Piece type", _spawn) == "Powerup" && (tmxdat.getPieceInSquare(Vec2(x, y), pieces) == nullptr))
-                    if (floor(CCRANDOM_0_1() * 30) == 0) // TODO: Use random seed
+                    if (true)//floor(CCRANDOM_0_1() * 30) == 0) // TODO: Use random seed
                     {
                         auto curr = Powerup::create("imgs/Powerup.png", tmxdat);
                         pieces.push_back(curr);
