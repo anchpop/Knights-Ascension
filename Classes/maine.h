@@ -4,6 +4,7 @@
 #include "Piece.h"
 #include "Knight.h"
 #include "KnightK.h"
+#include "Powerup.h"
 #include "TileUtils.h"
 #include "TGestureRecognizer.h"
 #include "Utils.h"
@@ -31,13 +32,16 @@ private:
 
 	PieceTeam currentTeamTurn;
 	int movesElapsed;
-	int movesPerTurn;
+    int movesPerTurn;
+    int totalTurnsPassed;
 
 	Label* teamLabel;
 
     void switchTeamTurn();
 
 	void initGestureRecognizer();
+
+    void distributePowerUps();
 
 public:
 

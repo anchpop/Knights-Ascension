@@ -7,15 +7,15 @@
 using namespace cocos2d;
 using namespace std;
 
-class KnightK : public Knight
+class Powerup : public Knight
 {
 public:
-    KnightK(const std::string&, TileMapTools&);
-    KnightK();
+    Powerup(const std::string&, TileMapTools&);
+    Powerup();
 
-    ~KnightK();
+    ~Powerup();
 
-    static KnightK* create(const std::string&, TileMapTools&);
+    static Powerup* create(const std::string&, TileMapTools&);
 
     void initOptions();
 

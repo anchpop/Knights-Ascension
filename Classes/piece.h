@@ -23,11 +23,10 @@ public:
 	void initOptions();
 
 
-
 	void setTeam(PieceTeam);
 
 	PieceTeam getTeam();
 	PieceType getPieceType();
 
-    virtual void take(std::vector<Piece*>&);
+    virtual void take(std::vector<Piece*>&, Piece*);
 };

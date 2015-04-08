@@ -43,7 +43,7 @@ PieceType Piece::getPieceType()
 	return pieceType;
 }
 
-void Piece::take(std::vector<Piece*>& pieces)
+void Piece::take(std::vector<Piece*>& pieces, Piece* takenby)
 {
     for (int i = 0; i < pieces.size(); i++)
     {

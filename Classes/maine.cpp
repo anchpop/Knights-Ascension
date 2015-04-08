@@ -91,7 +91,8 @@ bool KnightWorld::init()
 	
     currentTeamTurn = pieces[0]->getTeam();
     movesElapsed = 0;
-    movesPerTurn = 3;
+    totalTurnsPassed = 0;
+    movesPerTurn = 5;
 
     activePiece = nullptr;
     spriteIsMoving = false;
@@ -101,12 +102,12 @@ bool KnightWorld::init()
     {
         this->addChild(pieces[i], 20);
     }
-    this->setViewPointCenter(pieces[0]->getPosition());
+    this->setViewPointCenter(VisibleRect::center());
 
     setTouchEnabled(true);
 
 	
-    this->setScale(0.8f); // Shrinkify everything!
+    this->setScale(1.0f); // Shrinkify everything!
     //runAction(RepeatForever::create(RotateBy::create(60.0f / boardRPM, 360.0f)));
     //this->setRotation(45.0f); // Spinify everything!
 
@@ -118,8 +119,8 @@ bool KnightWorld::init()
     teamLabel->setString("Red Team turn (" + to_string(movesPerTurn - movesElapsed) + ")");
     teamLabel->setPosition(tmxdat.centerPositionForTileCoord(Vec2(tmxdat.tileswide / 2.0f, -1.0f)));
     teamLabel->enableShadow(Color4B(0, 0, 0, 150), Size(3,3), 0);
-    this->addChild(teamLabel, 1);
     teamLabel->setColor(ccc3(255, 0, 0));
+    this->addChild(teamLabel, 1);
 	
 
     // Init gesture recognizer
@@ -369,10 +370,31 @@ void KnightWorld::switchTeamTurn()
         teamLabel->setColor((currentTeamTurn == TeamRed) ? ccc3(255, 0, 0) : ccc3(0, 0, 255));
         teamLabel->setScale(1.4f);
         teamLabel->runAction(EaseOut::create(ScaleTo::create(.3f, 1.0f), 0.3f));
+        totalTurnsPassed++;
+        distributePowerUps();
     }
     else
     {
         auto paren = " (" + to_string(movesPerTurn - movesElapsed) + ")";
         teamLabel->setString((currentTeamTurn == TeamRed) ? "Red Team turn" + paren : "Blue Team turn" + paren);
     }
+}
+
+void KnightWorld::distributePowerUps()
+{
+    if (totalTurnsPassed > 0)
+        for (int x = 0; x < tmxdat.tileswide; ++x)
+            for (int y = 0; y < tmxdat.tilestall; ++y)
+                if (tmxdat.checkSquareProperty(Vec2(x, y), "Piece type", _spawn) == "Powerup" && (tmxdat.getPieceInSquare(Vec2(x, y), pieces) == nullptr))
+                    if (true)//floor(CCRANDOM_0_1() * 30) == 0) // TODO: Use random seed
+                    {
+                        CCLOG("Creating powerups");
+                        auto curr = Powerup::create("imgs/Powerup.png", tmxdat);
+                        pieces.push_back(curr);
+                        curr->setPosition(tmxdat.centerPositionForTileCoord(Vec2(x, y)));
+                        addChild(curr, 20);
+                        curr->setScale(1 / 1.3f);
+                        curr->runAction(RepeatForever::create(Sequence::create(EaseInOut::create(ScaleBy::create(1.0f, 1.3f), 2.0f), EaseInOut::create(ScaleBy::create(1.0f, 1 / 1.3f), 2.0f), nullptr)));
+                        curr->runAction(RepeatForever::create(RotateBy::create(10.0f, 360.0f)));
+                    }
 }

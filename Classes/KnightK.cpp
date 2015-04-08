@@ -12,6 +12,7 @@ KnightK::KnightK(const string& FrameName, TileMapTools &tmxdat) :
     _tileMap    = _tmxdat._map;
     _background = _tmxdat._background;
     pieceType  = TypeKing;
+    ascended = false;
 }
 
 KnightK::~KnightK() 
@@ -50,7 +51,7 @@ void KnightK::setKnightPosition(Point position,
             auto pieceToTake = _tmxdat.getPieceInSquare(tileCoord, pieces);
             runAction(Sequence::create(
                 EaseInOut::create(MoveTo::create(2.5f, _tmxdat.roundedCenterPosition(position)), 1.5f),
-                CCCallFunc::create([pieceToTake, &pieces](){if (pieceToTake) pieceToTake->take(pieces);}),
+                CCCallFunc::create([this, pieceToTake, &pieces](){if (pieceToTake) pieceToTake->take(pieces, this);}),
                 CCCallFunc::create(callWhenDoneMoving),
                 nullptr));
         }
@@ -86,7 +87,7 @@ vector<Vec2> KnightK::possibleSquaresToMoveOn(vector<Piece*> pieces)
     return realPositions;
 }
 
-void KnightK::take(std::vector<Piece*>& pieces)
+void KnightK::take(std::vector<Piece*>& pieces, Piece* takenby)
 {
 
     CCLOG("The King Has Been Taken!");

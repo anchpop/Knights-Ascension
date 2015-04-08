@@ -11,7 +11,8 @@ Knight::Knight(const string& FrameName, TileMapTools &tmxdat) :
 
     _tileMap    = _tmxdat._map;
     _background = _tmxdat._background;
-    pieceType  = TypeKnight;
+    pieceType = TypeKnight;
+    ascended = false;
 }
 
 Knight::~Knight() 
@@ -47,15 +48,17 @@ void Knight::setKnightPosition(Point position,
         if (std::find_if(pPositions.begin(), pPositions.end(), 
                          [tileCoord](Vec2 i) {return tileCoord == i; }) != pPositions.end())
         {
-			
+            
             callWhenBeginMoving();
             if (_tmxdat.checkSquareProperty(tileCoord, "Destroyable", _background) != "true"){   // If it's an empty square
+                if (ascended)
+                    setSquare(HoleSquare, curPos);
                 auto pieceToTake = _tmxdat.getPieceInSquare(tileCoord, pieces);
                 //if (pieceToTake) pieceToTake->take(pieces);
                 runAction(Sequence::create(
                     EaseIn::create(MoveTo::create(0.2f, _tmxdat.centerPositionForTileCoord(getFirstLoc(curPos, tileCoord))), 1.5f),
                     MoveTo::create(0.1f, _tmxdat.roundedCenterPosition(position)),
-                    CCCallFunc::create([pieceToTake, &pieces](){if (pieceToTake) pieceToTake->take(pieces);}),
+                    CCCallFunc::create([this, pieceToTake, &pieces](){if (pieceToTake) pieceToTake->take(pieces, this);}),
                     CCCallFunc::create(callWhenDoneMoving),
                     nullptr));
             }

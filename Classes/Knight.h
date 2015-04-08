@@ -24,6 +24,10 @@ public:
 
     virtual void setKnightPosition(Point position, const std::function<void()>&, const std::function<void()>&, vector<Piece*>&);
 
+    bool isAscended() { return ascended; }
+
+    virtual void Ascend() { ascended = true; }
+
     //void setup(String, TMXTiledMap*, TMXLayer*, TMXLayer*, int, int);
 
     static Knight* create(const std::string&, TileMapTools&);
@@ -46,5 +50,7 @@ protected:
     TMXLayer    *_background;
     TMXLayer    *_meta;
     TileMapTools _tmxdat;
+
+    bool ascended;
 };
 

@@ -64,15 +64,23 @@
    </properties>
   </tile>
  </tileset>
+ <tileset firstgid="13" name="power" tilewidth="64" tileheight="64">
+  <image source="imgs/meta.png" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="Piece type" value="Powerup"/>
+   </properties>
+  </tile>
+ </tileset>
  <layer name="mainboard" width="15" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjZWBgYKUAswAxBwmYBUkvKfpgeKD1suDwMy4xbP5FNoMFBx+bm1lwqMclRy295LqZGmE11NIGuXmBXAwAgVkGGw==
+   eJxjZWBgYKUAswAxBwmYBUkvKfpgeKD1suDwMy4xbP5lIQJjczM2NSx45Kill1w3UyOshlraIDcvkIsBYzkGCw==
   </data>
  </layer>
  <objectgroup name="objects"/>
- <layer name="Meta" width="15" height="16" opacity="0.35">
+ <layer name="Meta" width="15" height="16" opacity="0.14">
   <data encoding="base64" compression="zlib">
-   eJxjYKAe4IFiEODGIoZLD7FmE2M3Mh4FowAEuLBgQupxAeR0hU8dsj2cWMSoBQAW2gET
+   eJxjYKAe4IFiEODGIoZLD7FmEyOPTg8XwItHDJ8cpXqHA+DCQRNST6y5uORg8pxYxKgFAHzaAUM=
   </data>
  </layer>
 </map>
