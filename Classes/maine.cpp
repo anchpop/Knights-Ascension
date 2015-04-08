@@ -92,7 +92,7 @@ bool KnightWorld::init()
     currentTeamTurn = pieces[0]->getTeam();
     movesElapsed = 0;
     totalTurnsPassed = 0;
-    movesPerTurn = 5;
+    movesPerTurn = 4;
 
     activePiece = nullptr;
     spriteIsMoving = false;
@@ -102,21 +102,20 @@ bool KnightWorld::init()
     {
         this->addChild(pieces[i], 20);
     }
-    this->setViewPointCenter(VisibleRect::center());
 
     setTouchEnabled(true);
 
-	
-    this->setScale(1.0f); // Shrinkify everything!
+    this->setScale(0.6f); // Shrinkify everything!
     //runAction(RepeatForever::create(RotateBy::create(60.0f / boardRPM, 360.0f)));
     //this->setRotation(45.0f); // Spinify everything!
 
+    this->setViewPointCenter(tmxdat.centerPositionForTileCoord(Vec2(7.5, 8)));
 
     TTFConfig ttfConfig("fonts/pixel2.ttf", 60, GlyphCollection::NEHE);                                              // I have no idea how any of this works
     ttfConfig.fontFilePath = "fonts/pixel2.ttf";                                                                     // I have no idea how any of this works
     teamLabel = Label::createWithTTF(ttfConfig, "fonts/pixel2.ttf", TextHAlignment::CENTER, 0);                      // I have no idea how any of this works
     //teamLabel = Label::createWithSystemFont("Red Team turn " + to_string(movesPerTurn - movesElapsed) + "", , 48);
-    teamLabel->setString("Red Team turn (" + to_string(movesPerTurn - movesElapsed) + ")");
+    teamLabel->setString("Blue Team turn (" + to_string(movesPerTurn - movesElapsed) + ")");
     teamLabel->setPosition(tmxdat.centerPositionForTileCoord(Vec2(tmxdat.tileswide / 2.0f, -1.0f)));
     teamLabel->enableShadow(Color4B(0, 0, 0, 150), Size(3,3), 0);
     teamLabel->setColor(ccc3(255, 0, 0));
@@ -367,7 +366,7 @@ void KnightWorld::switchTeamTurn()
         movesElapsed = 0;
         auto paren = " (" + to_string(movesPerTurn - movesElapsed) + ")";
         teamLabel->setString((currentTeamTurn == TeamRed) ? "Red Team turn" + paren : "Blue Team turn" + paren);
-        teamLabel->setColor((currentTeamTurn == TeamRed) ? ccc3(255, 0, 0) : ccc3(0, 0, 255));
+        teamLabel->setColor((currentTeamTurn == TeamRed) ? ccc3(255, 0, 0) : ccc3(0, 200, 255));
         teamLabel->setScale(1.4f);
         teamLabel->runAction(EaseOut::create(ScaleTo::create(.3f, 1.0f), 0.3f));
         totalTurnsPassed++;
@@ -382,13 +381,12 @@ void KnightWorld::switchTeamTurn()
 
 void KnightWorld::distributePowerUps()
 {
-    if (totalTurnsPassed > 0)
+    if (totalTurnsPassed > 3 + floor(CCRANDOM_0_1() * 2))
         for (int x = 0; x < tmxdat.tileswide; ++x)
             for (int y = 0; y < tmxdat.tilestall; ++y)
                 if (tmxdat.checkSquareProperty(Vec2(x, y), "Piece type", _spawn) == "Powerup" && (tmxdat.getPieceInSquare(Vec2(x, y), pieces) == nullptr))
-                    if (true)//floor(CCRANDOM_0_1() * 30) == 0) // TODO: Use random seed
+                    if (floor(CCRANDOM_0_1() * 30) == 0) // TODO: Use random seed
                     {
-                        CCLOG("Creating powerups");
                         auto curr = Powerup::create("imgs/Powerup.png", tmxdat);
                         pieces.push_back(curr);
                         curr->setPosition(tmxdat.centerPositionForTileCoord(Vec2(x, y)));
