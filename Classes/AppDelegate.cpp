@@ -55,8 +55,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
     //audio->preloadBackgroundMusic("sound/sanctuary.mp3");
 
 
-    //CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic(
-    //    "sound/sanctuary.mp3", true);                                            //Play background music
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic(
+        "sound/sanctuary.mp3", true);                                            //Play background music
 
 
     // create a scene. it's an autorelease object
