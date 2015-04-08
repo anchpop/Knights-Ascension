@@ -111,9 +111,9 @@ bool KnightWorld::init()
 
     this->setViewPointCenter(tmxdat.centerPositionForTileCoord(Vec2(7.5, 8)));
 
-    TTFConfig ttfConfig("fonts/Akashi.ttf", 60, GlyphCollection::NEHE);                                              // I have no idea how any of this works
-    ttfConfig.fontFilePath = "fonts/Akashi.ttf";                                                                     // I have no idea how any of this works
-    teamLabel = Label::createWithTTF(ttfConfig, "fonts/Akashi.ttf", TextHAlignment::CENTER, 0);                      // I have no idea how any of this works
+    TTFConfig ttfConfig("fonts/Munro.ttf", 60, GlyphCollection::NEHE);                                              // I have no idea how any of this works
+    ttfConfig.fontFilePath = "fonts/Munro.ttf";                                                                     // I have no idea how any of this works
+    teamLabel = Label::createWithTTF(ttfConfig, "fonts/Munro.ttf", TextHAlignment::CENTER, 0);                      // I have no idea how any of this works
     //teamLabel = Label::createWithSystemFont("Red Team turn " + to_string(movesPerTurn - movesElapsed) + "", , 48);
     teamLabel->setString("Blue Team turn (" + to_string(movesPerTurn - movesElapsed) + ")");
     teamLabel->setPosition(tmxdat.centerPositionForTileCoord(Vec2(tmxdat.tileswide / 2.0f, -1.0f)));

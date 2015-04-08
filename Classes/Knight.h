@@ -26,7 +26,9 @@ public:
 
     bool isAscended() { return ascended; }
 
-    virtual void Ascend() { ascended = true; }
+    virtual void Ascend() {
+        ascended = true; CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("sound/powerup.wav");
+    }
 
     //void setup(String, TMXTiledMap*, TMXLayer*, TMXLayer*, int, int);
 

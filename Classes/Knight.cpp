@@ -52,7 +52,11 @@ void Knight::setKnightPosition(Point position,
             callWhenBeginMoving();
             if (_tmxdat.checkSquareProperty(tileCoord, "Destroyable", _background) != "true"){   // If it's an empty square
                 if (ascended)
+                {
+                    auto effect = (floor(CCRANDOM_0_1() * 3) == 0) ? "sound/crack.wav" : "sound/crack2.wav";
+                    CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(effect);
                     setSquare(HoleSquare, curPos);
+                }
                 auto pieceToTake = _tmxdat.getPieceInSquare(tileCoord, pieces);
                 //if (pieceToTake) pieceToTake->take(pieces);
                 runAction(Sequence::create(
@@ -64,15 +68,15 @@ void Knight::setKnightPosition(Point position,
             }
             else
             {
+                auto effect = (floor(CCRANDOM_0_1() * 3) == 0) ? "sound/break.wav" : "sound/break2.wav";
                 runAction(Sequence::create(                                                     // If it's a blocked square
                               EaseIn::create(MoveTo::create(0.2f, _tmxdat.roundedCenterPosition(position)), .3f),
                               CCCallFunc::create(callWhenDoneMoving),
                               CCCallFunc::create(
-                                  [this, tileCoord]()
+                                [this, effect, tileCoord]()
                                   {
                                       setSquare(EmptySquare, tileCoord); 
-                                      CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(
-                                          "sound/explosion.wav");
+                                      CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(effect);
                                   }),
                               nullptr));
             }
