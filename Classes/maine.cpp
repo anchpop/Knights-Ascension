@@ -112,9 +112,9 @@ bool KnightWorld::init()
     //this->setRotation(45.0f); // Spinify everything!
 
 
-    TTFConfig ttfConfig("fonts/pixel.ttf", 60, GlyphCollection::NEHE);                                              // I have no idea how any of this works
-    ttfConfig.fontFilePath = "fonts/pixel.ttf";                                                                     // I have no idea how any of this works
-    teamLabel = Label::createWithTTF(ttfConfig, "fonts/pixel.ttf", TextHAlignment::CENTER, 0);                      // I have no idea how any of this works
+    TTFConfig ttfConfig("fonts/pixel2.ttf", 60, GlyphCollection::NEHE);                                              // I have no idea how any of this works
+    ttfConfig.fontFilePath = "fonts/pixel2.ttf";                                                                     // I have no idea how any of this works
+    teamLabel = Label::createWithTTF(ttfConfig, "fonts/pixel2.ttf", TextHAlignment::CENTER, 0);                      // I have no idea how any of this works
     //teamLabel = Label::createWithSystemFont("Red Team turn " + to_string(movesPerTurn - movesElapsed) + "", , 48);
     teamLabel->setString("Red Team turn (" + to_string(movesPerTurn - movesElapsed) + ")");
     teamLabel->setPosition(tmxdat.centerPositionForTileCoord(Vec2(tmxdat.tileswide / 2.0f, -1.0f)));
