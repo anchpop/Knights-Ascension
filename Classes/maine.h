@@ -64,7 +64,7 @@ public:
 
 	void moveViewPointCenter(Point position, const std::function<void()>&, const std::function<void()>&, float time = 0.4f, float easing = 0.5f);
 
-
+    void cleanupHoles();
 
 	virtual bool onGesturePan(TGesturePan* gesture);
 	virtual bool onGesturePinch(TGesturePinch* gesture);

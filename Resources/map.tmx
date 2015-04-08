@@ -72,9 +72,12 @@
    </properties>
   </tile>
  </tileset>
+ <tileset firstgid="14" name="border" tilewidth="64" tileheight="64">
+  <image source="imgs/border.png" width="64" height="64"/>
+ </tileset>
  <layer name="mainboard" width="15" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjZWBgYKUAswAxBwmYBUkvKfpgeKD1suDwMy4xbP5lIQJjczM2NSx45Kill1w3UyOshlraIDcvkIsBYzkGCw==
+   eJxjYWBgYKEQc5CAydWHrn+g9OIyA5cYNj2khCkyH5saQnLU0Euum6kRVkMtbVCSpsjBAPX2BdE=
   </data>
  </layer>
  <objectgroup name="objects"/>

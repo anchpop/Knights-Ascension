@@ -118,8 +118,8 @@ vector<Vec2> Knight::possibleSquaresToMoveOn(vector<Piece*> pieces)
             bool squaresOpen = true;
             vector<Vec2> checksquares = passthroughsquares(relativePossibleKnightSquaresToMoveOn[i]);
             for (int i = 0; i < checksquares.size(); i++)
-                if (_tmxdat.checkSquareProperty(checksquares[i] + tileCoord, "Collideable", _background) == "true" || 
-                    _tmxdat.getPieceInSquare(checksquares[i] + tileCoord, pieces) != nullptr)
+                if (_tmxdat.checkSquareProperty(checksquares[i] + tileCoord, "Jumpable", _background) != "true" || 
+                    (_tmxdat.getPieceInSquare(checksquares[i] + tileCoord, pieces) != nullptr && _tmxdat.getPieceInSquare(checksquares[i] + tileCoord, pieces)->getTeam() != Neutral))
                     squaresOpen = false;
 
             if (squaresOpen)

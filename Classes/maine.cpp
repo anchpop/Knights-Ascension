@@ -163,7 +163,7 @@ bool KnightWorld::init()
                         else
                         {
                             setViewPointCenter(locationInNode);
-                            runAction(Shake::actionWithDuration(.8f, 5.5f));
+                            runAction(Shake::actionWithDuration(.6f, 5.5f));
                         }
 
                     };
@@ -380,6 +380,7 @@ void KnightWorld::switchTeamTurn()
         teamLabel->runAction(EaseOut::create(ScaleTo::create(.3f, 1.0f), 0.3f));
         totalTurnsPassed++;
         distributePowerUps();
+        cleanupHoles();
     }
     else
     {
@@ -393,7 +394,7 @@ void KnightWorld::distributePowerUps()
     if (totalTurnsPassed > 0)//3 + floor(CCRANDOM_0_1() * 2))
         for (int x = 0; x < tmxdat.tileswide; ++x)
             for (int y = 0; y < tmxdat.tilestall; ++y)
-                if (tmxdat.checkSquareProperty(Vec2(x, y), "Piece type", _spawn) == "Powerup" && (tmxdat.getPieceInSquare(Vec2(x, y), pieces) == nullptr))
+                if (tmxdat.checkSquareProperty(Vec2(x, y), "Piece type", _spawn) == "Powerup" && (tmxdat.getPieceInSquare(Vec2(x, y), pieces) == nullptr) && tmxdat.checkSquareProperty(Vec2(x, y), "Collideable", _background) != "true")
                     if (true)//floor(CCRANDOM_0_1() * 30) == 0) // TODO: Use random seed
                     {
                         auto curr = Powerup::create("imgs/Powerup.png", tmxdat);
@@ -404,4 +405,13 @@ void KnightWorld::distributePowerUps()
                         curr->runAction(RepeatForever::create(Sequence::create(EaseInOut::create(ScaleBy::create(1.0f, 1.3f), 2.0f), EaseInOut::create(ScaleBy::create(1.0f, 1 / 1.3f), 2.0f), nullptr)));
                         curr->runAction(RepeatForever::create(RotateBy::create(10.0f, 360.0f)));
                     }
+}
+
+void KnightWorld::cleanupHoles()
+{
+    for (int x = 0; x < tmxdat.tileswide; ++x)
+        for (int y = 0; y < tmxdat.tilestall; ++y)
+            if (_background->tileGIDAt(Vec2(x, y)) == HoleSquare)
+                if (floor(CCRANDOM_0_1() * 10) == 0)
+                    _background->setTileGID(EmptySquare, Vec2(x, y));
 }
