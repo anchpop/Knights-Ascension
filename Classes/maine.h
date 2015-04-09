@@ -8,6 +8,8 @@
 #include "TileUtils.h"
 #include "TGestureRecognizer.h"
 #include "Utils.h"
+#include <string>
+#include <cstdio>
 using namespace cocos2d;
 
 
@@ -42,6 +44,10 @@ private:
 	void initGestureRecognizer();
 
     void distributePowerUps();
+
+    string tostring(int i) {char buff[33];
+    sprintf(buff, "%d", i);
+    return std::string(buff); }
 
 public:
 
