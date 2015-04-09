@@ -106,7 +106,7 @@ bool KnightWorld::init()
 
     setTouchEnabled(true);
 
-    this->setScale(0.6f); // Shrinkify everything!
+    this->setScale(0.8f); // Shrinkify everything!
     //runAction(RepeatForever::create(RotateBy::create(60.0f / boardRPM, 360.0f)));
     //this->setRotation(45.0f); // Spinify everything!
 
@@ -115,8 +115,8 @@ bool KnightWorld::init()
     TTFConfig ttfConfig("fonts/Munro.ttf", 60, GlyphCollection::NEHE);                                              // I have no idea how any of this works
     ttfConfig.fontFilePath = "fonts/Munro.ttf";                                                                     // I have no idea how any of this works
     teamLabel = Label::createWithTTF(ttfConfig, "fonts/Munro.ttf", TextHAlignment::CENTER, 0);                      // I have no idea how any of this works
-    //teamLabel = Label::createWithSystemFont("Red Team turn " + to_string(movesPerTurn - movesElapsed) + "", , 48);
-    teamLabel->setString("Blue Team turn (" + to_string(movesPerTurn - movesElapsed) + ")");
+    //teamLabel = Label::createWithSystemFont("Red Team turn " + tostring(movesPerTurn - movesElapsed) + "", , 48);
+    teamLabel->setString("Blue Team turn (" + tostring(movesPerTurn - movesElapsed) + ")");
     teamLabel->setPosition(tmxdat.centerPositionForTileCoord(Vec2(tmxdat.tileswide / 2.0f, -1.0f)));
     teamLabel->enableShadow(Color4B(0, 0, 0, 150), Size(3,3), 0);
     teamLabel->setColor(ccc3(255, 0, 0));
@@ -373,7 +373,7 @@ void KnightWorld::switchTeamTurn()
     {
         currentTeamTurn = (currentTeamTurn == TeamRed) ? TeamBlue : TeamRed;
         movesElapsed = 0;
-        auto paren = " (" + to_string(movesPerTurn - movesElapsed) + ")";
+        auto paren = " (" + tostring(movesPerTurn - movesElapsed) + ")";
         teamLabel->setString((currentTeamTurn == TeamRed) ? "Red Team turn" + paren : "Blue Team turn" + paren);
         teamLabel->setColor((currentTeamTurn == TeamRed) ? ccc3(255, 0, 0) : ccc3(0, 200, 255));
         teamLabel->setScale(1.4f);
@@ -384,7 +384,7 @@ void KnightWorld::switchTeamTurn()
     }
     else
     {
-        auto paren = " (" + to_string(movesPerTurn - movesElapsed) + ")";
+        auto paren = " (" + tostring(movesPerTurn - movesElapsed) + ")";
         teamLabel->setString((currentTeamTurn == TeamRed) ? "Red Team turn" + paren : "Blue Team turn" + paren);
     }
 }
