@@ -106,7 +106,7 @@ bool KnightWorld::init()
 
     setTouchEnabled(true);
 
-    this->setScale(1.5f); // Shrinkify everything!
+    this->setScale(0.8f); // Shrinkify everything!
     //runAction(RepeatForever::create(RotateBy::create(60.0f / boardRPM, 360.0f)));
     //this->setRotation(45.0f); // Spinify everything!
 
