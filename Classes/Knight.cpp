@@ -176,3 +176,4 @@ Vec2 Knight::getFirstLoc(Vec2 start, Vec2 end)
     else //if (diff == Vec2(-2, 1) || diff == Vec2(-2, -1))
         return Vec2(start.x - 2, start.y);
 }
+

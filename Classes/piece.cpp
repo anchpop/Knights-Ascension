@@ -16,8 +16,12 @@ Piece* Piece::create()
 
 		pSprite->initOptions();
 
+        
+
 		return pSprite;
 	}
+
+    
 
 	CC_SAFE_DELETE(pSprite);
 	return NULL;
@@ -25,7 +29,8 @@ Piece* Piece::create()
 
 void Piece::initOptions()
 {
-	// do things here like setTag(), setPosition(), any custom logic.
+    wiggleingHasStopped = true;
+    shouldWiggle = false;
 }
 
 void Piece::setTeam(PieceTeam _team)
@@ -53,5 +58,33 @@ void Piece::take(std::vector<Piece*>& pieces, Piece* takenby)
             this->removeFromParentAndCleanup(true);
             break;
         }
+    }
+}
+
+void Piece::restartWiggle()
+{
+    if (shouldWiggle)
+    {
+        runAction(Sequence::create(
+            EaseOut::create(RotateBy::create(.1f, 5.0f), 0.6f),
+            EaseInOut::create(RotateBy::create(.2f, -10.0f), 2.0f),
+            EaseIn::create(RotateBy::create(.1f, 5.0f), 0.6f),
+            CCCallFunc::create([this](){ if (!shouldWiggle) wiggleingHasStopped = true; }),
+            CCCallFunc::create([this](){restartWiggle(); }),
+            nullptr
+            ));
+    }
+}
+
+void Piece::startWiggle()
+{
+    if (shouldWiggle && wiggleingHasStopped)
+    {
+        runAction(Sequence::create(
+            //DelayTime::create(CCRANDOM_0_1()),  // put any delay you want here
+            CCCallFunc::create([this](){ wiggleingHasStopped = false; }),
+            CCCallFunc::create([this](){ restartWiggle(); }),
+            nullptr
+            ));
     }
 }

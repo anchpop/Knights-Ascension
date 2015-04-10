@@ -90,12 +90,13 @@ bool KnightWorld::init()
         }
     }
 	
-    currentTeamTurn = pieces[0]->getTeam();
+    //currentTeamTurn = TeamRed;
+    setCurTeam(TeamRed);
     movesElapsed = 0;
     totalTurnsPassed = 0;
     movesPerTurn = 4;
 
-    activePiece = nullptr;
+    setActivePiece(nullptr);
     spriteIsMoving = false;
     screenIsMoving = false;
 
@@ -142,7 +143,7 @@ bool KnightWorld::init()
                     if (pieces[i]->boundingBox().containsPoint(locationInNode) && pieces[i]->getTeam() == currentTeamTurn)
                     {
                         if (pieces[i]->getPieceType() != TypeKing || movesElapsed == 0)
-                            activePiece = dynamic_cast<Knight *>(pieces[i]);
+                            setActivePiece(dynamic_cast<Knight *>(pieces[i]));
                         break;
                     }
                 }
@@ -171,7 +172,7 @@ bool KnightWorld::init()
                     auto onmovingend = [this, locationInNode]()
                     {
                         switchTeamTurn();
-                        activePiece = nullptr;
+                        setActivePiece(nullptr);
                         spriteIsMoving = false;
                     };
 
@@ -188,7 +189,7 @@ bool KnightWorld::init()
                     
                 }
                 else
-                    activePiece = nullptr;
+                    setActivePiece(nullptr);
             }
         }
 
@@ -377,11 +378,11 @@ void KnightWorld::switchTeamTurn()
 {
     if (movesElapsed >= movesPerTurn || activePiece->getPieceType() == TypeKing)
     {
-        currentTeamTurn = (currentTeamTurn == TeamRed) ? TeamBlue : TeamRed;
+        setCurTeam((getCurTeam() == TeamRed) ? TeamBlue : TeamRed);
         movesElapsed = 0;
         auto paren = " (" + tostring(movesPerTurn - movesElapsed) + ")";
-        teamLabel->setString((currentTeamTurn == TeamRed) ? "Red Team turn" + paren : "Blue Team turn" + paren);
-        teamLabel->setColor((currentTeamTurn == TeamRed) ? ccc3(255, 0, 0) : ccc3(0, 200, 255));
+        teamLabel->setString((getCurTeam() == TeamRed) ? "Red Team turn" + paren : "Blue Team turn" + paren);
+        teamLabel->setColor((getCurTeam() == TeamRed) ? ccc3(255, 0, 0) : ccc3(0, 200, 255));
         teamLabel->setScale(1.4f);
         teamLabel->runAction(EaseOut::create(ScaleTo::create(.3f, 1.0f), 0.3f));
         totalTurnsPassed++;
@@ -391,7 +392,7 @@ void KnightWorld::switchTeamTurn()
     else
     {
         auto paren = " (" + tostring(movesPerTurn - movesElapsed) + ")";
-        teamLabel->setString((currentTeamTurn == TeamRed) ? "Red Team turn" + paren : "Blue Team turn" + paren);
+        teamLabel->setString((getCurTeam() == TeamRed) ? "Red Team turn" + paren : "Blue Team turn" + paren);
     }
 }
 
@@ -420,4 +421,65 @@ void KnightWorld::cleanupHoles()
             if (_background->tileGIDAt(Vec2(x, y)) == HoleSquare)
                 if (floor(CCRANDOM_0_1() * 10) == 0)
                     _background->setTileGID(EmptySquare, Vec2(x, y));
+}
+
+void KnightWorld::setCurTeam(PieceTeam team)
+{
+    for (int i = 0; i < pieces.size(); i++)
+        pieces[i]->endWiggle();
+    currentTeamTurn = team;
+    for (int i = 0; i < pieces.size(); i++)
+        if (pieces[i]->getTeam() == getCurTeam())
+            pieces[i]->beginWiggle();
+}
+
+void KnightWorld::setActivePiece(Piece* piece)
+{
+    if (piece != nullptr)
+    {
+        for (int i = 0; i < pieces.size(); i++)
+            if (pieces[i] != piece)
+                pieces[i]->endWiggle();
+        activePiece = dynamic_cast<Knight *>(piece);
+        initiateSquareWiggle();
+    }
+    else
+    {
+        setCurTeam(currentTeamTurn);
+        activePiece = nullptr;
+    }
+}
+
+void KnightWorld::initiateSquareWiggle()
+{
+    if (activePiece != nullptr)
+    {
+        auto squarestowiggle = activePiece->possibleSquaresToMoveOn(pieces);
+        for (int i = 0; i < squarestowiggle.size(); i++)
+        {
+            if (_background->tileAt(squarestowiggle[i])->numberOfRunningActions() == 0)
+                makeSpriteWiggle(_background->tileAt((squarestowiggle[i])));
+        }
+    }
+}
+
+
+void KnightWorld::makeSpriteWiggle(Sprite* square)
+{
+    if (activePiece != nullptr)
+    {
+        if (square->getAnchorPoint() != Vec2(0.5f, 0.5f))
+        {
+            square->setPosition(square->getPosition() + Vec2(tmxdat.tilewidth / 2, tmxdat.tileheight / 2));
+            square->setAnchorPoint(Vec2(0.5f, 0.5f));
+        }
+        square->runAction(Sequence::create(
+            EaseOut::create(RotateBy::create(.1f, 5.0f), 0.6f),
+            EaseInOut::create(RotateBy::create(.2f, -10.0f), 2.0f),
+            EaseIn::create(RotateBy::create(.1f, 5.0f), 0.6f),
+            CCCallFunc::create([this, square](){makeSpriteWiggle(square); }),
+            nullptr
+            ));
+    }
+
 }

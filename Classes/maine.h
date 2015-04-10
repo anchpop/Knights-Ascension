@@ -49,6 +49,8 @@ private:
     sprintf(buff, "%d", i);
     return std::string(buff); }
 
+    bool allPiecesShouldWiggle;
+
 public:
 
 	// there's no 'id' in cpp, so we recommend returning the class instance pointer
@@ -80,6 +82,12 @@ public:
 	virtual void TouchMoved(Touch* touch, Event* event);
 	virtual void TouchEnded(Touch* touch, Event* event);
 	virtual void TouchCancelled(Touch* touch, Event* event);
+
+    PieceTeam getCurTeam() { return currentTeamTurn; }
+    void setCurTeam(PieceTeam);
+    void setActivePiece(Piece*);
+    void makeSpriteWiggle(Sprite*);
+    void initiateSquareWiggle();
 
 	// implement the "static create()" method manually
 	CREATE_FUNC(KnightWorld);

@@ -43,6 +43,9 @@ public:
 
     bool canMoveToPoint(Vec2, vector<Piece*>);
 
+    
+    
+
 protected:
     void setSquare(SquareType squareType, Vec2 position) { _background->setTileGID(squareType, position); }
     vector<Vec2> passthroughsquares(Vec2);

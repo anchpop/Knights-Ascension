@@ -15,6 +15,9 @@ class Piece : public cocos2d::Sprite
 protected:
 	PieceType pieceType;
 	PieceTeam team;
+    
+    void startWiggle();
+    void restartWiggle();
 public:
 	Piece();
 	~Piece();
@@ -29,4 +32,9 @@ public:
 	PieceType getPieceType();
 
     virtual void take(std::vector<Piece*>&, Piece*);
+
+    void beginWiggle() { shouldWiggle = true; if (wiggleingHasStopped) startWiggle(); };
+    void endWiggle() { shouldWiggle = false; };
+    bool shouldWiggle;
+    bool wiggleingHasStopped;
 };

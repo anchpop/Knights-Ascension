@@ -52,7 +52,7 @@ void KnightK::setKnightPosition(Point position,
             {
                 auto effect = (floor(CCRANDOM_0_1() * 3) == 0) ? "sound/crack.wav" : "sound/crack2.wav";
                 CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(effect);
-                setSquare(HoleSquare, curPos);
+                setSquare(HoleSquare, curPos);                                                            // This will probably work
             }
             auto pieceToTake = _tmxdat.getPieceInSquare(tileCoord, pieces);
             runAction(Sequence::create(
