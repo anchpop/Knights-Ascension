@@ -106,17 +106,17 @@ bool KnightWorld::init()
 
     setTouchEnabled(true);
 
-    this->setScale(0.8f); // Shrinkify everything!
+    //this->setScale(2.0f); // Shrinkify everything!
     //runAction(RepeatForever::create(RotateBy::create(60.0f / boardRPM, 360.0f)));
     //this->setRotation(45.0f); // Spinify everything!
 
-    this->setViewPointCenter(tmxdat.centerPositionForTileCoord(Vec2(7.5, 8)));
+    this->setViewPointCenter(tmxdat.positionForTileCoord(Vec2(7.5, 8)));
 
     TTFConfig ttfConfig("fonts/Munro.ttf", 60, GlyphCollection::NEHE);                                              // I have no idea how any of this works
     ttfConfig.fontFilePath = "fonts/Munro.ttf";                                                                     // I have no idea how any of this works
     teamLabel = Label::createWithTTF(ttfConfig, "fonts/Munro.ttf", TextHAlignment::CENTER, 0);                      // I have no idea how any of this works
     //teamLabel = Label::createWithSystemFont("Red Team turn " + tostring(movesPerTurn - movesElapsed) + "", , 48);
-    teamLabel->setString("Blue Team turn (" + tostring(movesPerTurn - movesElapsed) + ")");
+    teamLabel->setString("Red Team turn (" + tostring(movesPerTurn - movesElapsed) + ")");
     teamLabel->setPosition(tmxdat.centerPositionForTileCoord(Vec2(tmxdat.tileswide / 2.0f, -1.0f)));
     teamLabel->enableShadow(Color4B(0, 0, 0, 150), Size(3,3), 0);
     teamLabel->setColor(ccc3(255, 0, 0));
@@ -308,7 +308,7 @@ bool KnightWorld::onGesturePan(TGesturePan* gesture)
         static bool panInMapBoundry = false;
         if (gesture->getID() != lastPanId)
         {
-            lastPanId = gesture->getID(); //This currently does nothing but could be used to not have a constant bombardment of pans
+            lastPanId = gesture->getID(); 
             panInMapBoundry = tmxdat.tileCoordInMapBounds(tmxdat.tileCoordForPosition(convertToNodeSpace(gesture->getLocation()))); // needs work
         }
         if (panInMapBoundry)
@@ -321,23 +321,29 @@ bool KnightWorld::onGesturePan(TGesturePan* gesture)
 
 bool KnightWorld::onGesturePinch(TGesturePinch* gesture)
 {
-    /*static int lastPinchId = -1;
-      static bool pinchInsideNode = false;
-      static float originalScale;
+    if (!spriteIsMoving && !screenIsMoving)
+    {
+        static int lastPinchId = -1;
+        static bool pinchInsideNode = false;
+        static float originalScale;
+        static bool scaleset = false;
 
-      // A new pinch
-      if (gesture->getID() != lastPinchId)
-      {
-      lastPinchId = gesture->getID();
-      pinchInsideNode = NodeContainsPoint(_sprite, gesture->getLocation());
-      originalScale = _sprite->getScale();
-      }
+        // A new pinch
+        if (gesture->getID() != lastPinchId)
+        {
+            lastPinchId = gesture->getID();
+            originalScale = getScale();
+            scaleset = true;
+        }
+        
+        if (!scaleset)
+            setScale(gesture->getScale());
+        else
+            setScale(originalScale * gesture->getScale());
 
-      if (pinchInsideNode)
-      {
-      _sprite->setScale(originalScale * gesture->getScale());
-      }
-    */
+            
+    }
+    
     return false;
 }
 
@@ -397,7 +403,7 @@ void KnightWorld::distributePowerUps()
                 if (tmxdat.checkSquareProperty(Vec2(x, y), "Piece type", _spawn) == "Powerup" && (tmxdat.getPieceInSquare(Vec2(x, y), pieces) == nullptr) && tmxdat.checkSquareProperty(Vec2(x, y), "Collideable", _background) != "true")
                     if (true)//floor(CCRANDOM_0_1() * 30) == 0) // TODO: Use random seed
                     {
-                        auto curr = Powerup::create("imgs/Powerup.png", tmxdat);
+                        auto curr = Powerup::create("imgs/powerup.png", tmxdat);
                         pieces.push_back(curr);
                         curr->setPosition(tmxdat.centerPositionForTileCoord(Vec2(x, y)));
                         addChild(curr, 20);

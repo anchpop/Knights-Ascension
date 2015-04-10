@@ -6,7 +6,8 @@
 #include "maine.h"
 #include "PEShapeCache_X3_0.h"
 #include "SimpleAudioEngine.h"
-
+#include <algorithm> 
+using namespace std;
 USING_NS_CC;
 
 AppDelegate::AppDelegate() {
@@ -34,8 +35,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto glview = director->getOpenGLView();
     if(!glview) {
         glview = GLViewImpl::create("Knight's Ascension");
-		glview->setFrameSize(1920/2, 1200/2);     // Dimensions of the Nexus 7 / 2
-		//glview->setFrameZoomFactor(2.5f); 
+        //glview->setDesignResolutionSize(1920 / 2, 1200 / 2, kResolutionNoBorder);
+        auto designsize = Size(1920 / 2, 1200 / 2);
+        auto screensize = glview->getFrameSize();
+        glview->setFrameSize(designsize.width, designsize.height);     // Dimensions of the Nexus 7 / 2
+        director->setContentScaleFactor(screensize.width / designsize.width);
 		director->setOpenGLView(glview);
     }
 
@@ -73,7 +77,7 @@ void AppDelegate::applicationDidEnterBackground() {
     Director::getInstance()->stopAnimation();
 
     // if you use SimpleAudioEngine, it must be pause
-    // SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
 }
 
 // this function will be called when the app is active again
@@ -81,5 +85,5 @@ void AppDelegate::applicationWillEnterForeground() {
     Director::getInstance()->startAnimation();
 
     // if you use SimpleAudioEngine, it must resume here
-    // SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();
 }
