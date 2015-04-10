@@ -51,6 +51,8 @@ private:
 
     bool allPiecesShouldWiggle;
 
+    Sprite* bg;
+
 public:
 
 	// there's no 'id' in cpp, so we recommend returning the class instance pointer
@@ -88,6 +90,7 @@ public:
     void setActivePiece(Piece*);
     void makeSpriteWiggle(Sprite*);
     void initiateSquareWiggle();
+
 
 	// implement the "static create()" method manually
 	CREATE_FUNC(KnightWorld);

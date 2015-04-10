@@ -20,7 +20,15 @@ Scene* KnightWorld::createScene()
     auto layer = KnightWorld::create();
 
     // add layer as a child to scene
-    scene->addChild(layer);
+    scene->addChild(layer, 1);
+
+    auto layer2 = Layer::create();
+    auto bg = Sprite::create("imgs/backdrop.jpg");
+    scene->addChild(layer2, 0);
+    layer2->addChild(bg, 0);
+    bg->setAnchorPoint(Vec2(0, 0));
+    bg->setPosition(Vec2(0, 0));
+    bg->setScale(0.7f);
 
     // return the scene
     return scene;
@@ -36,10 +44,11 @@ bool KnightWorld::init()
         return false;
     }
 
+    
 
     // create a TMX map
     _tileMap = TMXTiledMap::create("map.tmx"); // note to self, consider using "new" here
-    addChild(_tileMap, 0);
+    addChild(_tileMap, 1);
     _background = _tileMap->layerNamed("mainboard");
 
 
@@ -111,7 +120,8 @@ bool KnightWorld::init()
     //runAction(RepeatForever::create(RotateBy::create(60.0f / boardRPM, 360.0f)));
     //this->setRotation(45.0f); // Spinify everything!
 
-    this->setViewPointCenter(tmxdat.positionForTileCoord(Vec2(7.5, 8)));
+    auto pos = tmxdat.positionForTileCoord(Vec2(7.5, 8));
+    this->setViewPointCenter(pos);
 
     TTFConfig ttfConfig("fonts/Munro.ttf", 60, GlyphCollection::NEHE);                                              // I have no idea how any of this works
     ttfConfig.fontFilePath = "fonts/Munro.ttf";                                                                     // I have no idea how any of this works
