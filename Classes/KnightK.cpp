@@ -39,6 +39,7 @@ void KnightK::setKnightPosition(Point position,
                                vector<Piece*>& pieces)
 {
     Point tileCoord = _tmxdat.tileCoordForPosition(position);
+    Point curPos = _tmxdat.tileCoordForPosition(getPosition());
     vector<Vec2> pPositions = possibleSquaresToMoveOn(pieces);
 
     if (_tmxdat.tileCoordInMapBounds(tileCoord))
@@ -46,8 +47,13 @@ void KnightK::setKnightPosition(Point position,
         if (std::find_if(pPositions.begin(), pPositions.end(), 
                          [tileCoord](Vec2 i) {return tileCoord == i; }) != pPositions.end())
         {
-			
             callWhenBeginMoving();
+            if (ascended)
+            {
+                auto effect = (floor(CCRANDOM_0_1() * 3) == 0) ? "sound/crack.wav" : "sound/crack2.wav";
+                CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(effect);
+                setSquare(HoleSquare, curPos);
+            }
             auto pieceToTake = _tmxdat.getPieceInSquare(tileCoord, pieces);
             runAction(Sequence::create(
                 EaseInOut::create(MoveTo::create(2.5f, _tmxdat.roundedCenterPosition(position)), 1.5f),
