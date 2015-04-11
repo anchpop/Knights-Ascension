@@ -36,8 +36,7 @@ public:
     static Knight* create(const std::string&, TileMapTools&);
 
     //static Knight* create(const std::string&, const std::string&, TileMapTools);
-
-    void initOptions();
+    
 
     virtual vector<Vec2> possibleSquaresToMoveOn(vector<Piece*>);
 

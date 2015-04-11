@@ -455,8 +455,8 @@ void KnightWorld::setActivePiece(Piece* piece)
     }
     else
     {
-        setCurTeam(currentTeamTurn);
         activePiece = nullptr;
+        setCurTeam(currentTeamTurn);
     }
 }
 

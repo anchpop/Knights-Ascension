@@ -33,8 +33,8 @@ public:
 
     virtual void take(std::vector<Piece*>&, Piece*);
 
-    void beginWiggle() { shouldWiggle = true; if (wiggleingHasStopped) startWiggle(); };
-    void endWiggle() { shouldWiggle = false; };
     bool shouldWiggle;
     bool wiggleingHasStopped;
+    void beginWiggle() { shouldWiggle = true; if (wiggleingHasStopped) startWiggle(); };
+    void endWiggle() { shouldWiggle = false; };
 };

@@ -13,6 +13,8 @@ KnightK::KnightK(const string& FrameName, TileMapTools &tmxdat) :
     _background = _tmxdat._background;
     pieceType  = TypeKing;
     ascended = false;
+    wiggleingHasStopped = true;
+    shouldWiggle = false;
 }
 
 KnightK::~KnightK() 

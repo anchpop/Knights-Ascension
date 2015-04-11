@@ -13,6 +13,8 @@ Knight::Knight(const string& FrameName, TileMapTools &tmxdat) :
     _background = _tmxdat._background;
     pieceType = TypeKnight;
     ascended = false;
+    wiggleingHasStopped = true;
+    shouldWiggle = false;
 }
 
 Knight::~Knight() 
@@ -26,11 +28,6 @@ Knight* Knight::create(const string& FrameName, TileMapTools &tmxdat)
     return sprite;
 }
 
-
-void Knight::initOptions()
-{
-    // do things here like setTag(), setPosition(), any custom logic.
-}
 
 
 void Knight::setKnightPosition(Point position,
