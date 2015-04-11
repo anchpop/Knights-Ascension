@@ -32,8 +32,6 @@ public:
 protected:
 
     TMXTiledMap *_tileMap;
-    TMXLayer    *_background;
-    TMXLayer    *_meta;
     TileMapTools _tmxdat;
 };
 
