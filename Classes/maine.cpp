@@ -467,8 +467,9 @@ void KnightWorld::initiateSquareWiggle()
         auto squarestowiggle = activePiece->possibleSquaresToMoveOn(pieces);
         for (int i = 0; i < squarestowiggle.size(); i++)
         {
-            if (_background->tileAt(squarestowiggle[i])->numberOfRunningActions() == 0)
-                makeSpriteWiggle(_background->tileAt((squarestowiggle[i])));
+            if (tmxdat.tileCoordInMapBounds(squarestowiggle[i]))
+                if (_background->tileAt(squarestowiggle[i])->numberOfRunningActions() == 0)
+                    makeSpriteWiggle(_background->tileAt((squarestowiggle[i])));
         }
     }
 }
