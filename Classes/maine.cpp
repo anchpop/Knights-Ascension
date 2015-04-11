@@ -439,7 +439,7 @@ void KnightWorld::setCurTeam(PieceTeam team)
         pieces[i]->endWiggle();
     currentTeamTurn = team;
     for (int i = 0; i < pieces.size(); i++)
-        if (pieces[i]->getTeam() == getCurTeam())
+        if (pieces[i]->getTeam() == getCurTeam() && (pieces[i]->getPieceType() != TypeKing || movesElapsed == 0))
             pieces[i]->beginWiggle();
 }
 
