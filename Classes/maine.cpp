@@ -1,6 +1,5 @@
 #include "maine.h"
 #include "TileUtils.h"
-#include "VisibleRect.h"
 #include "shake.h"
 #include <sstream>
 

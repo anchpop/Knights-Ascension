@@ -8,6 +8,7 @@
 #include "TileUtils.h"
 #include "TGestureRecognizer.h"
 #include "Utils.h"
+#include "VisibleRect.h"
 #include <string>
 #include <cstdio>
 using namespace cocos2d;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cocos2d.h"
+#include "VisibleRect.h"
 
 enum PieceType {
 	TypeKnight, TypeKing, TypePowerup
@@ -32,6 +33,7 @@ public:
 	PieceType getPieceType();
 
     virtual void take(std::vector<Piece*>&, Piece*);
+    virtual void kill(std::vector<Piece*>&, Piece*);
 
     bool shouldWiggle;
     bool wiggleingHasStopped;

@@ -48,7 +48,7 @@ PieceType Piece::getPieceType()
 	return pieceType;
 }
 
-void Piece::take(std::vector<Piece*>& pieces, Piece* takenby)
+void Piece::kill(std::vector<Piece*>& pieces, Piece* takenby)
 {
     for (int i = 0; i < pieces.size(); i++)
     {
@@ -59,6 +59,18 @@ void Piece::take(std::vector<Piece*>& pieces, Piece* takenby)
             break;
         }
     }
+}
+
+void Piece::take(std::vector<Piece*>& pieces, Piece* takenby)
+{
+    auto rect = VisibleRect::getVisibleRect().size;
+    auto sign = floor(CCRANDOM_0_1() * 2) == 0 ? 1 : -1;
+    runAction(Sequence::create(
+        JumpBy::create(0.6f, Vec2(sign * rect.width / 3, -rect.height), 2 * rect.height / 3, 1),
+        CCCallFunc::create([this, &pieces, &takenby](){kill(pieces, takenby); }),
+        nullptr));
+    runAction(RotateBy::create(.59f, 360 * 2));
+    runAction(FadeOut::create(.59f));
 }
 
 void Piece::restartWiggle()
