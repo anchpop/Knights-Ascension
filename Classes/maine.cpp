@@ -26,9 +26,9 @@ Scene* KnightWorld::createScene()
     auto bg = Sprite::create("imgs/backdrop.jpg");
     scene->addChild(layer2, 0);
     layer2->addChild(bg, 0);
-    bg->setAnchorPoint(Vec2(0, 0));
-    bg->setPosition(Vec2(0, 0));
-    bg->setScale(0.7f);
+    bg->setAnchorPoint(Vec2(.5f, .5f));
+    bg->setPosition(VisibleRect::center());
+    bg->setScale(1.0f);
 
     // return the scene
     return scene;
