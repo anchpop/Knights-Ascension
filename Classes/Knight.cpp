@@ -15,6 +15,7 @@ Knight::Knight(const string& FrameName, TileMapTools &tmxdat) :
     ascended = false;
     wiggleingHasStopped = true;
     shouldWiggle = false;
+    _emitter = nullptr;
 }
 
 Knight::~Knight() 
@@ -174,3 +175,24 @@ Vec2 Knight::getFirstLoc(Vec2 start, Vec2 end)
         return Vec2(start.x - 2, start.y);
 }
 
+void Knight::ascend()
+{
+    auto box = this->getBoundingBox().size;
+    ascended = true; CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("sound/powerup.wav");
+    _emitter = ParticleGalaxy::create();
+    _emitter->retain();
+    addChild(_emitter, -1);
+    _emitter->setAnchorPoint(Vec2(.5, .5));
+    _emitter->setPosition(Vec2(box.width/2, box.height/2));
+    _emitter->setPositionType(ParticleSystem::PositionType::GROUPED);
+
+
+    auto _emitterplode = ParticleExplosion::create();
+    _emitterplode->retain();
+    addChild(_emitterplode, -1);
+    _emitterplode->setAnchorPoint(Vec2(.5, .5));
+    _emitterplode->setPosition(Vec2(box.width / 2, box.height / 2));
+    _emitterplode->setPositionType(ParticleSystem::PositionType::FREE);
+    _emitterplode->setSpeed(500);
+    _emitterplode->setSpeedVar(0);
+}

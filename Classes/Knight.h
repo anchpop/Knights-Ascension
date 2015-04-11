@@ -27,9 +27,7 @@ public:
 
     bool isAscended() { return ascended; }
 
-    virtual void Ascend() {
-        ascended = true; CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("sound/powerup.wav");
-    }
+    virtual void ascend();
 
     //void setup(String, TMXTiledMap*, TMXLayer*, TMXLayer*, int, int);
 
@@ -57,5 +55,7 @@ protected:
     TileMapTools _tmxdat;
 
     bool ascended;
+
+    ParticleGalaxy* _emitter;
 };
 

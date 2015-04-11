@@ -50,7 +50,7 @@ vector<Vec2> Powerup::possibleSquaresToMoveOn(vector<Piece*> pieces)
 void Powerup::take(std::vector<Piece*>& pieces, Piece* takenby)
 {
     if (takenby->getPieceType() == TypeKnight || takenby->getPieceType() == TypeKing)
-        dynamic_cast<Knight *>(takenby)->Ascend();
+        dynamic_cast<Knight *>(takenby)->ascend();
     for (int i = 0; i < pieces.size(); i++)
     {
         if (pieces[i] == this)
