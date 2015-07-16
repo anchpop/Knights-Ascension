@@ -1,3 +1,7 @@
+*
+!.gitignore
+
+
 # Ignore files with these extensions #
 ######################################
 
@@ -41,7 +45,9 @@ Thumbs.db
 
 /cocos2d
 /proj.win32
+!/proj.android/jni
 /proj.android
+!/proj.android/jni
 /proj.ios_mac
 /proj.linux
 /proj.win8.1-universal
