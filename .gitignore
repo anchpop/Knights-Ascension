@@ -45,9 +45,11 @@ Thumbs.db
 
 /cocos2d
 /proj.win32
+!/proj.android
+/proj.android/*
 !/proj.android/jni
-/proj.android
-!/proj.android/jni
+/proj.android/jni/*
+!/proj.android/jni/Android.mk
 /proj.ios_mac
 /proj.linux
 /proj.win8.1-universal
