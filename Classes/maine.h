@@ -88,6 +88,7 @@ public:
 
     PieceTeam getCurTeam() { return currentTeamTurn; }
     void setCurTeam(PieceTeam);
+    void initiateTeamText();
     void setActivePiece(Piece*);
     void makeSpriteWiggle(Sprite*);
     void initiateSquareWiggle();
