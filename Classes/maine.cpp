@@ -333,7 +333,7 @@ bool KnightWorld::onGesturePinch(TGesturePinch* gesture)
 {
     if (!spriteIsMoving && !screenIsMoving)
     {
-        static int lastPinchId = -1;
+        /*static int lastPinchId = -1;
         static bool pinchInsideNode = false;
         static float originalScale;
         static bool scaleset = false;
@@ -347,10 +347,14 @@ bool KnightWorld::onGesturePinch(TGesturePinch* gesture)
         }
         
         if (!scaleset)
-            setScale(gesture->getScale());
-        else
-            setScale(originalScale * gesture->getScale());
+        {
 
+            setScale(gesture->getScale());
+        }
+        else
+        {
+            setScale(originalScale * gesture->getScale());
+        }*/
             
     }
     

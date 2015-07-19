@@ -1,4 +1,6 @@
-// Programmed in Cocos2D-X 3.3 by Andre Popovitch, with are by Zeph Balsley
+// Programmer: Andre Popovitch
+// Artist: Zeph Balsley and Joseph Waldorf
+// Game engine: Cocos2D-X 3.3
 
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
