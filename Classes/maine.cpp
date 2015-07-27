@@ -21,10 +21,21 @@ Scene* KnightWorld::createScene()
     // add layer as a child to scene
     scene->addChild(layer, 1);
 
-    auto layer2 = Layer::create();
+    auto backgroundlayer = Layer::create();
+    auto foregroundlayer = Layer::create();
     auto bg = Sprite::create("imgs/backdrop.jpg");
-    scene->addChild(layer2, 0);
-    layer2->addChild(bg, 0);
+    scene->addChild(backgroundlayer, 0); 
+    scene->addChild(foregroundlayer, 20);
+    backgroundlayer->addChild(bg, 0);
+    auto button = ui::Button::create("imgs/reset.png",
+        "imgs/resetpushed.png");
+    button->setAnchorPoint(Vec2(1.2f, 1.2f));
+    foregroundlayer->addChild(button);
+    button->addTouchEventListener([layer](Ref* sender, ui::Widget::TouchEventType type){
+        layer->resetGame();
+    });
+    button->setScale(0.8f);
+    button->setPosition(VisibleRect::rightTop());
     bg->setAnchorPoint(Vec2(.5f, .5f));
     bg->setPosition(VisibleRect::center());
     bg->setScale(1.0f);
@@ -500,4 +511,10 @@ void KnightWorld::makeSpriteWiggle(Sprite* square)
             ));
     }
 
+}
+
+void KnightWorld::resetGame()
+{
+    _eventDispatcher->removeAllEventListeners();
+    Director::getInstance()->replaceScene(TransitionFade::create(0.8, KnightWorld::createScene(), Color3B(0, 0, 0)));
 }

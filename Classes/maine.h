@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cocos2d.h"
+#include "ui/CocosGUI.h"
 #include "Piece.h"
 #include "Knight.h"
 #include "KnightK.h"
@@ -45,6 +46,8 @@ private:
 	void initGestureRecognizer();
 
     void distributePowerUps();
+
+    void resetGame();
 
     string tostring(int i) {char buff[33];
     sprintf(buff, "%d", i);
