@@ -45,6 +45,7 @@ Scene* KnightWorld::createScene()
     bg->setPosition(VisibleRect::center());
     bg->setScale(max(visibleRect.size.width / bgsize.width, visibleRect.size.height / bgsize.height)); //ensures background covers entire screen
 
+
     // return the scene
     return scene;
 }

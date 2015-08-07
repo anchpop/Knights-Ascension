@@ -10,8 +10,8 @@ using namespace std;
 enum SquareType 
 {
     BlockedSquare = 5, // These will have to change whenever the number of tiles changes
-    HoleSquare    = 4, // These will have to change whenever the number of tiles changes
-    EmptySquare   = 6   // These will have to change whenever the number of tiles changes
+    HoleSquare    = 6, // These will have to change whenever the number of tiles changes
+    EmptySquare   = 7   // These will have to change whenever the number of tiles changes
 };                         
 
 
