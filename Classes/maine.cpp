@@ -18,15 +18,20 @@ Scene* KnightWorld::createScene()
     // 'layer' is an autorelease object
     auto layer = KnightWorld::create();
 
+    Rect visibleRect = VisibleRect::getVisibleRect();
+
     // add layer as a child to scene
     scene->addChild(layer, 1);
 
+    layer->setScale(0.8f);
+
     auto backgroundlayer = Layer::create();
     auto foregroundlayer = Layer::create();
-    auto bg = Sprite::create("imgs/backdrop.jpg");
+    auto bg = Sprite::create("imgs/neat2.jpg");
     scene->addChild(backgroundlayer, 0); 
     scene->addChild(foregroundlayer, 20);
     backgroundlayer->addChild(bg, 0);
+    auto bgsize = bg->getBoundingBox().size;
     auto button = ui::Button::create("imgs/reset.png",
         "imgs/resetpushed.png");
     button->setAnchorPoint(Vec2(1.2f, 1.2f));
@@ -38,7 +43,7 @@ Scene* KnightWorld::createScene()
     button->setPosition(VisibleRect::rightTop());
     bg->setAnchorPoint(Vec2(.5f, .5f));
     bg->setPosition(VisibleRect::center());
-    bg->setScale(1.0f);
+    bg->setScale(max(visibleRect.size.width / bgsize.width, visibleRect.size.height / bgsize.height)); //ensures background covers entire screen
 
     // return the scene
     return scene;
@@ -57,7 +62,7 @@ bool KnightWorld::init()
     
 
     // create a TMX map
-    _tileMap = TMXTiledMap::create("map.tmx"); // note to self, consider using "new" here
+    _tileMap = TMXTiledMap::create("map2.tmx"); // note to self, consider using "new" here
     addChild(_tileMap, 1);
     _background = _tileMap->layerNamed("mainboard");
 
@@ -80,7 +85,7 @@ bool KnightWorld::init()
         {
             if (tmxdat.checkSquareProperty(Vec2(x, y), "Piece type", _spawn) == "RedNormal")
             {
-                auto curr = Knight::create("imgs/sprite2.png", tmxdat);
+                auto curr = Knight::create("imgs/knight2t.png", tmxdat);
                 pieces.push_back(curr);
                 curr->setPosition(tmxdat.centerPositionForTileCoord(Vec2(x, y)));
                 curr->setTeam(TeamRed);
@@ -94,7 +99,7 @@ bool KnightWorld::init()
             }
             if (tmxdat.checkSquareProperty(Vec2(x, y), "Piece type", _spawn) == "BlueNormal")
             {
-                auto curr = Knight::create("imgs/sprite1.png", tmxdat);
+                auto curr = Knight::create("imgs/knightt.png", tmxdat);
                 pieces.push_back(curr);
                 curr->setPosition(tmxdat.centerPositionForTileCoord(Vec2(x, y)));
                 curr->setTeam(TeamBlue);
@@ -132,7 +137,6 @@ bool KnightWorld::init()
 
     auto pos = tmxdat.positionForTileCoord(Vec2(7.5, 8));
     this->setViewPointCenter(pos);
-
     
     initiateTeamText();
 

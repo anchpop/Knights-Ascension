@@ -12,6 +12,7 @@
 #include "VisibleRect.h"
 #include <string>
 #include <cstdio>
+#include <algorithm>    // std::max
 using namespace cocos2d;
 
 
