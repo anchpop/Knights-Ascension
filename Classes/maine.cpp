@@ -1,7 +1,4 @@
 #include "maine.h"
-#include "TileUtils.h"
-#include "shake.h"
-#include <sstream>
 
 using namespace cocos2d;
 
@@ -93,7 +90,7 @@ bool KnightWorld::init()
             }
             if (tmxdat.checkSquareProperty(Vec2(x, y), "Piece type", _spawn) == "RedKing")
             {
-                auto curr = KnightK::create("imgs/sprite2king.png", tmxdat);
+                auto curr = KnightK::create("imgs/king2t.png", tmxdat);
                 pieces.push_back(curr);
                 curr->setPosition(tmxdat.centerPositionForTileCoord(Vec2(x, y)));
                 curr->setTeam(TeamRed);
@@ -107,7 +104,7 @@ bool KnightWorld::init()
             }
             if (tmxdat.checkSquareProperty(Vec2(x, y), "Piece type", _spawn) == "BlueKing")
             {
-                auto curr = KnightK::create("imgs/sprite1king.png", tmxdat);
+                auto curr = KnightK::create("imgs/kingt.png", tmxdat);
                 pieces.push_back(curr);
                 curr->setPosition(tmxdat.centerPositionForTileCoord(Vec2(x, y)));
                 curr->setTeam(TeamBlue);

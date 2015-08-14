@@ -13,6 +13,8 @@
 #include <string>
 #include <cstdio>
 #include <algorithm>    // std::max
+#include <sstream>
+#include "shake.h"
 using namespace cocos2d;
 
 
