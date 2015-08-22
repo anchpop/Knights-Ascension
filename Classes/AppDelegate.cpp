@@ -64,7 +64,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic(
         "sound/sanctuary.mp3", true);                                            //Play background music
 
-    CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
+    //CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
 
     // create a scene. it's an autorelease object
 	auto scene = KnightWorld::createScene();

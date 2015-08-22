@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="16" height="16" tilewidth="64" tileheight="64" nextobjectid="1">
+ <tileset firstgid="1" name="Knights" tilewidth="64" tileheight="64">
+  <image source="../../../../../../saltovlabs/Testor/Resources/imgs/knightsheet.png" width="256" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="Piece type" value="BlueKing"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Piece type" value="BlueNormal"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Piece type" value="RedKing"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="Piece type" value="RedNormal"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="5" name="Blocks" tilewidth="64" tileheight="64">
+  <image source="../../../../../../saltovlabs/Testor/Resources/imgs/knightmap.png" width="320" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="Collideable" value="true"/>
+    <property name="Destroyable" value="true"/>
+    <property name="Jumpable" value="false"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Collideable" value="true"/>
+    <property name="Destroyable" value="false"/>
+    <property name="Jumpable" value="true"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Collideable" value="false"/>
+    <property name="Destroyable" value="false"/>
+    <property name="Jumpable" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="10" name="powerups" tilewidth="64" tileheight="64">
+  <image source="../../../../../../saltovlabs/Testor/Resources/imgs/meta.png" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="Piece type" value="Powerup"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="mainboard" width="16" height="16">
+  <data encoding="base64" compression="zlib">
+   eJylkzEOACAIxFgI//8xuwGO4nCDib0aRTcz/0zAXHhv2A1fsQH5ynfxV73vvsmveNLRrVXH5Nt0KH66i8156Lt2s0HngrDXf6D8NAlY/AYl
+  </data>
+ </layer>
+ <layer name="Meta" width="16" height="16" opacity="0.32">
+  <data encoding="base64" compression="zlib">
+   eJxjYKAcMEJpJiqYRQ4gxl4uKppFDiDWfnoBFiT2QMUbLkCrsGIhrIRo+4k1i9oAZi8zlcwDAIFsAEU=
+  </data>
+ </layer>
+</map>
