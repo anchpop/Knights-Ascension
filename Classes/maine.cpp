@@ -60,7 +60,7 @@ bool KnightWorld::init()
     
 
     // create a TMX map
-    _tileMap = TMXTiledMap::create("map2.tmx"); // note to self, consider using "new" here
+    _tileMap = TMXTiledMap::create("map.tmx"); // note to self, consider using "new" here
     addChild(_tileMap, 1);
     _background = _tileMap->layerNamed("mainboard");
 
@@ -420,7 +420,7 @@ void KnightWorld::distributePowerUps()
         for (int x = 0; x < tmxdat.tileswide; ++x)
             for (int y = 0; y < tmxdat.tilestall; ++y)
                 if (tmxdat.checkSquareProperty(Vec2(x, y), "Piece type", _spawn) == "Powerup" && (tmxdat.getPieceInSquare(Vec2(x, y), pieces) == nullptr) && tmxdat.checkSquareProperty(Vec2(x, y), "Collideable", _background) != "true")
-                    if (true)//floor(CCRANDOM_0_1() * 30) == 0) // TODO: Use random seed
+                    if (floor(CCRANDOM_0_1() * 8) == 0) // TODO: Use random seed
                     {
                         auto curr = Powerup::create("imgs/powerup.png", tmxdat);
                         pieces.push_back(curr);

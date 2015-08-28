@@ -29,7 +29,7 @@ public:
 
 
     static const int tilestall = 16;
-    static const int tileswide = 16;
+    static const int tileswide = 15;
     static const int tileheight = 64;
     static const int tilewidth  = 64;
 	

@@ -9,9 +9,9 @@ using namespace std;
 
 enum SquareType 
 {
-    BlockedSquare = 5, // These will have to change whenever the number of tiles changes
-    HoleSquare    = 6, // These will have to change whenever the number of tiles changes
-    EmptySquare   = 7   // These will have to change whenever the number of tiles changes
+    BlockedSquare = 4, // These will have to change whenever the number of tiles changes
+    HoleSquare    = 5, // These will have to change whenever the number of tiles changes
+    EmptySquare   = 8   // These will have to change whenever the number of tiles changes
 };                         
 
 
