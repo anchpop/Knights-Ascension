@@ -15,12 +15,12 @@ Scene* KnightWorld::createScene()
     // 'layer' is an autorelease object
     auto layer = KnightWorld::create();
 
+    
+
     Rect visibleRect = VisibleRect::getVisibleRect();
 
     // add layer as a child to scene
     scene->addChild(layer, 1);
-
-    layer->setScale(0.8f);
 
     auto backgroundlayer = Layer::create();
     auto foregroundlayer = Layer::create();
@@ -399,8 +399,8 @@ void KnightWorld::switchTeamTurn()
         setCurTeam((getCurTeam() == TeamRed) ? TeamBlue : TeamRed);
         movesElapsed = 0;
         auto paren = " (" + tostring(movesPerTurn - movesElapsed) + ")";
-        teamLabel->setString((getCurTeam() == TeamRed) ? "Red Team turn" + paren : "Blue Team turn" + paren);
-        teamLabel->setColor((getCurTeam() == TeamRed) ? ccc3(255, 0, 0) : ccc3(0, 200, 255));
+        teamLabel->setString((getCurTeam() == TeamRed) ? "Orange Team turn" + paren : "Purple Team turn" + paren);
+        teamLabel->setColor((getCurTeam() == TeamRed) ? ccc3(255, 149, 0) : ccc3(132, 0, 255));
         teamLabel->setScale(1.4f);
         teamLabel->runAction(EaseOut::create(ScaleTo::create(.3f, 1.0f), 0.3f));
         totalTurnsPassed++;
