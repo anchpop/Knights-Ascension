@@ -42,7 +42,7 @@ Thumbs.db
 # Ignore these directories #
 ############################
 
-/cocos2d
+
 /proj.win32
 !/proj.android
 /proj.android/*
