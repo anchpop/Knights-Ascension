@@ -1,5 +1,8 @@
 #include "maine.h"
 
+//#include "2d/LightEffect.h"
+//#include "2d/EffectSprite.h"
+
 using namespace cocos2d;
 
 using namespace std;
@@ -221,6 +224,27 @@ bool KnightWorld::init()
 
     // Add listener
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, this);
+
+
+
+
+    // Light up blocks
+    /*auto _effect = LightEffect::create();
+    _effect->retain();
+
+    auto _lightPos = Vec3(100, 100, 100);
+    _effect->setLightPos(_lightPos);
+    _effect->setLightCutoffRadius(1000);
+    _effect->setBrightness(2.0);*/
+
+    //auto sprite = EffectSprite::create("imgs/bedrock.jpg");
+
+    /*sprite->runAction(RepeatForever::create(Animate::create(animation)));
+    sprite->setPosition(_screenW / 2.0, _screenH / 2.0 - 75.0 * _scale);
+    sprite->setEffect(_effect, "spritesheet_n.png");
+    sprite->setScale(_scale);
+
+    addChild(sprite);*/
 
     return true;
 }

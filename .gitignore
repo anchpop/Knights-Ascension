@@ -38,6 +38,10 @@
 ehthumbs.db
 Thumbs.db
 
+# Other #
+*.tlog
+*.idb
+*.vcxproj
 
 # Ignore these directories #
 ############################
@@ -59,3 +63,4 @@ Thumbs.db
 /proj.linux
 /proj.win8.1-universal
 /proj.wp8-xaml
+*.filters

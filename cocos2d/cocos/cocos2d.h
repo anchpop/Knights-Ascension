@@ -141,6 +141,11 @@ THE SOFTWARE.
 #include "2d/CCCamera.h"
 #include "2d/CCLight.h"
 
+// lighting
+
+//#include "2d/LightEffect.h"
+//#include "2d/EffectSprite.h"
+
 // include
 #include "base/CCProtocols.h"
 
