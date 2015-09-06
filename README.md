@@ -1,3 +1,1 @@
-# README #
-
-This is a game being made by me (Andre Popovitch) and my friend, Zeph Balsley. 
+This is a game being made by me (Andre Popovitch) and my friends Zeph Balsley and Joseph Waldorf in Cocos2d-x. 
